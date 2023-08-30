@@ -21,7 +21,7 @@ const Home = () => {
     e.preventDefault();
     try {
       const config = {
-        "Content-type": "appliction/json",
+        "Content-type": "application/json",
         "Access-Control-Allow-Origin": "*",
       };
       setLoading(true);
@@ -62,7 +62,7 @@ const Home = () => {
                 className="mb-3"
                 style={{ width: "70%", marginLeft: "10%" }}
               >
-                <Form.Label>User Name:</Form.Label>
+                <Form.Label>Email:</Form.Label>
                 <Form.Control
                   type="email"
                   value={email}
@@ -91,7 +91,7 @@ const Home = () => {
               </Button>
               <Row>
                 <Col style={{ marginLeft: "10%", marginTop: "10%" }}>
-                  New Customer ?{" "}
+                  New Customer ?
                   <Link to="/signup" id="signup">
                     create Account
                   </Link>
