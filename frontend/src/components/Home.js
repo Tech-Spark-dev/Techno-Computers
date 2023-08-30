@@ -1,0 +1,108 @@
+import React from "react";
+import Container from "react-bootstrap/Container";
+import { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
+import ErrorMessage from "./ErrorMessage";
+
+const Home = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const SubmitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const config = {
+        "Content-type": "appliction/json",
+        "Access-Control-Allow-Origin": "*",
+      };
+      setLoading(true);
+
+      const { data } = await axios.post(
+        "http://localhost:5000/api/users/login",
+        {
+          email,
+          password,
+        },
+        config
+      ); 
+      navigate("/products");
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setLoading(false);
+      setError(false)
+      setErrorMessage("");
+    } catch (error) {
+      let message = error?.response?.data?.message;
+      setError(true)
+      setErrorMessage(message ? message : error.message); //error.message - frontend error
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="full-height-container">
+      <Container>
+        <Row>
+          <Col md={6}>
+            <h1 className="techno">Techno Computers</h1>
+          </Col>
+          <Col md={6} className="loginForm">
+            {error!=="" && <ErrorMessage variant="danger">{errorMessage}</ErrorMessage>}
+            {loading && <Loading />}
+            <Form className="login" onSubmit={SubmitHandler}>
+              <Form.Group
+                className="mb-3"
+                style={{ width: "70%", marginLeft: "10%" }}
+              >
+                <Form.Label>User Name:</Form.Label>
+                <Form.Control
+                  type="email"
+                  value={email}
+                  placeholder="Enter email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                style={{ width: "70%", marginLeft: "10%" }}
+              >
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  value={password}
+                  placeholder="Enter your password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
+              <Button
+                variant="primary"
+                type="submit"
+                style={{ marginLeft: "10%" }}
+              >
+                Submit
+              </Button>
+              <Row>
+                <Col style={{ marginLeft: "10%", marginTop: "10%" }}>
+                  New Customer ?{" "}
+                  <Link to="/signup" id="signup">
+                    create Account
+                  </Link>
+                </Col>
+              </Row>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
+
+export default Home;

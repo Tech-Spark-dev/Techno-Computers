@@ -1,0 +1,30 @@
+a{
+    text-decoration: none !important;
+  }
+.techno{
+  color: blue;
+  margin-top: 40%;
+  margin-left: 25%;
+}
+
+  
+.full-height-container {
+  height: 100vh; /* Set the height to 100% of viewport height */
+  overflow: hidden; /* Hide any content that exceeds the viewport height */
+  background-color: #f0f2f5;
+}
+
+.loginForm{
+padding-top: 10%;
+padding-left: 20%;  
+margin-left: -15%;
+}
+.login{
+  width: 120%;
+  height: 125%;
+  display: block;
+  padding-top: 10%;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
