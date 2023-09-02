@@ -48,8 +48,8 @@ else{
     setLoading(false);
     localStorage.setItem("userInfo",JSON.stringify(data));
     setError(false)
+    alert('Account created successfully!');
     setErrorMessage("");
-    console.log(name);
  } 
  catch (error) {
   let message = error?.response?.data?.message;

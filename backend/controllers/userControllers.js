@@ -5,7 +5,7 @@ const generateToken = require('../utils/generatetoken');
 
 
 const registerUser = asyncHandler(async(req,res)=>{                //for creating users
-        const {name,email,password,pic} = req.body;             //requesting from user
+        const {name,email,password,pic,isAdmin} = req.body;             //requesting from user
     
         const userExists = await User.findOne({email});
          if(userExists){
@@ -13,13 +13,13 @@ const registerUser = asyncHandler(async(req,res)=>{                //for creatin
             throw new Error("user Already Exists");
         }
 
-        const user = await User.create({
+        const user = await User.create({         //create new record in database
                 name,
                 email,
                 password,
-                pic 
+                pic,
+                isAdmin
         });
-
         if(user){
             res.status(201).json({
                 _id:user.id,
@@ -27,9 +27,10 @@ const registerUser = asyncHandler(async(req,res)=>{                //for creatin
                 email:user.email,
                 isAdmin: user.isAdmin,
                 pic:user.pic,
-                token:generateToken(user._id)
+                token:generateToken(user._id)   //check user successfully stored and used for authentication
             })
         }
+       
         else{
             res.status(400);
             throw new Error("Error Occurred");
@@ -61,6 +62,8 @@ const registerUser = asyncHandler(async(req,res)=>{                //for creatin
 
      
     });
+
+
     
 
 
