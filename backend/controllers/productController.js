@@ -32,4 +32,9 @@ const products = asyncHandler(async(req,res)=>{
 
 })
 
-module.exports = {products};
+const showProducts =asyncHandler(async(req,res)=>{
+    const products = await Product.find({});
+    res.json(products); 
+})
+
+module.exports = {products,showProducts};

@@ -116,7 +116,7 @@ const Header = () => {
           </div>
           <div className="col-md-6" style={{ textAlign: "right" }}>
             <Dropdown as={ButtonGroup}>
-              <Button variant="success">
+              <Button variant="success" href="/cart" >
                 <FaShoppingCart />
               </Button>
 
@@ -160,7 +160,7 @@ const Header = () => {
                     style={{ width: "70%", marginLeft: "10%" }}
                   >
                     <Form.Label>Product Price:</Form.Label>
-                    <Form.Control type="number"  placeholder="Enter the Product Price" value={price} onChange={(e)=>setPrice(e.target.value)}/>
+                    <Form.Control type="text"  placeholder="Enter the Product Price" value={price} onChange={(e)=>setPrice(e.target.value)}/>
                   </Form.Group>
                   <Form.Group
                     className="mb-3"
