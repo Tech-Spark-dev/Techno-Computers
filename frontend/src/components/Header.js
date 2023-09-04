@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
-import { Container, Navbar } from "react-bootstrap";
+import { Badge, Container, Navbar } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Form } from "react-bootstrap";
 import ErrorMessage from "./ErrorMessage";
 import "../styles.css";
 import axios from "axios";
+import { Contextreact } from "../Context";
 
 const Header = () => {
   const [show, setShow] = useState(false);
@@ -19,6 +20,8 @@ const Header = () => {
   const [description,setDescription] = useState('');
   const [errormessage,setErrorMessage] = useState('');
 
+    const {cart} = useContext(Contextreact);
+    
   const handleLogout = () => {
     localStorage.clear();
   };
@@ -110,22 +113,23 @@ const Header = () => {
           <div className="col-md-6">
             <Navbar.Brand>
               <Link to="/products" style={{ color: "white" }}>
-                Products
+                Techno Computers
               </Link>
             </Navbar.Brand>
           </div>
           <div className="col-md-6" style={{ textAlign: "right" }}>
             <Dropdown as={ButtonGroup}>
-              <Button variant="success" href="/cart" >
-                <FaShoppingCart />
+              <Button variant="success">
+              <Link to="/cart" >
+                <FaShoppingCart color="white"/>
+              </Link>
+              {cart.length? <Badge bg="primary">{cart.length}</Badge>:''}  
               </Button>
-
               <Dropdown.Toggle
                 split
                 variant="success"
                 id="dropdown-split-basic"
               />
-
               <Dropdown.Menu>
                 {isAdmin && (
                   <>
@@ -134,9 +138,11 @@ const Header = () => {
                     </Dropdown.Item>
                   </>
                 )}
-                <Dropdown.Item href="/products">Products</Dropdown.Item>
-                <Dropdown.Item href="/" onClick={handleLogout}>
-                  Logout
+                <Dropdown.Item> <Link to='/products'>Products</Link></Dropdown.Item>
+                <Dropdown.Item onClick={handleLogout}>
+                <Link to='/'>
+                Logout
+                </Link>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
