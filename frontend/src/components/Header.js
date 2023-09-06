@@ -20,7 +20,7 @@ const Header = () => {
   const [description,setDescription] = useState('');
   const [errormessage,setErrorMessage] = useState('');
 
-    const {cart} = useContext(Contextreact);
+    const {state:{cart}} = useContext(Contextreact);
     
   const handleLogout = () => {
     localStorage.clear();
@@ -120,7 +120,7 @@ const Header = () => {
           <div className="col-md-6" style={{ textAlign: "right" }}>
             <Dropdown as={ButtonGroup}>
               <Button variant="success">
-              <Link to="/cart" >
+              <Link to="/cart">
                 <FaShoppingCart color="white"/>
               </Link>
               {cart.length? <Badge bg="primary">{cart.length}</Badge>:''}  

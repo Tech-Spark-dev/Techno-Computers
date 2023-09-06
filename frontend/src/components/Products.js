@@ -8,7 +8,7 @@ import { Button, Card } from 'react-bootstrap';
 const Products = () => {
 
   const [products, setProducts] = useState([]);
-  const { cart, setCart } = useContext(Contextreact);
+  const { state:{cart}, dispatch } = useContext(Contextreact);
   console.log(cart);
 
   useEffect(() => {
@@ -32,9 +32,9 @@ const Products = () => {
     fetchData();
   }, [])
 
-  const handleAdd=(product)=>{
-    setCart([...cart, product])
-  }
+  // const handleAdd=(product)=>{
+  //   dispatch([...cart, product])
+  // }
 
   return (
 
@@ -44,13 +44,33 @@ const Products = () => {
         <Card className='products' key={product._id}>
           <Card.Img variant="top" src={product.image} alt={product.name} style={{height:'300px',width:'100%'}}/>
           <Card.Body>
-            <Card.Title>{product.Name}</Card.Title>
+            <Card.Title>{product.name}</Card.Title>
             <Card.Subtitle style={{ paddingBottom: 10 }}>
-              <span>Rs. {product.price}.00</span><br/>
+              <span>Rs. {product.price.toLocaleString()}.00</span><br/>
               <span>{product.description}</span>
             </Card.Subtitle>
-            {cart.includes(product) ? <Button className='remove' onClick={() => setCart(cart.filter(c => c._id !== product._id))} variant="danger">Remove from cart</Button>
-              : <Button className='Add' onClick={()=>handleAdd(product)} variant="success">Add to cart</Button>}
+
+          {cart.some((p)=>p._id===product._id) ?
+           (<Button onClick={()=>{
+            dispatch({
+              type:"REMOVE_FROM_CART",
+              payload:product
+            })
+           }}  variant="danger">Remove from cart
+
+           </Button>):(<Button onClick={()=>{
+            dispatch({
+              type:"ADD_TO_CART",
+              payload:product
+            })
+           }}  variant="success">
+              Add to cart
+           </Button>) }
+
+
+
+            {/* {cart.includes(product) ? <Button className='remove' onClick={() => setCart(cart.filter(c => c._id !== product._id))} variant="danger">Remove from cart</Button>
+              : <Button className='Add' onClick={()=>handleAdd(product)} variant="success">Add to cart</Button>} */}
           </Card.Body>
         </Card>
       ))}
