@@ -16,7 +16,8 @@ const Header = () => {
   const [show, setShow] = useState(false);
   const [name,setName] = useState('');
   const [price,setPrice] = useState(0);
-  const [image,setImage] = useState()
+  const [image,setImage] = useState();
+  const [isAvailable] = useState(true);
   const [description,setDescription] = useState('');
   const [errormessage,setErrorMessage] = useState('');
 
@@ -92,7 +93,8 @@ const Header = () => {
             name,
             price,
             description,
-            image
+            image,
+            isAvailable
             
           },config
           
@@ -191,6 +193,8 @@ const Header = () => {
                 <Button variant="primary" onClick={SubmitHandler} >
                   Save
                 </Button>
+                <input type="hidden" value={isAvailable}/>
+
               </Modal.Footer>
             </Modal>
           </div>

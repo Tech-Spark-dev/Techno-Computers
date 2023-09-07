@@ -4,13 +4,14 @@ const generateToken = require('../utils/generatetoken');
 
 
 const products = asyncHandler(async(req,res)=>{
-    const {name,price,description,image} = req.body;
+    const {name,price,description,image,isavailable} = req.body;
 
     const product = await Product.create({       //create new record in database
             name,
             price,
             description,
-            image
+            image,
+            isavailable
     });
 
     if(product){ 
@@ -20,6 +21,7 @@ const products = asyncHandler(async(req,res)=>{
             price:product.price,
             image:product.image,
             description:product.description,
+            isavailable:product.isavailable,
             token:generateToken(product._id) 
 
         })
@@ -37,4 +39,14 @@ const showProducts =asyncHandler(async(req,res)=>{
     res.json(products); 
 })
 
-module.exports = {products,showProducts};
+const updateProducts = asyncHandler(async(req,res)=>{
+    const { id } = req.params;
+
+    const updateProduct = await Product.findByIdAndUpdate(id,{
+        'isavailable':'false'
+    }, { new: true });
+    res.json(updateProduct);
+})
+
+
+module.exports = {products,showProducts,updateProducts};

@@ -15,6 +15,11 @@ const productSchema = mongoose.Schema(
             type:String,
             required:true,
         },
+        isavailable:{
+            type:Boolean,
+            default:true,
+            required:true
+        },
         image:{
             type:String,
             required:true,
