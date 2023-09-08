@@ -48,5 +48,10 @@ const updateProducts = asyncHandler(async(req,res)=>{
     res.json(updateProduct);
 })
 
+const deleteProduts = asyncHandler(async(req,res)=>{
+    const deleted = await Product.deleteMany({});
+    res.json(deleted);
+})
 
-module.exports = {products,showProducts,updateProducts};
+
+module.exports = {products,showProducts,updateProducts,deleteProduts};

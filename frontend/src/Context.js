@@ -5,8 +5,6 @@ export const Contextreact = createContext();
 
 const Context = ({children}) => {
 
-    // const [cart,setCart] = useState([]);
-
     const [state,dispatch] = useReducer(cartReducer,{
       cart:[]
     })

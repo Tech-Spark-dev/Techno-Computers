@@ -5,16 +5,18 @@ import { useContext } from "react";
 import { Contextreact } from "../Context";
 import { Button, Card } from "react-bootstrap";
 
-
 const Products = () => {
   const [products, setProducts] = useState([]);
-  // const [availability, setAvailability] = useState(true);
+
+  const userInfo = localStorage.getItem("userInfo");
+  const userInfoParsed = JSON.parse(userInfo);
+  const isAdmin = userInfoParsed.isAdmin;
 
   const {
     state: { cart },
     dispatch,
   } = useContext(Contextreact);
-  console.log(cart);
+  // console.log(cart);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,12 +42,18 @@ const Products = () => {
     fetchData();
   }, []);
 
+  const updateData = async (id) => {
+    const update = await axios.put(
+      `http://localhost:5000/api/users/updateproducts/${id}`
+    ); //update the availability of product
 
-    const updateData =async(id)=>{
-       const update = await axios.put(`http://localhost:5000/api/users/updateproducts/${id}`);
-       console.log(update.data.isavailable);
-    
+    if (update) {
+      const updatedProducts = products.map((prod) =>
+        prod._id === id ? { ...prod, isavailable: !prod.isavailable } : prod
+      );
+      setProducts(updatedProducts);
     }
+  };
 
   return (
     <div className="productContainer">
@@ -73,7 +81,7 @@ const Products = () => {
                     payload: product,
                   });
                 }}
-                variant="danger"
+                variant="warning"
               >
                 Remove from cart
               </Button>
@@ -85,15 +93,25 @@ const Products = () => {
                     payload: product,
                   });
                 }}
-                variant="success"
+                variant={product.isavailable ? "success" : "danger"}
+                disabled={!product.isavailable}
               >
-                Add to cart
+                {product.isavailable && !isAdmin
+                  ? "Add to cart"
+                  : isAdmin
+                  ? "Out of Stock"
+                  : "Sold Out"}
               </Button>
-            )
-            }
-
-            <Button style={{ float: "right" }} onClick={()=>updateData(product._id)}  disabled={!product.isavailable}>
-              {product.isavailable?'Mark Sold Out':'Marked as sold'}</Button>
+            )}
+            {isAdmin && (
+              <Button
+                style={{ float: "right" }}
+                onClick={() => updateData(product._id)}
+                disabled={!product.isavailable}
+              >
+                {product.isavailable ? "Mark Sold Out" : "Marked as sold"}
+              </Button>
+            )}
           </Card.Body>
         </Card>
       ))}
