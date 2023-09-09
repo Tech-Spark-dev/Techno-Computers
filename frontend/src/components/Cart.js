@@ -5,6 +5,9 @@ import { Button, Col, Form, ListGroup } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { AiFillDelete } from "react-icons/ai";
 import Image from "react-bootstrap/Image";
+import Modal from "react-bootstrap/Modal";
+
+
 
 const Cart = () => {
   const {
@@ -12,8 +15,12 @@ const Cart = () => {
     dispatch,
   } = useContext(Contextreact);
   const [total, setTotal] = useState();
+  const [show,setShow] = useState(false);
   // console.log(cart);
 
+  const handleClose =()=>{
+    setShow(false);
+  }
   useEffect(() => {
     setTotal(
       cart.reduce(
@@ -22,42 +29,47 @@ const Cart = () => {
       )
     );
   }, [cart]);
+  
+
 
   const handlePay=(e)=>{
-    e.preventDefault();
+    
     if (total===''){
       alert('Please select products!');
     }
     else{
-      var options ={
-        key:"rzp_test_iwU2fkIJhYTfSH",
-        key_secret:"udWHu2ARpRy8QYPVOFpsVl5k",
-        amount:Number(total)*100,
-        currency:"INR",
-        name:"ivin",
-        description:"Testing_Demo",
-        handler:function(response){
-          alert(response.razorpay_payment_id);
-        },
-        prefill:{
-          name:"Ivin_Austan",
-          email:"a.ivinaustan@gmail.com",
-          contact: "9500416612",
-        },
-        notes:{
-          address:"Razorpay",
-
-        },
-        theme:{
-          color:"red"
-        }
-      };
-      var pay = new window.Razorpay(options);
-      pay.open();
+          var options ={
+            key:"rzp_test_iwU2fkIJhYTfSH",
+            key_secret:"udWHu2ARpRy8QYPVOFpsVl5k",
+            amount:Number(total)*100,
+            currency:"INR",
+            name:"ivin",
+            description:"Testing_Demo",
+            handler:function(response){
+              alert(response.razorpay_payment_id);
+            },
+            prefill:{
+              name:"Ivin_Austan",
+              email:"a.ivinaustan@gmail.com",
+              contact: "9500416612",
+            },
+            notes:{
+              address:"Razorpay",
+    
+            },
+            theme:{
+              color:"red"
+            }
+          };
+          var pay = new window.Razorpay(options);
+          pay.open();
+        
+      
     }
 }
 
   return (
+    <>
     <Row className="container">
       <Col md={10}>
     <div className="productcontainer">
@@ -125,6 +137,15 @@ const Cart = () => {
       </div>
     </Col>
     </Row>
+    
+    <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Upload New Products</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                </Modal.Body>
+                </Modal>
+   </>
   );
   
 };

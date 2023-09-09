@@ -32,9 +32,11 @@ margin-left: -15%;
 }
 .productContainer{
   display: flex;
-  padding: 20px;
+  padding: 5px;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  margin: 0 auto;
+  
 }
 
 .products{
@@ -42,6 +44,8 @@ margin-left: -15%;
   margin: 10px;
   display: flex;
   flex-direction: column;
+  max-width: "250px" 
+  
 }
 
 .productDesc{
@@ -68,13 +72,16 @@ margin-left: -15%;
   margin: 10px;
   height: 86vh;
 }
-
-.productcontainer{
-    display: flex;
-    padding: 20px;
-    flex-wrap: wrap;
-    justify-content: space-around;
-}
 .home{
   display: flex;
+}
+
+.guest_login{
+  background-color: #61d46e;
+  text-align: center;
+ 
+}
+.welcome{
+  position: fixed;
+    margin-left: 50%;
 }

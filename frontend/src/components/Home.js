@@ -47,6 +47,17 @@ const Home = () => {
     }
   };
 
+
+  const Guestuser =  (e) => {
+    e.preventDefault();
+        const Guestdata = {
+          name:"Guest User",
+          email:"guest@example.com"
+        };
+        localStorage.setItem("userInfo",JSON.stringify(Guestdata));
+        navigate("/products");
+  };
+
   return (
     <div className="full-height-container">
       <Container>
@@ -90,7 +101,12 @@ const Home = () => {
                 Submit
               </Button>
               <Row>
-                <Col style={{ marginLeft: "10%", marginTop: "10%" }}>
+              <Col style={{ marginLeft: "10%",marginTop: "10%" }}>
+               <Link onClick={Guestuser}>Login as Guest</Link>
+                </Col>
+                </Row>
+                <Row>
+                <Col style={{ marginLeft: "10%"}}>
                   New Customer ?
                   <Link to="/signup" id="signup">
                     create Account

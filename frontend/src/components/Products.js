@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useContext } from "react";
 import { Contextreact } from "../Context";
 import { Button, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import {GiClick} from "react-icons/gi";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -12,11 +14,16 @@ const Products = () => {
   const userInfoParsed = JSON.parse(userInfo);
   const isAdmin = userInfoParsed.isAdmin;
 
+  var guest_user=false;
+  var guest = userInfoParsed.email;
+  if(guest==='guest@example.com'){
+    guest_user=true;
+  }
+
   const {
     state: { cart },
     dispatch,
   } = useContext(Contextreact);
-  // console.log(cart);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +52,7 @@ const Products = () => {
   const updateData = async (id) => {
     const update = await axios.put(
       `http://localhost:5000/api/users/updateproducts/${id}`
-    ); //update the availability of product
+    );                                                              //update the availability of product
 
     if (update) {
       const updatedProducts = products.map((prod) =>
@@ -56,6 +63,11 @@ const Products = () => {
   };
 
   return (
+    <div>
+     {guest_user && <Link to='/'>
+      <h4 className="guest_login">Login <GiClick/> and place your orders!!</h4>
+     </Link>}
+    
     <div className="productContainer">
       {products.map((product) => (
         <Card className="products" key={product._id}>
@@ -63,7 +75,7 @@ const Products = () => {
             variant="top"
             src={product.image}
             alt={product.name}
-            style={{ height: "300px", width: "100%" }}
+            style={{ height: "300px", width: "100%",objectFit:"contain" }}
           />
           <Card.Body>
             <Card.Title>{product.name}</Card.Title>
@@ -86,7 +98,7 @@ const Products = () => {
                 Remove from cart
               </Button>
             ) : (
-              <Button
+              <Button 
                 onClick={() => {
                   dispatch({
                     type: "ADD_TO_CART",
@@ -94,7 +106,7 @@ const Products = () => {
                   });
                 }}
                 variant={product.isavailable ? "success" : "danger"}
-                disabled={!product.isavailable}
+                disabled={!product.isavailable || guest_user } hidden={isAdmin} 
               >
                 {product.isavailable && !isAdmin
                   ? "Add to cart"
@@ -107,7 +119,7 @@ const Products = () => {
               <Button
                 style={{ float: "right" }}
                 onClick={() => updateData(product._id)}
-                disabled={!product.isavailable}
+                disabled={!product.isavailable || guest_user}
               >
                 {product.isavailable ? "Mark Sold Out" : "Marked as sold"}
               </Button>
@@ -115,7 +127,7 @@ const Products = () => {
           </Card.Body>
         </Card>
       ))}
-    </div>
+    </div></div>
   );
 };
 

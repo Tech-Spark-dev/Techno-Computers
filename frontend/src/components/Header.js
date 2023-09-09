@@ -40,6 +40,7 @@ const Header = () => {
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
   const isAdmin = userInfoParsed.isAdmin;
+  const userName = userInfoParsed.name;
 
   const handleFileUpload =async(e)=>{
       const file = e.target.files[0];
@@ -117,6 +118,7 @@ const Header = () => {
               <Link to="/products" style={{ color: "white" }}>
                 Techno Computers
               </Link>
+              <span className="welcome">Welcome, {userName}!</span>
             </Navbar.Brand>
           </div>
           <div className="col-md-6" style={{ textAlign: "right" }}>
@@ -194,7 +196,6 @@ const Header = () => {
                   Save
                 </Button>
                 <input type="hidden" value={isAvailable}/>
-
               </Modal.Footer>
             </Modal>
           </div>
