@@ -195,7 +195,6 @@ const Header = () => {
                 <Button variant="primary" onClick={SubmitHandler} >
                   Save
                 </Button>
-                <input type="hidden" value={isAvailable}/>
               </Modal.Footer>
             </Modal>
           </div>

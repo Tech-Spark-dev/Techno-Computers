@@ -82,6 +82,16 @@ margin-left: -15%;
  
 }
 .welcome{
-  position: fixed;
-    margin-left: 50%;
+  position: absolute;
+  margin-left: 50%;
+}
+
+.required{
+  color: red;
+  float: right;
+}
+
+.cartbox{
+text-align: center;
+padding: 50px;
 }
