@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-
 
 const Orders = () => {
   const [address, setAddress] = useState([]);
@@ -26,14 +26,14 @@ const Orders = () => {
       }
     };
     fetchOrders();
-  },[]);
+  }, []);
   return (
     <>
       <Table striped bordered hover variant="light">
         <thead>
           <tr>
             <th>Sl.No.</th>
-            <th>User ID:</th>
+            <th hidden>User ID:</th>
             <th>Name</th>
             <th>Products</th>
             <th>Price:</th>
@@ -49,23 +49,41 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {address.map((item,index) => (
+          {address.map((item, index) => (
             <tr key={item._id}>
-              <td>{no+index}</td>
-              <td>{item.userid}</td>
+              <td>{no + index}</td>
+              <td hidden>{item.userid}</td>
               <td>{item.name}</td>
-              <td>{item.details.map((prod,i)=>(
-                <span key={prod.name}>{prod.name}
-                {i !== item.details.length -1 && <>,<br/></>}      {/* Some pblm is here */}   
-                </span>
-              ))}</td>
-              <td>{item.details.map((amount,i)=>(
-                <span key={amount.price}>{amount.price}.00
-                {i !== item.details.length -1 && <>, <br/></>}</span>
-              ))}</td>
-              <td>{item.details.map((quantity,index)=>(
-                <span key={index}>{quantity.qty}</span>
-              ))}</td>
+              <td>
+                {item.details.map((prod, i) => (
+                  <span key={prod.name}>
+                    {prod.name}
+                    {i !== item.details.length - 1 && (
+                      <>
+                        ,<br />
+                      </>
+                    )}{" "}
+                    {/* Some pblm is here */}
+                  </span>
+                ))}
+              </td>
+              <td>
+                {item.details.map((amount, i) => (
+                  <span key={amount.price}>
+                    {amount.price}.00
+                    {i !== item.details.length - 1 && (
+                      <>
+                        , <br />
+                      </>
+                    )}
+                  </span>
+                ))}
+              </td>
+              <td>
+                {item.details.map((quantity, index) => (
+                  <span key={index}>{quantity.qty}</span>
+                ))}
+              </td>
               <td>{item.total.toLocaleString()}.00</td>
               <td>{item.street}</td>
               <td>{item.place}</td>
@@ -73,8 +91,21 @@ const Orders = () => {
               <td>{item.state}</td>
               <td>{item.landmark}</td>
               <td>{item.phonenumber}</td>
-
-
+              <td>
+                {item.ispaid ? (
+                  <Button
+                    variant="success"
+                    title={item.ispaid}
+                    style={{ cursor: "default" }}
+                  >
+                    Paid
+                  </Button>
+                ) : (
+                  <Button variant="danger" style={{ pointerEvents: "none" }}>
+                    Not Paid
+                  </Button>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>

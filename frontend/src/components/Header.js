@@ -21,7 +21,7 @@ const Header = () => {
   const [description,setDescription] = useState('');
   const [errormessage,setErrorMessage] = useState('');
 
-    const {state:{cart}} = useContext(Contextreact);
+    const {state:{cart},dispatch} = useContext(Contextreact);
     
   const handleLogout = () => {
     localStorage.clear();
@@ -144,7 +144,11 @@ const Header = () => {
                 )}
                 <Dropdown.Item> <Link to='/products'>Products</Link></Dropdown.Item>
                 <Dropdown.Item onClick={handleLogout}>
-                <Link to='/'>
+                <Link to='/' onClick={()=>{
+                  dispatch({
+                    type:'CLEAR_CART'
+                  })
+                }}>
                 Logout
                 </Link>
                 </Dropdown.Item>

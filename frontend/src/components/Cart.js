@@ -27,11 +27,8 @@ const Cart = () => {
   const [phonenumber, setPhonenumber] = useState("");
   const [city, setCity] = useState("");
   const [landmark, setLandmark] = useState("");
-  const [ispaid, setIspaid] = useState("");
   const [errormessage, setErrorMessage] = useState("");
   const [addressid, setAddressid] = useState("");
-
-
 
   useEffect(() => {
     const userInfo = localStorage.getItem("userInfo");
@@ -41,13 +38,6 @@ const Cart = () => {
     const id = userInfoParsed._id;
     setUserid(id);
   }, []);
-
-  function temp() {
-    const addressInfo = localStorage.getItem("address");
-    const addressInfoParsed = JSON.parse(addressInfo);
-    const address_id = addressInfoParsed._id;
-    setAddressid(address_id);
-  }
 
   const handleClose = () => {
     setShow(false);
@@ -62,17 +52,24 @@ const Cart = () => {
     );
   }, [cart]);
 
-  const updatePayment = async (id) => {
-    const update = await axios.put(
-      `http://localhost:5000/api/users/payment/${id}`,
-      { razorpay_payment_id: ispaid }
-    );
-    console.log(update);
-    console.log(ispaid);
-    
-  
+  const updatePayment = async (id, payment_id) => {
+    try {
+      await axios.put(`http://localhost:5000/api/users/payment/${id}`, {
+        razorpay_payment_id: payment_id,
+      });
+    } catch (error) {
+      console.log(error.message);
+      setErrorMessage(error.message);
+    }
   };
-  
+
+  function getaddressId() {
+    const addressInfo = localStorage.getItem("address");
+    const addressInfoParsed = JSON.parse(addressInfo);
+    const address_id = addressInfoParsed._id;
+    setAddressid(address_id);
+  }
+
   const newDetails = cart.map((item) => ({
     name: item.name,
     price: item.price,
@@ -113,7 +110,7 @@ const Cart = () => {
         console.log(data);
         setAddress(true);
         handleClose();
-        temp();
+        getaddressId();
       } catch (error) {
         setErrorMessage(error.message);
       }
@@ -132,11 +129,7 @@ const Cart = () => {
         name: "ivin",
         description: "Testing_Demo",
         handler: function (response) {
-          // console.log(response.razorpay_payment_id);
-          // console.log(ispaid);
-          setIspaid(response.razorpay_payment_id);
-           
-          updatePayment(addressid);
+          updatePayment(addressid, response.razorpay_payment_id);
         },
         prefill: {
           name: "Ivin_Austan",
@@ -154,9 +147,12 @@ const Cart = () => {
       pay.open();
     }
   };
-  
+
   return (
     <>
+      {errormessage !== "" && (
+        <ErrorMessage variant="danger">{errormessage}</ErrorMessage>
+      )}
       <Row className="container">
         <Col md={10}>
           <div className="productcontainer">
@@ -233,6 +229,7 @@ const Cart = () => {
             >
               Add Delivery Address
             </Button>
+
             <Button
               className={address ? "" : "disabled"}
               style={{ margin: 20 }}
