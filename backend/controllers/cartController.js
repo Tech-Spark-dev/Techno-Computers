@@ -4,7 +4,7 @@ const generateToken = require('../utils/generatetoken');
 
 
 const Address = asyncHandler(async(req,res)=>{
-    const {userid,street,place,city,district,state,landmark,phonenumber,name} = req.body;
+    const {userid,street,place,city,district,state,landmark,phonenumber,name,details,total} = req.body;
 
     const userAddress = await AddressModel.create({
             userid,
@@ -15,7 +15,9 @@ const Address = asyncHandler(async(req,res)=>{
             phonenumber,
             district,
             state,
-            landmark
+            landmark,
+            details,
+            total
     });
 
     if(userAddress){
@@ -30,6 +32,8 @@ const Address = asyncHandler(async(req,res)=>{
                 phonenumber:userAddress.phonenumber,
                 state:userAddress.state,
                 landmark:userAddress.landmark,
+                details:userAddress.details,
+                total:userAddress.total,
                 token:generateToken(userAddress._id)
         })
     }
@@ -39,4 +43,22 @@ const Address = asyncHandler(async(req,res)=>{
     }
 })
 
-module.exports={Address};
+const userAddress = asyncHandler(async(req,res)=>{
+
+    const usersAddress =await AddressModel.find({});
+    res.json(usersAddress);
+})
+
+const updatePayment = asyncHandler(async(req,res)=>{                            // updating the payment status
+
+    const {id}= req.params;
+    const {razorpay_payment_id } = req.body;
+
+    const paymentDetail = await AddressModel.findByIdAndUpdate(id,
+        {ispaid:razorpay_payment_id},
+        {new:true}
+        );
+    res.json(paymentDetail);     
+})
+
+module.exports={Address,userAddress,updatePayment};

@@ -6,6 +6,7 @@ import Signup from './components/Signup';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Products from './components/Products';
+import Orders from './components/orders';
 
 
 function App() {
@@ -18,12 +19,13 @@ function App() {
   return (
     
    <div>
-      {location.pathname!=='/login' && location.pathname !=='/'&& location.pathname !=='/signup' && <Header />}
+      { location.pathname !=='/'&& location.pathname !=='/signup' && <Header />}
      <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/products' element={<Products/>}/>
       <Route path='/cart' element={<Cart />}/>
       <Route path='/signup' element={<Signup />}/>
+      <Route path='/orders' element={<Orders/>}/>
       </Routes>
       </div>
   );

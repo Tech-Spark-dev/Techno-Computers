@@ -6,6 +6,8 @@ const {showProducts} = require('../controllers/productController');
 const {updateProducts} = require ('../controllers/productController');
 const {deleteProduts} = require ('../controllers/productController');
 const {Address} = require('../controllers/cartController');
+const {userAddress} = require('../controllers/cartController');
+const {updatePayment} = require('../controllers/cartController');
 
 const router = express.Router();
 
@@ -17,5 +19,7 @@ router.route('/showproducts').get(showProducts); //showing all the products to u
 router.route('/updateproducts/:id').put(updateProducts); //upating the stocks 
 router.route('/delete').delete(deleteProduts);  //delete all the products
 router.route('/postaddress').post(Address);        //saving all the addresses
+router.route('/address').get(userAddress);
+router.route('/payment/:id').put(updatePayment);
 
 module.exports = router;

@@ -6,7 +6,6 @@ import { Row } from "react-bootstrap";
 import { AiFillDelete } from "react-icons/ai";
 import Image from "react-bootstrap/Image";
 import ErrorMessage from "./ErrorMessage";
-
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 
@@ -17,7 +16,7 @@ const Cart = () => {
   } = useContext(Contextreact);
 
   const [name, setName] = useState("");
-  const [userid,setUserid] = useState('');
+  const [userid, setUserid] = useState("");
   const [total, setTotal] = useState();
   const [show, setShow] = useState(false);
   const [address, setAddress] = useState(false);
@@ -28,7 +27,11 @@ const Cart = () => {
   const [phonenumber, setPhonenumber] = useState("");
   const [city, setCity] = useState("");
   const [landmark, setLandmark] = useState("");
+  const [ispaid, setIspaid] = useState("");
   const [errormessage, setErrorMessage] = useState("");
+  const [addressid, setAddressid] = useState("");
+
+
 
   useEffect(() => {
     const userInfo = localStorage.getItem("userInfo");
@@ -38,6 +41,13 @@ const Cart = () => {
     const id = userInfoParsed._id;
     setUserid(id);
   }, []);
+
+  function temp() {
+    const addressInfo = localStorage.getItem("address");
+    const addressInfoParsed = JSON.parse(addressInfo);
+    const address_id = addressInfoParsed._id;
+    setAddressid(address_id);
+  }
 
   const handleClose = () => {
     setShow(false);
@@ -52,7 +62,22 @@ const Cart = () => {
     );
   }, [cart]);
 
-console.log(cart);
+  const updatePayment = async (id) => {
+    const update = await axios.put(
+      `http://localhost:5000/api/users/payment/${id}`,
+      { razorpay_payment_id: ispaid }
+    );
+    console.log(update);
+    console.log(ispaid);
+    
+  
+  };
+  
+  const newDetails = cart.map((item) => ({
+    name: item.name,
+    price: item.price,
+    qty: item.qty,
+  }));
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -74,17 +99,21 @@ console.log(cart);
             name,
             street,
             place,
-            city,                             //check the presence of these values are same as cartmodal (DB)
+            city, //check the presence of these values are same as cartmodal (DB)
             phonenumber,
             district,
             state,
             landmark,
+            details: newDetails,
+            total,
           },
           config
         );
+        localStorage.setItem("address", JSON.stringify(data));
         console.log(data);
         setAddress(true);
         handleClose();
+        temp();
       } catch (error) {
         setErrorMessage(error.message);
       }
@@ -103,7 +132,11 @@ console.log(cart);
         name: "ivin",
         description: "Testing_Demo",
         handler: function (response) {
-          alert(response.razorpay_payment_id);
+          // console.log(response.razorpay_payment_id);
+          // console.log(ispaid);
+          setIspaid(response.razorpay_payment_id);
+           
+          updatePayment(addressid);
         },
         prefill: {
           name: "Ivin_Austan",
@@ -121,13 +154,16 @@ console.log(cart);
       pay.open();
     }
   };
+  
   return (
     <>
       <Row className="container">
         <Col md={10}>
           <div className="productcontainer">
             {cart.length < 1 ? (
-              <h4 style={{ marginTop:'25%',textAlign:'center' }}>No Products in the cart!</h4>
+              <h4 style={{ marginTop: "25%", textAlign: "center" }}>
+                No Products in the cart!
+              </h4>
             ) : (
               <ListGroup>
                 {cart.map((prod) => (
@@ -137,7 +173,7 @@ console.log(cart);
                         <Image src={prod.image} alt={prod.Name} fluid rounded />
                       </Col>
                       <Col md={3} className="cartbox">
-                        <span >{prod.name}</span>
+                        <span>{prod.name}</span>
                       </Col>
                       <Col md={2} className="cartbox">
                         <span>Rs. {prod.price.toLocaleString()}.00</span>
@@ -188,7 +224,11 @@ console.log(cart);
             </span>
             <Button
               className="btn-info"
-              style={{ marginTop: "25%",marginLeft: '25%',marginRight:'25%' }}
+              style={{
+                marginTop: "25%",
+                marginLeft: "25%",
+                marginRight: "25%",
+              }}
               onClick={() => setShow(true)}
             >
               Add Delivery Address
@@ -203,7 +243,6 @@ console.log(cart);
           </div>
         </Col>
       </Row>
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add your Delivery address</Modal.Title>
@@ -214,7 +253,9 @@ console.log(cart);
           )}
           <Form>
             <Form.Group>
-              <Form.Label>Street:<span className="required"> *</span></Form.Label>
+              <Form.Label>
+                Street:<span className="required">*</span>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Street Name"
@@ -224,7 +265,9 @@ console.log(cart);
               ></Form.Control>
             </Form.Group>
             <Form.Group>
-              <Form.Label>Place:<span className="required"> *</span></Form.Label>
+              <Form.Label>
+                Place:<span className="required"> *</span>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Vilage/Place name"
@@ -233,7 +276,9 @@ console.log(cart);
               ></Form.Control>
             </Form.Group>
             <Form.Group>
-              <Form.Label>City:<span className="required"> *</span></Form.Label>
+              <Form.Label>
+                City:<span className="required"> *</span>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder="City Name"
@@ -242,7 +287,9 @@ console.log(cart);
               ></Form.Control>
             </Form.Group>
             <Form.Group>
-              <Form.Label>District:<span className="required"> *</span></Form.Label>
+              <Form.Label>
+                District:<span className="required"> *</span>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder="District Name"
@@ -251,7 +298,9 @@ console.log(cart);
               ></Form.Control>
             </Form.Group>
             <Form.Group>
-              <Form.Label>State:<span className="required"> *</span></Form.Label>
+              <Form.Label>
+                State:<span className="required"> *</span>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder="State Name"
@@ -260,7 +309,9 @@ console.log(cart);
               ></Form.Control>
             </Form.Group>
             <Form.Group>
-              <Form.Label>Phone Number: <span className="required"> *</span></Form.Label>
+              <Form.Label>
+                Phone Number: <span className="required"> *</span>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Phone Number"

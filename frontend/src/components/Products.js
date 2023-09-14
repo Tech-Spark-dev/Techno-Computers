@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { Contextreact } from "../Context";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import {GiClick} from "react-icons/gi";
+import { GiClick } from "react-icons/gi";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -14,10 +14,10 @@ const Products = () => {
   const userInfoParsed = JSON.parse(userInfo);
   const isAdmin = userInfoParsed.isAdmin;
 
-  var guest_user=false;
+  var guest_user = false;
   var guest = userInfoParsed.email;
-  if(guest==='guest@example.com'){
-    guest_user=true;
+  if (guest === "guest@example.com") {
+    guest_user = true;
   }
 
   const {
@@ -52,7 +52,7 @@ const Products = () => {
   const updateData = async (id) => {
     const update = await axios.put(
       `http://localhost:5000/api/users/updateproducts/${id}`
-    );                                                              //update the availability of product
+    ); //update the availability of product
 
     if (update) {
       const updatedProducts = products.map((prod) =>
@@ -64,70 +64,76 @@ const Products = () => {
 
   return (
     <div>
-     {guest_user && <Link to='/'>
-      <h4 className="guest_login">Login <GiClick/> and place your orders!!</h4>
-     </Link>}
-    
-    <div className="productContainer">
-      {products.map((product) => (
-        <Card className="products" key={product._id}>
-          <Card.Img
-            variant="top"
-            src={product.image}
-            alt={product.name}
-            style={{ height: "300px", width: "100%",objectFit:"contain" }}
-          />
-          <Card.Body>
-            <Card.Title>{product.name}</Card.Title>
-            <Card.Subtitle style={{ paddingBottom: 10 }}>
-              <span>Rs. {product.price.toLocaleString()}.00</span>
-              <br />
-              <span style={{ height: "10%" }}>{product.description}</span>
-            </Card.Subtitle>
+      {guest_user && (
+        <Link to="/">
+          <h4 className="guest_login">
+            Login <GiClick /> and place your orders!!
+          </h4>
+        </Link>
+      )}
 
-            {cart.some((p) => p._id === product._id) ? (
-              <Button
-                onClick={() => {
-                  dispatch({
-                    type: "REMOVE_FROM_CART",
-                    payload: product,
-                  });
-                }}
-                variant="warning"
-              >
-                Remove from cart
-              </Button>
-            ) : (
-              <Button 
-                onClick={() => {
-                  dispatch({
-                    type: "ADD_TO_CART",
-                    payload: product,
-                  });
-                }}
-                variant={product.isavailable ? "success" : "danger"}
-                disabled={!product.isavailable || guest_user } hidden={isAdmin} 
-              >
-                {product.isavailable && !isAdmin
-                  ? "Add to cart"
-                  : isAdmin
-                  ? "Out of Stock"
-                  : "Sold Out"}
-              </Button>
-            )}
-            {isAdmin && (
-              <Button
-                style={{ float: "right" }}
-                onClick={() => updateData(product._id)}
-                disabled={!product.isavailable || guest_user}
-              >
-                {product.isavailable ? "Mark Sold Out" : "Marked as sold"}
-              </Button>
-            )}
-          </Card.Body>
-        </Card>
-      ))}
-    </div></div>
+      <div className="productContainer">
+        {products.map((product) => (
+          <Card className="products" key={product._id}>
+            <Card.Img
+              variant="top"
+              src={product.image}
+              alt={product.name}
+              style={{ height: "300px", width: "100%", objectFit: "contain" }}
+            />
+            <Card.Body>
+              <Card.Title>{product.name}</Card.Title>
+              <Card.Subtitle style={{ paddingBottom: 10 }}>
+                <span>Rs. {product.price.toLocaleString()}.00</span>
+                <br />
+                <span style={{ height: "10%" }}>{product.description}</span>
+              </Card.Subtitle>
+
+              {cart.some((p) => p._id === product._id) ? (
+                <Button
+                  onClick={() => {
+                    dispatch({
+                      type: "REMOVE_FROM_CART",
+                      payload: product,
+                    });
+                  }}
+                  variant="warning"
+                >
+                  Remove from cart
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    dispatch({
+                      type: "ADD_TO_CART",
+                      payload: product,
+                    });
+                  }}
+                  variant={product.isavailable ? "success" : "danger"}
+                  disabled={!product.isavailable || guest_user}
+                  hidden={isAdmin}
+                >
+                  {product.isavailable && !isAdmin
+                    ? "Add to cart"
+                    : isAdmin
+                    ? "Out of Stock"
+                    : "Sold Out"}
+                </Button>
+              )}
+              {isAdmin && (
+                <Button
+                  style={{ float: "right" }}
+                  onClick={() => updateData(product._id)}
+                  disabled={!product.isavailable || guest_user}
+                >
+                  {product.isavailable ? "Mark Sold Out" : "Marked as sold"}
+                </Button>
+              )}
+            </Card.Body>
+          </Card>
+        ))}
+      </div>
+    </div>
   );
 };
 

@@ -37,13 +37,27 @@ const addressSchema = mongoose.Schema(
     landmark:{
         type:String,
         required:false
-    }
+    },
+    total:{
+      type:Number,
+      required:true
+    },
+    ispaid:{
+        type:String,
+        required:true,
+        default:1
+    },
+  details:[{
+    name:String,
+    price:Number,
+    qty:Number,
+  }],
   },
   {
     timestamps: true,
   }
 );
 
-const AddressModel = mongoose.model('address',addressSchema);
+const AddressModel = mongoose.model('address_cart',addressSchema);
 
 module.exports = AddressModel;
