@@ -62,8 +62,7 @@ const Orders = () => {
                       <>
                         ,<br />
                       </>
-                    )}{" "}
-                    {/* Some pblm is here */}
+                    )}
                   </span>
                 ))}
               </td>
@@ -92,7 +91,7 @@ const Orders = () => {
               <td>{item.landmark}</td>
               <td>{item.phonenumber}</td>
               <td>
-                {item.ispaid ? (
+                {item.ispaid !=='0' ? (
                   <Button
                     variant="success"
                     title={item.ispaid}

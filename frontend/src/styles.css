@@ -83,7 +83,7 @@ margin-left: -15%;
 }
 .welcome{
   position: absolute;
-  margin-left: 50%;
+  margin-left: 55%;
 }
 
 .required{
@@ -95,4 +95,13 @@ margin-left: -15%;
 .cartbox{
 text-align: center;
 padding: 50px;
+}
+
+.ordermessage{
+  text-align: center;
+    color: beige;
+    font-style: oblique;
+}
+.hover-effect:hover{
+  color: rgb(202, 142, 142);
 }

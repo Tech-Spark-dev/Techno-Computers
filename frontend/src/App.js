@@ -26,6 +26,7 @@ function App() {
       <Route path='/cart' element={<Cart />}/>
       <Route path='/signup' element={<Signup />}/>
       <Route path='/orders' element={<Orders/>}/>
+      {/* <Route path='/about' element={<About/>}/> */}
       </Routes>
       </div>
   );

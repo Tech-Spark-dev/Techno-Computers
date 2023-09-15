@@ -130,6 +130,9 @@ const Cart = () => {
         description: "Testing_Demo",
         handler: function (response) {
           updatePayment(addressid, response.razorpay_payment_id);
+          dispatch({
+            type:'CLEAR_CART'
+          })
         },
         prefill: {
           name: "Ivin_Austan",
@@ -224,12 +227,13 @@ const Cart = () => {
                 marginTop: "25%",
                 marginLeft: "25%",
                 marginRight: "25%",
+                fontWeight:"bold"
               }}
               onClick={() => setShow(true)}
             >
               Add Delivery Address
-            </Button>
-
+            </Button><br/>
+              <h6 className="ordermessage">* Add your address to place your order</h6>
             <Button
               className={address ? "" : "disabled"}
               style={{ margin: 20 }}

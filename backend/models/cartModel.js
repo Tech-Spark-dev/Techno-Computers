@@ -45,7 +45,7 @@ const addressSchema = mongoose.Schema(
     ispaid:{
         type:String,
         required:true,
-        default:1
+        default:0
     },
   details:[{
     name:String,

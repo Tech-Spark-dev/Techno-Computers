@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Badge, Container, Navbar } from "react-bootstrap";
+import { Badge, Container, Navbar, Nav } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -10,124 +10,164 @@ import { Form } from "react-bootstrap";
 import ErrorMessage from "./ErrorMessage";
 import "../styles.css";
 import axios from "axios";
+import Offcanvas from "react-bootstrap/Offcanvas";
 import { Contextreact } from "../Context";
+import { AiOutlineMenu } from "react-icons/ai";
 
 const Header = () => {
   const [show, setShow] = useState(false);
-  const [name,setName] = useState('');
-  const [price,setPrice] = useState(0);
-  const [image,setImage] = useState();
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [image, setImage] = useState();
   const [isAvailable] = useState(true);
-  const [description,setDescription] = useState('');
-  const [errormessage,setErrorMessage] = useState('');
+  const [description, setDescription] = useState("");
+  const [errormessage, setErrorMessage] = useState("");
+  const [canvasshow, setCanvasshow] = useState(false);
 
-    const {state:{cart},dispatch} = useContext(Contextreact);
-    
+  const handlecloseCanvas = () => setCanvasshow(false);
+  const handleshowCanvas = () => setCanvasshow(true);
+
+  const {
+    state: { cart },
+    dispatch,
+  } = useContext(Contextreact);
+
   const handleLogout = () => {
     localStorage.clear();
   };
-  const cloudName = 'dxhpxvyih'; 
+  const cloudName = "dxhpxvyih";
 
-  const handleClose =()=>{
+  const handleClose = () => {
     setShow(false);
-    setName('');
-    setPrice('');
-    setDescription('');
-    setErrorMessage('');
-  } 
-  const handleShow  =()=> setShow(true);
+    setName("");
+    setPrice("");
+    setDescription("");
+    setErrorMessage("");
+  };
+  const handleShow = () => setShow(true);
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
   const isAdmin = userInfoParsed.isAdmin;
   const userName = userInfoParsed.name;
 
-  const handleFileUpload =async(e)=>{
-      const file = e.target.files[0];
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
 
-      if(file){
-        try {
-          const formData = new FormData();
-          formData.append('file',file);
-          formData.append('upload_preset','Techno_computers');
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "Techno_computers");
 
-          
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-        {
-          method:'POST',
-          body:formData,
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          const imageUrl = data.secure_url;
+          setImage(imageUrl);
         }
-      );
-
-      if(response.ok){
-        const data=await response.json();
-        const imageUrl = data.secure_url;
-        setImage(imageUrl);
+      } catch (error) {
+        console.error("Error uploading image:", error);
       }
-        } catch (error) {
-                console.error('Error uploading image:', error);
+    }
+  };
 
-        }
-      }
-  }
-
-  const SubmitHandler=async(e)=>{
-
+  const SubmitHandler = async (e) => {
     e.preventDefault();
 
-    if(name==='' || price ==='' || description===''){
-      setErrorMessage('Please Enter the required Fields');
-    }
-    else{
-      setErrorMessage('');
+    if (name === "" || price === "" || description === "") {
+      setErrorMessage("Please Enter the required Fields");
+    } else {
+      setErrorMessage("");
       try {
-        const config ={
-          headers:{
+        const config = {
+          headers: {
             "Content-type": "application/json",
-          }
+          },
         };
 
-        const {data} = await axios.post(
+        const { data } = await axios.post(
           "http://localhost:5000/api/users/products",
           {
             name,
             price,
             description,
             image,
-            isAvailable
-            
-          },config
-          
+            isAvailable,
+          },
+          config
         );
         console.log(data);
         handleClose();
       } catch (error) {
-        console.log('error');
+        console.log("error");
       }
     }
-
-  }
+  };
 
   return (
     <>
       <Navbar bg="dark" variant="dark" style={{ height: 80 }}>
+        <Button
+          variant="light"
+          onMouseOver={handleshowCanvas}
+          style={{ padding: "10px" }}
+        >
+          <AiOutlineMenu />
+        </Button>
+        <Offcanvas
+          show={canvasshow}
+          onHide={handlecloseCanvas}
+          style={{ backgroundColor: "white", width: "20%" }}
+        >
+          <Offcanvas.Header closeButton>
+            <Offcanvas.Title>Techno Computers</Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <Nav defaultActiveKey="/home" className="flex-column">
+              <Nav.Link as={Link} to="/products" className="hover-effect">
+                Products
+              </Nav.Link>
+              <Nav.Link as={Link} to="/cart" className="hover-effect">
+                Cart
+              </Nav.Link>
+              <Nav.Link as={Link} to="/myorders" className="hover-effect">
+                My Orders
+              </Nav.Link>
+              {isAdmin && (
+                <Nav.Link as={Link} to="/orders" className="hover-effect">
+                  User's Orders
+                </Nav.Link>
+              )}
+              <Nav.Link as={Link} to="/about" className="hover-effect">
+                About Us
+              </Nav.Link>
+            </Nav>
+          </Offcanvas.Body>
+        </Offcanvas>
         <Container>
           <div className="col-md-6">
             <Navbar.Brand>
               <Link to="/products" style={{ color: "white" }}>
-                Techno Computers
+                Home
               </Link>
               <span className="welcome">Welcome, {userName}!</span>
             </Navbar.Brand>
           </div>
           <div className="col-md-6" style={{ textAlign: "right" }}>
-            <Dropdown as={ButtonGroup}>
+            <Dropdown as={ButtonGroup} style={{ marginRight: "10%" }}>
               <Button variant="success">
-              <Link to="/cart">
-                <FaShoppingCart color="white"/>
-              </Link>
-              {cart.length? <Badge bg="primary">{cart.length}</Badge>:''}  
+                <Link to="/cart">
+                  <FaShoppingCart color="white" />
+                </Link>
+                {cart.length ? <Badge bg="primary">{cart.length}</Badge> : ""}
               </Button>
               <Dropdown.Toggle
                 split
@@ -142,15 +182,21 @@ const Header = () => {
                     </Dropdown.Item>
                   </>
                 )}
-                <Dropdown.Item> <Link to='/products'>Products</Link></Dropdown.Item>
+                <Dropdown.Item>
+                  {" "}
+                  <Link to="/products">Products</Link>
+                </Dropdown.Item>
                 <Dropdown.Item onClick={handleLogout}>
-                <Link to='/' onClick={()=>{
-                  dispatch({
-                    type:'CLEAR_CART'
-                  })
-                }}>
-                Logout
-                </Link>
+                  <Link
+                    to="/"
+                    onClick={() => {
+                      dispatch({
+                        type: "CLEAR_CART",
+                      });
+                    }}
+                  >
+                    Logout
+                  </Link>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -160,35 +206,56 @@ const Header = () => {
                 <Modal.Title>Upload New Products</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-              {errormessage!=="" && <ErrorMessage variant="danger">{errormessage}</ErrorMessage>}
+                {errormessage !== "" && (
+                  <ErrorMessage variant="danger">{errormessage}</ErrorMessage>
+                )}
                 <Form>
                   <Form.Group
                     className="mb-3"
                     style={{ width: "70%", marginLeft: "10%" }}
                   >
                     <Form.Label>Product Name:</Form.Label>
-                    <Form.Control type="text" placeholder="Enter the Product Name" value={name} onChange={(e)=>setName(e.target.value)}/>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter the Product Name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
                   </Form.Group>
                   <Form.Group
                     className="mb-3"
                     style={{ width: "70%", marginLeft: "10%" }}
                   >
                     <Form.Label>Product Price:</Form.Label>
-                    <Form.Control type="text"  placeholder="Enter the Product Price" value={price} onChange={(e)=>setPrice(e.target.value)}/>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter the Product Price"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
                   </Form.Group>
                   <Form.Group
                     className="mb-3"
                     style={{ width: "70%", marginLeft: "10%" }}
                   >
                     <Form.Label>Product Description</Form.Label>
-                    <Form.Control as="textarea" placeholder="Enter the Product details" value={description} onChange={(e)=>setDescription(e.target.value)}/>
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Enter the Product details"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
                   </Form.Group>
                   <Form.Group
                     className="mb-3"
                     style={{ width: "70%", marginLeft: "10%" }}
                   >
                     <Form.Label>Product Image</Form.Label>
-                    <Form.Control type="file" accept="image/*" onChange={handleFileUpload}/>
+                    <Form.Control
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileUpload}
+                    />
                   </Form.Group>
                 </Form>
               </Modal.Body>
@@ -196,7 +263,7 @@ const Header = () => {
                 <Button variant="secondary" onClick={handleClose}>
                   Close
                 </Button>
-                <Button variant="primary" onClick={SubmitHandler} >
+                <Button variant="primary" onClick={SubmitHandler}>
                   Save
                 </Button>
               </Modal.Footer>
