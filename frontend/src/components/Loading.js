@@ -2,7 +2,7 @@ import { Spinner } from 'react-bootstrap';
 
 import React from 'react'
 
-const Loading = ({size = 100}) => {
+const Loading = ({size = 50}) => {
   return (
     <div style={{
         display:'flex',
@@ -15,7 +15,7 @@ const Loading = ({size = 100}) => {
             width:size,
             height:size,
         }}
-        animation='border'
+        animation='grow'
         />
       
     </div>

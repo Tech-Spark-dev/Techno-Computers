@@ -67,7 +67,7 @@ const Home = () => {
           </Col>
           <Col md={6} className="loginForm">
             {error!=="" && <ErrorMessage variant="danger">{errorMessage}</ErrorMessage>}
-            {loading && <Loading />}
+          
             <Form className="login" onSubmit={SubmitHandler}>
               <Form.Group
                 className="mb-3"
@@ -93,26 +93,37 @@ const Home = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </Form.Group>
+              <Row>
+              <Col md={6}>
               <Button
                 variant="primary"
                 type="submit"
-                style={{ marginLeft: "10%" }}
+                style={{ marginLeft: "20%" }}
               >
                 Submit
               </Button>
+              </Col>
+              <Col md={6}>
+                  <div style={{textAlign:'left',position:'fixed'}}>
+                {loading && <Loading />}
+                </div>
+                  </Col>
+                  </Row>
               <Row>
+             
               <Col style={{ marginLeft: "10%",marginTop: "10%" }}>
                <Link onClick={Guestuser}>Login as Guest</Link>
                 </Col>
                 </Row>
                 <Row>
-                <Col style={{ marginLeft: "10%"}}>
-                  New Customer ?
+                <Col style={{ marginLeft: "10%",marginTop:'10px'}}>
+                  New Customer?
                   <Link to="/signup" id="signup">
-                    create Account
+                  &nbsp;Create Account
                   </Link>
                 </Col>
               </Row>
+            
             </Form>
           </Col>
         </Row>
