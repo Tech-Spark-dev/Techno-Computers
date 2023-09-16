@@ -282,7 +282,7 @@ const Cart = () => {
               </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="City Name"
+                placeholder="City Name (mention pincode)"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
               ></Form.Control>

@@ -105,3 +105,14 @@ padding: 50px;
 .hover-effect:hover{
   color: rgb(202, 142, 142);
 }
+.Noorders{
+  text-align: center;
+  margin-top:15%;
+  font-size:x-large;
+}
+.header{
+  height: 80px;
+  position: sticky;
+    top: 0;
+    z-index: 100;
+}

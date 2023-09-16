@@ -113,8 +113,8 @@ const Header = () => {
   };
 
   return (
-    <>
-      <Navbar bg="dark" variant="dark" style={{ height: 80 }}>
+   
+      <Navbar bg="dark" variant="dark" className="header">
         <Button
           variant="light"
           onMouseOver={handleshowCanvas}
@@ -123,7 +123,7 @@ const Header = () => {
           <AiOutlineMenu />
         </Button>
         <Offcanvas
-          show={canvasshow}
+          show={canvasshow} onMouseLeave={handlecloseCanvas}
           onHide={handlecloseCanvas}
           style={{ backgroundColor: "white", width: "20%" }}
         >
@@ -138,9 +138,9 @@ const Header = () => {
               <Nav.Link as={Link} to="/cart" className="hover-effect">
                 Cart
               </Nav.Link>
-              <Nav.Link as={Link} to="/myorders" className="hover-effect">
+            {!isAdmin &&  <Nav.Link as={Link} to="/myorders" className="hover-effect">
                 My Orders
-              </Nav.Link>
+              </Nav.Link>}
               {isAdmin && (
                 <Nav.Link as={Link} to="/orders" className="hover-effect">
                   User's Orders
@@ -148,6 +148,19 @@ const Header = () => {
               )}
               <Nav.Link as={Link} to="/about" className="hover-effect">
                 About Us
+              </Nav.Link>
+              <Nav.Link as={Link} to='/' >
+              <Link className="hover-effect"
+                    to="/"
+                    onClick={() => {
+                      handleLogout();
+                      dispatch({
+                        type: "CLEAR_CART",
+                      });
+                    }}
+                  >
+                    Logout
+                  </Link>
               </Nav.Link>
             </Nav>
           </Offcanvas.Body>
@@ -186,10 +199,11 @@ const Header = () => {
                   {" "}
                   <Link to="/products">Products</Link>
                 </Dropdown.Item>
-                <Dropdown.Item onClick={handleLogout}>
+                <Dropdown.Item>
                   <Link
                     to="/"
                     onClick={() => {
+                      handleLogout();
                       dispatch({
                         type: "CLEAR_CART",
                       });
@@ -271,7 +285,7 @@ const Header = () => {
           </div>
         </Container>
       </Navbar>
-    </>
+  
   );
 };
 

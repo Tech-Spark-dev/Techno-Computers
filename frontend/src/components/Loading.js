@@ -15,7 +15,7 @@ const Loading = ({size = 50}) => {
             width:size,
             height:size,
         }}
-        animation='grow'
+        animation='grow' 
         />
       
     </div>

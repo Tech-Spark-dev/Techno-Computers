@@ -61,4 +61,15 @@ const updatePayment = asyncHandler(async(req,res)=>{                            
     res.json(paymentDetail);     
 })
 
-module.exports={Address,userAddress,updatePayment};
+const userscart = asyncHandler(async(req,res)=>{
+
+    const {userid}= req.params;
+    const usercart = await AddressModel.find({userid});
+    if (!usercart) {
+        // Handle the case where the user cart is not found (return an error response, for example)
+        return res.status(404).json({ message: 'User cart not found' });
+      }
+    res.json(usercart);
+})
+
+module.exports={Address,userAddress,updatePayment,userscart};
