@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { useContext } from "react";
@@ -9,6 +9,7 @@ import { GiClick } from "react-icons/gi";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [filteredproducts, setFilteredproducts] = useState([]);
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
@@ -23,7 +24,24 @@ const Products = () => {
   const {
     state: { cart },
     dispatch,
+    productstate: { searchQuery },
   } = useContext(Contextreact);
+
+  const transformProducts = useCallback(() => {
+    let sortedProducts = products;
+
+    if (searchQuery) {
+      sortedProducts = sortedProducts.filter((prod) =>
+        prod.name.toLowerCase().includes(searchQuery)
+      );
+    }
+    return sortedProducts;
+  }, [products, searchQuery]);
+
+  useEffect(() => {
+    const filtered = transformProducts();
+    setFilteredproducts(filtered);
+  }, [searchQuery, transformProducts]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,7 +91,7 @@ const Products = () => {
       )}
 
       <div className="productContainer">
-        {products.map((product) => (
+        {filteredproducts.map((product) => (
           <Card className="products" key={product._id}>
             <Card.Img
               variant="top"
@@ -81,11 +99,11 @@ const Products = () => {
               alt={product.name}
               style={{ height: "300px", width: "100%", objectFit: "contain" }}
             />
-            <Card.Body>
+            <Card.Body> 
               <Card.Title>{product.name}</Card.Title>
               <Card.Subtitle style={{ paddingBottom: 10 }}>
-                <span>Rs. {product.price.toLocaleString()}.00</span>
-                <br />
+                <b><span>Rs. {product.price.toLocaleString()}.00</span></b>
+                <br /><br />
                 <span style={{ height: "10%" }}>{product.description}</span>
               </Card.Subtitle>
 

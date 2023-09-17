@@ -13,4 +13,13 @@ export const cartReducer =(state,action)=>{
     }
 };
 
+export const productReducer =(state,action)=>{
+    switch(action.type){
+        case "search_product":
+            return {...state,searchQuery:action.payload};
+        default:
+            return state;
+    }
+}
+
 

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Badge, Container, Navbar, Nav } from "react-bootstrap";
+import { Badge, Container, Navbar, Nav, Col } from "react-bootstrap";
 import { FaShoppingCart } from "react-icons/fa";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -30,6 +30,7 @@ const Header = () => {
   const {
     state: { cart },
     dispatch,
+    productDispatch,
   } = useContext(Contextreact);
 
   const handleLogout = () => {
@@ -113,179 +114,198 @@ const Header = () => {
   };
 
   return (
-   
-      <Navbar bg="dark" variant="dark" className="header">
-        <Button
-          variant="light"
-          onMouseOver={handleshowCanvas}
-          style={{ padding: "10px" }}
-        >
-          <AiOutlineMenu />
-        </Button>
-        <Offcanvas
-          show={canvasshow} onMouseLeave={handlecloseCanvas}
-          onHide={handlecloseCanvas}
-          style={{ backgroundColor: "white", width: "20%" }}
-        >
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title>Techno Computers</Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
-            <Nav defaultActiveKey="/home" className="flex-column">
-              <Nav.Link as={Link} to="/products" className="hover-effect">
-                Products
-              </Nav.Link>
-              <Nav.Link as={Link} to="/cart" className="hover-effect">
-                Cart
-              </Nav.Link>
-            {!isAdmin &&  <Nav.Link as={Link} to="/myorders" className="hover-effect">
+    <Navbar bg="dark" variant="dark" className="header">
+      <Button
+        variant="light"
+        onMouseOver={handleshowCanvas}
+        style={{ padding: "10px" }}
+      >
+        <AiOutlineMenu />
+      </Button>
+      <Offcanvas
+        show={canvasshow}
+        onMouseLeave={handlecloseCanvas}
+        onHide={handlecloseCanvas}
+        style={{ backgroundColor: "white", width: "20%" }}
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Techno Computers</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <Nav defaultActiveKey="/home" className="flex-column">
+            <Nav.Link as={Link} to="/products" className="hover-effect">
+              Products
+            </Nav.Link>
+            <Nav.Link as={Link} to="/cart" className="hover-effect">
+              Cart
+            </Nav.Link>
+            {!isAdmin && (
+              <Nav.Link as={Link} to="/myorders" className="hover-effect">
                 My Orders
-              </Nav.Link>}
-              {isAdmin && (
-                <Nav.Link as={Link} to="/orders" className="hover-effect">
-                  User's Orders
-                </Nav.Link>
-              )}
-              <Nav.Link as={Link} to="/about" className="hover-effect">
-                About Us
               </Nav.Link>
-              <Nav.Link as={Link} to='/' >
-              <Link className="hover-effect"
-                    to="/"
-                    onClick={() => {
-                      handleLogout();
-                      dispatch({
-                        type: "CLEAR_CART",
-                      });
-                    }}
-                  >
-                    Logout
-                  </Link>
+            )}
+            {isAdmin && (
+              <Nav.Link as={Link} to="/orders" className="hover-effect">
+                User's Orders
               </Nav.Link>
-            </Nav>
-          </Offcanvas.Body>
-        </Offcanvas>
-        <Container>
-          <div className="col-md-6">
-            <Navbar.Brand>
-              <Link to="/products" style={{ color: "white" }}>
-                Home
+            )}
+            <Nav.Link as={Link} to="/about" className="hover-effect">
+              About Us
+            </Nav.Link>
+            <Nav.Link as={Link} to="/">
+              <Link
+                className="hover-effect"
+                to="/"
+                onClick={() => {
+                  handleLogout();
+                  dispatch({
+                    type: "CLEAR_CART",
+                  });
+                }}
+              >
+                Logout
               </Link>
-              <span className="welcome">Welcome, {userName}!</span>
-            </Navbar.Brand>
-          </div>
-          <div className="col-md-6" style={{ textAlign: "right" }}>
-            <Dropdown as={ButtonGroup} style={{ marginRight: "10%" }}>
-              <Button variant="success">
-                <Link to="/cart">
-                  <FaShoppingCart color="white" />
-                </Link>
-                {cart.length ? <Badge bg="primary">{cart.length}</Badge> : ""}
-              </Button>
-              <Dropdown.Toggle
-                split
-                variant="success"
-                id="dropdown-split-basic"
-              />
-              <Dropdown.Menu>
-                {isAdmin && (
-                  <>
-                    <Dropdown.Item onClick={handleShow}>
-                      Upload New Products
-                    </Dropdown.Item>
-                  </>
-                )}
-                <Dropdown.Item>
-                  {" "}
-                  <Link to="/products">Products</Link>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <Link
-                    to="/"
-                    onClick={() => {
-                      handleLogout();
-                      dispatch({
-                        type: "CLEAR_CART",
-                      });
-                    }}
-                  >
-                    Logout
-                  </Link>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            </Nav.Link>
+          </Nav>
+        </Offcanvas.Body>
+      </Offcanvas>
+      <Container>
+        <Col md={2}>
+          <Navbar.Brand>
+            <Link to="/products" style={{ color: "white" }}>
+              Home
+            </Link>
+          </Navbar.Brand>
+        </Col>
+        <Col md={5}>
+          <Navbar.Text>
+            <Form.Control
+              style={{ width: 500, marginLeft: "10%" }}
+              placeholder="Search a product"
+              type="text"
+              onChange={(e) => {
+                productDispatch({
+                  type: "search_product",
+                  payload: e.target.value,
+                });
+              }}
+            />
+          </Navbar.Text>
+        </Col>
+        <Col md={2}>
+          <h5 className="welcome">Welcome, {userName}!</h5>
+        </Col>
 
-            <Modal show={show} onHide={handleClose}>
-              <Modal.Header closeButton>
-                <Modal.Title>Upload New Products</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                {errormessage !== "" && (
-                  <ErrorMessage variant="danger">{errormessage}</ErrorMessage>
-                )}
-                <Form>
-                  <Form.Group
-                    className="mb-3"
-                    style={{ width: "70%", marginLeft: "10%" }}
-                  >
-                    <Form.Label>Product Name:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter the Product Name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    style={{ width: "70%", marginLeft: "10%" }}
-                  >
-                    <Form.Label>Product Price:</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter the Product Price"
-                      value={price}
-                      onChange={(e) => setPrice(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    style={{ width: "70%", marginLeft: "10%" }}
-                  >
-                    <Form.Label>Product Description</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      placeholder="Enter the Product details"
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Form.Group
-                    className="mb-3"
-                    style={{ width: "70%", marginLeft: "10%" }}
-                  >
-                    <Form.Label>Product Image</Form.Label>
-                    <Form.Control
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileUpload}
-                    />
-                  </Form.Group>
-                </Form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                  Close
-                </Button>
-                <Button variant="primary" onClick={SubmitHandler}>
-                  Save
-                </Button>
-              </Modal.Footer>
-            </Modal>
-          </div>
-        </Container>
-      </Navbar>
-  
+        <Col md={3} style={{ textAlign: "right" }}>
+          <Dropdown as={ButtonGroup} style={{ marginRight: "10%" }}>
+            <Button variant="success">
+              <Link to="/cart">
+                <FaShoppingCart color="white" />
+              </Link>
+              {cart.length ? <Badge bg="primary">{cart.length}</Badge> : ""}
+            </Button>
+            <Dropdown.Toggle
+              split
+              variant="success"
+              id="dropdown-split-basic"
+            />
+            <Dropdown.Menu>
+              {isAdmin && (
+                <>
+                  <Dropdown.Item onClick={handleShow}>
+                    Upload New Products
+                  </Dropdown.Item>
+                </>
+              )}
+              <Dropdown.Item>
+                {" "}
+                <Link to="/products">Products</Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link
+                  to="/"
+                  onClick={() => {
+                    handleLogout();
+                    dispatch({
+                      type: "CLEAR_CART",
+                    });
+                  }}
+                >
+                  Logout
+                </Link>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Col>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Upload New Products</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {errormessage !== "" && (
+              <ErrorMessage variant="danger">{errormessage}</ErrorMessage>
+            )}
+            <Form>
+              <Form.Group
+                className="mb-3"
+                style={{ width: "70%", marginLeft: "10%" }}
+              >
+                <Form.Label>Product Name:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter the Product Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                style={{ width: "70%", marginLeft: "10%" }}
+              >
+                <Form.Label>Product Price:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter the Product Price"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                style={{ width: "70%", marginLeft: "10%" }}
+              >
+                <Form.Label>Product Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  placeholder="Enter the Product details"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                style={{ width: "70%", marginLeft: "10%" }}
+              >
+                <Form.Label>Product Image</Form.Label>
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={SubmitHandler}>
+              Save
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </Container>
+    </Navbar>
   );
 };
 

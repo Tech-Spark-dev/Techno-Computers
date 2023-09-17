@@ -82,8 +82,8 @@ margin-left: -15%;
  
 }
 .welcome{
-  position: absolute;
-  margin-left: 55%;
+color: white;
+text-align: right;
 }
 
 .required{
@@ -115,4 +115,16 @@ padding: 50px;
   position: sticky;
     top: 0;
     z-index: 100;
+}
+.page-header{
+  padding-bottom: 9px;
+    margin: 40px 0 20px;
+    border-bottom: 1px solid #eee;
+}
+.error-container {
+  position: fixed;
+  margin-top: -5%;  /* transform: translateX(-50%); */
+  width:fit-content ;
+  width: 30%;
+
 }

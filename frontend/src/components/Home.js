@@ -8,12 +8,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import ErrorMessage from "./ErrorMessage";
+import "../styles.css";
 
 const Home = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -33,29 +34,28 @@ const Home = () => {
           password,
         },
         config
-      ); 
+      );
       navigate("/products");
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      setError(false)
+      setError(false);
       setErrorMessage("");
     } catch (error) {
       let message = error?.response?.data?.message;
-      setError(true)
+      setError(true);
       setErrorMessage(message ? message : error.message); //error.message - frontend error
       setLoading(false);
     }
   };
 
-
-  const Guestuser =  (e) => {
+  const Guestuser = (e) => {
     e.preventDefault();
-        const Guestdata = {
-          name:"Guest User",
-          email:"guest@example.com"
-        };
-        localStorage.setItem("userInfo",JSON.stringify(Guestdata));
-        navigate("/products");
+    const Guestdata = {
+      name: "Guest User",
+      email: "guest@example.com",
+    };
+    localStorage.setItem("userInfo", JSON.stringify(Guestdata));
+    navigate("/products");
   };
 
   return (
@@ -66,8 +66,11 @@ const Home = () => {
             <h1 className="techno">Techno Computers</h1>
           </Col>
           <Col md={6} className="loginForm">
-            {error!=="" && <ErrorMessage variant="danger">{errorMessage}</ErrorMessage>}
-          
+            <div className="error-container">
+              {error && (
+                <ErrorMessage variant="danger">{errorMessage}</ErrorMessage>
+              )}
+            </div>
             <Form className="login" onSubmit={SubmitHandler}>
               <Form.Group
                 className="mb-3"
@@ -94,36 +97,34 @@ const Home = () => {
                 />
               </Form.Group>
               <Row>
-              <Col md={6}>
-              <Button
-                variant="primary"
-                type="submit"
-                style={{ marginLeft: "20%" }}
-              >
-                Submit
-              </Button>
-              </Col>
-              <Col md={6}>
-                  <div style={{textAlign:'left',position:'fixed'}}>
-                {loading && <Loading />}
-                </div>
-                  </Col>
-                  </Row>
-              <Row>
-             
-              <Col style={{ marginLeft: "10%",marginTop: "10%" }}>
-               <Link onClick={Guestuser}>Login as Guest</Link>
+                <Col md={6}>
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    style={{ marginLeft: "20%" }}
+                  >
+                    Submit
+                  </Button>
                 </Col>
-                </Row>
-                <Row>
-                <Col style={{ marginLeft: "10%",marginTop:'10px'}}>
+                <Col md={6}>
+                  <div style={{ textAlign: "left", position: "fixed" }}>
+                    {loading && <Loading />}
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col style={{ marginLeft: "10%", marginTop: "10%" }}>
+                  <Link onClick={Guestuser}>Login as Guest</Link>
+                </Col>
+              </Row>
+              <Row>
+                <Col style={{ marginLeft: "10%", marginTop: "10px" }}>
                   New Customer?
                   <Link to="/signup" id="signup">
-                  &nbsp;Create Account
+                    &nbsp;Create Account
                   </Link>
                 </Col>
               </Row>
-            
             </Form>
           </Col>
         </Row>

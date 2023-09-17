@@ -32,6 +32,7 @@ const Myorders = () => {
   }, [userid]);
   return (
     <div>
+      <h1 className="page-header">My orders</h1>
       {ordersummary.some((item)=>item.ispaid !=='0')?
       (<Table striped bordered hover variant="light" style={{ width: "50%" }}>
       <thead>

@@ -1,5 +1,5 @@
 import React, { createContext,useReducer } from 'react';
-import { cartReducer } from './components/Reducer';
+import { cartReducer,productReducer } from './components/Reducer';
 
 export const Contextreact = createContext();
 
@@ -9,9 +9,13 @@ const Context = ({children}) => {
       cart:[]
     })
 
+    const [productstate,productDispatch] = useReducer(productReducer,{
+      searchQuery:''
+    })
+
 
   return (
-    <Contextreact.Provider value={{state,dispatch}}>
+    <Contextreact.Provider value={{state,dispatch,productstate,productDispatch}}>
             {children}
     </Contextreact.Provider>
   )
