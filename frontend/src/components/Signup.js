@@ -59,12 +59,16 @@ const Signup = () => {
   };
 
   return (
-    <div className="full-height-container">
-      <Container>
-        <Row>
+    <div className="full-height-container d-flex align-items-center">
+      <Container className="align-items-right container">
+      <Row className="align-items-center ">
           <Col md={6}>
+        
+
             <h1 className="techno">Techno Computers</h1>
+          
           </Col>
+          
           <Col md={6} className="loginForm">
           <div className="error-container">
               {error && <ErrorMessage variant="danger">{errorMessage}</ErrorMessage>}

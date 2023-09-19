@@ -97,7 +97,7 @@ const Products = () => {
               variant="top"
               src={product.image}
               alt={product.name}
-              style={{ height: "300px", width: "100%", objectFit: "contain" }}
+              style={{ height: "300px", width: "100%", objectFit: "cover" }}
             />
             <Card.Body> 
               <Card.Title>{product.name}</Card.Title>

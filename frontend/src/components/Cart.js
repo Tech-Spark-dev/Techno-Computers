@@ -43,13 +43,18 @@ const Cart = () => {
     setShow(false);
     setErrorMessage("");
   };
+  
   useEffect(() => {
-    setTotal(
-      cart.reduce(
+  
+     const newTotal = cart.reduce(
         (acc, current) => acc + Number(current.price) * current.qty,
         0
-      )
-    );
+      );
+      if (newTotal< 1000 && cart.length !==0 ){
+        setTotal(newTotal+50);
+      }
+      else setTotal(newTotal);
+  
   }, [cart]);
 
   const updatePayment = async (id, payment_id) => {
@@ -150,12 +155,8 @@ const Cart = () => {
       pay.open();
     }
   };
-
   return (
     <>
-      {errormessage !== "" && (
-        <ErrorMessage variant="danger">{errormessage}</ErrorMessage>
-      )}
       <Row className="container">
         <Col md={10}>
           <div className="productcontainer">
@@ -175,7 +176,7 @@ const Cart = () => {
                         <span>{prod.name}</span>
                       </Col>
                       <Col md={2} className="cartbox">
-                        <span>Rs. {prod.price.toLocaleString()}.00</span>
+                        <span>Rs. {prod.price?.toLocaleString()}.00</span>
                       </Col>
                       <Col md={2} className="cartbox">
                         <Form.Select
@@ -219,8 +220,10 @@ const Cart = () => {
           <div className="filters summary">
             <span className="title"> Subtotal ({cart.length}) items</span>
             <span style={{ fontWeight: 700, fontSize: 20 }}>
-              Total: Rs.{total}.00
-            </span>
+              Total: Rs.{total?.toLocaleString()}.00
+            </span><br/>
+            <span style={{color: 'aquamarine'}}>(* Rs.50 included for Delivery Charges)</span>
+            <div style={{fontWeight:'600'}}>Order above 1000 for free delivery</div>
             <Button
               className="btn-info"
               style={{

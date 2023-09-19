@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import ErrorMessage from "./ErrorMessage";
 import "../styles.css";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Home = () => {
   const [email, setEmail] = useState("");
@@ -58,12 +61,41 @@ const Home = () => {
     navigate("/products");
   };
 
+  const settings = {
+    autoplay: true,
+    autoplaySpeed: 3000, // Time in milliseconds for each slide
+    arrows: false, // You can enable navigation arrows if needed
+    dots: true, // You can add navigation dots if needed
+  };
+
+  const images = [
+    // 'techno1.jpg',
+    'techno2.jpg',
+    'techno3.jpg',
+    'techno6.jpg',
+    'techno9.jpg',
+    'techno7.jpg',
+    'technoservice.jpg',
+    'technosales.jpg',
+    'technoser.jpg',
+    // Add more image paths as needed
+  ];
+
   return (
-    <div className="full-height-container">
-      <Container>
-        <Row>
+    <div className="full-height-container d-flex align-items-center">
+      <Container className="d-flex align-items-center">
+        <Row className="align-items-center justify-content-center gap-5">
           <Col md={6}>
-            <h1 className="techno">Techno Computers</h1>
+            <Container>
+              <h1 className="mb-5 text-center techno">Techno Computers</h1>
+              <Slider {...settings}>
+                {images.map((image, index) => (
+                  <div key={index} className="slider-item">
+                    <img src={image} alt={`Slide ${index + 1}`} />
+                  </div>
+                ))}
+              </Slider>
+            </Container>
           </Col>
           <Col md={6} className="loginForm">
             <div className="error-container">
