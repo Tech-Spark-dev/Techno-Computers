@@ -8,6 +8,7 @@ import Image from "react-bootstrap/Image";
 import ErrorMessage from "./ErrorMessage";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
+import {REACT_SERVER_URL} from '../configs/ENV'
 
 const Cart = () => {
   const {
@@ -59,7 +60,7 @@ const Cart = () => {
 
   const updatePayment = async (id, payment_id) => {
     try {
-      await axios.put(`http://localhost:5000/api/users/payment/${id}`, {
+      await axios.put(`${REACT_SERVER_URL}/api/users/payment/${id}`, {
         razorpay_payment_id: payment_id,
       });
     } catch (error) {
@@ -95,7 +96,7 @@ const Cart = () => {
           },
         };
         const { data } = await axios.post(
-          "http://localhost:5000/api/users/postaddress",
+          `${REACT_SERVER_URL}/api/users/postaddress`,
           {
             userid,
             name,

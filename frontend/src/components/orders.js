@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
+import {REACT_SERVER_URL} from '../configs/ENV'
 
 const Orders = () => {
   const [address, setAddress] = useState([]);
@@ -16,7 +17,7 @@ const Orders = () => {
           },
         };
         const response = await axios.get(
-          "http://localhost:5000/api/users/address/",
+          `${REACT_SERVER_URL}/api/users/address/`,
           config
         );
         setAddress(response.data);

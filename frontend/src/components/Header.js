@@ -13,6 +13,7 @@ import axios from "axios";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Contextreact } from "../Context";
 import { AiOutlineMenu } from "react-icons/ai";
+import {REACT_SERVER_URL} from '../configs/ENV'
 
 const Header = () => {
   const [show, setShow] = useState(false);
@@ -95,7 +96,7 @@ const Header = () => {
         };
 
         const { data } = await axios.post(
-          "http://localhost:5000/api/users/products",
+          `${REACT_SERVER_URL}/api/users/products`,
           {
             name,
             price,

@@ -6,6 +6,7 @@ import { Contextreact } from "../Context";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { GiClick } from "react-icons/gi";
+import {REACT_SERVER_URL} from '../configs/ENV'
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -52,7 +53,7 @@ const Products = () => {
           },
         };
         const response = await axios.get(
-          "http://localhost:5000/api/users/showproducts",
+          `${REACT_SERVER_URL}/api/users/showproducts`,
           config
         );
         const sortedProduct = response.data.sort(
@@ -69,7 +70,7 @@ const Products = () => {
 
   const updateData = async (id) => {
     const update = await axios.put(
-      `http://localhost:5000/api/users/updateproducts/${id}`
+      `${REACT_SERVER_URL}/api/users/updateproducts/${id}`
     ); //update the availability of product
 
     if (update) {

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Table } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
+import {REACT_SERVER_URL} from '../configs/ENV'
 
 const Myorders = () => {
   const [ordersummary, setOrdersummary] = useState([]);
@@ -19,7 +20,7 @@ const Myorders = () => {
           },
         };
         const response = await axios.get(
-          `http://localhost:5000/api/users/userscart/${userid}`,
+          `${REACT_SERVER_URL}/api/users/userscart/${userid}`,
           config
         );
         setOrdersummary(response.data);

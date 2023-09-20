@@ -8,6 +8,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import ErrorMessage from "./ErrorMessage";
+import {REACT_SERVER_URL} from '../configs/ENV'
+
+
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -35,7 +38,7 @@ const Signup = () => {
         setLoading(true);
 
         const { data } = await axios.post(
-          "http://localhost:5000/api/users/",
+          `${REACT_SERVER_URL}/api/users/`,
           {
             name,
             email,

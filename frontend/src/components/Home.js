@@ -12,6 +12,8 @@ import "../styles.css";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import {REACT_SERVER_URL} from '../configs/ENV'
+
 
 const Home = () => {
   const [email, setEmail] = useState("");
@@ -31,7 +33,7 @@ const Home = () => {
       setLoading(true);
 
       const { data } = await axios.post(
-        "http://localhost:5000/api/users/login",
+        `${REACT_SERVER_URL}/api/users/login`,
         {
           email,
           password,
