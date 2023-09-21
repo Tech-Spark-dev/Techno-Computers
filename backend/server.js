@@ -12,7 +12,7 @@ connectDB();          //DB connection
 app.use(express.json()); // for getting json data from user
 
 const corsOptions ={
-    origin:["https://techno-stage1.onrender.com" ],
+    origin:['http://localhost:3000/',"https://techno-stage1.onrender.com/" ],
     // credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
 }
@@ -22,7 +22,7 @@ app.get('/',(req,res)=>{
     res.send("API is running");
 })                                   //api created
 
-app.use('api/users',userRoutes);                       //middleware config.
+app.use('/api/users',userRoutes);                       //middleware config.
 
 app.use(notFound,errorHandler);
 
