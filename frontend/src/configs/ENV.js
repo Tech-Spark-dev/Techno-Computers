@@ -1,1 +1,1 @@
-export const REACT_SERVER_URL='https://backendstage.onrender.com/'
+export const REACT_SERVER_URL='https://backendstage.onrender.com'
