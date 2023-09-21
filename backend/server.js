@@ -22,7 +22,7 @@ app.get('/',(req,res)=>{
     res.send("API is running");
 })                                   //api created
 
-app.use('/api/users',userRoutes);                       //middleware config.
+app.use('api/users',userRoutes);                       //middleware config.
 
 app.use(notFound,errorHandler);
 
