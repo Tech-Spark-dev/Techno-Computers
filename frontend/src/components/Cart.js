@@ -128,8 +128,8 @@ const Cart = () => {
       alert("Please select products!");
     } else {
       var options = {
-        key: "rzp_test_iwU2fkIJhYTfSH",
-        key_secret: "udWHu2ARpRy8QYPVOFpsVl5k",
+        key: "rzp_test_NJFXSw0fIlBdTh",
+        key_secret: "uQzN9YXbDStqtE2eZX2miynf",
         amount: Number(total) * 100,
         currency: "INR",
         name: "ivin",
