@@ -66,7 +66,7 @@ const Products = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [products]);
 
   const updateData = async (id) => {
     const update = await axios.put(
