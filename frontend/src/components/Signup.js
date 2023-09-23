@@ -1,7 +1,8 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
 import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form,InputGroup } from "react-bootstrap";
+import {AiFillEyeInvisible,AiFillEye} from 'react-icons/ai';
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -15,6 +16,8 @@ const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [passwordtype,setPasswordtype] = useState("password");
+  const [confirmpasswordtype,setconfirmPasswordtype] = useState("password");
   const [password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -111,24 +114,34 @@ const Signup = () => {
                 style={{ width: "70%", marginLeft: "10%" }}
               >
                 <Form.Label>Password</Form.Label>
+                <InputGroup>
                 <Form.Control
-                  type="password"
+                  type={passwordtype}
                   value={password}
                   placeholder="Enter your password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                   <Button onClick={()=>setPasswordtype((prevtype)=>(prevtype==='password'?'text':'password'))}>
+                    {passwordtype ==='password' ?<AiFillEye/>:<AiFillEyeInvisible/>}
+                    </Button>
+                </InputGroup>
               </Form.Group>
               <Form.Group
                 className="mb-3"
                 style={{ width: "70%", marginLeft: "10%" }}
               >
                 <Form.Label>Confirm Password</Form.Label>
+                <InputGroup>
                 <Form.Control
-                  type="password"
+                  type={confirmpasswordtype}
                   value={confirmPassword}
                   placeholder="Enter your password"
                   onChange={(e) => setconfirmPassword(e.target.value)}
                 />
+                 <Button onClick={()=>setconfirmPasswordtype((prevtype)=>(prevtype==='password'?'text':'password'))}>
+                    {confirmpasswordtype ==='password' ?<AiFillEye/>:<AiFillEyeInvisible/>}
+                    </Button>
+                </InputGroup>
               </Form.Group>
               <Row>
                 <Col md={6}>

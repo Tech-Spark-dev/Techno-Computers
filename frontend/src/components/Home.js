@@ -1,7 +1,8 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
+import {AiFillEyeInvisible,AiFillEye} from 'react-icons/ai'
 import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, InputGroup } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -18,6 +19,7 @@ import {REACT_SERVER_URL} from '../configs/ENV'
 const Home = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordtype,setPasswordtype] = useState("password");
   const [error, setError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -123,17 +125,24 @@ const Home = () => {
                 style={{ width: "70%", marginLeft: "10%" }}
               >
                 <Form.Label>Password</Form.Label>
+                <InputGroup>
                 <Form.Control
-                  type="password"
+                  type={passwordtype}
                   value={password}
                   placeholder="Enter your password"
                   onChange={(e) => setPassword(e.target.value)}
-                />
+                  
+                  />
+                  <Button onClick={()=>setPasswordtype((prevtype)=>(prevtype==='password'?'text':'password'))}>
+                    {passwordtype ==='password' ?<AiFillEye/>:<AiFillEyeInvisible/>}
+                    </Button>
+                  </InputGroup>   
+                  
               </Form.Group>
               <Row>
                 <Col md={6}>
                   <Button
-                    variant="primary"
+                    variant="success"
                     type="submit"
                     style={{ marginLeft: "20%" }}
                   >

@@ -224,7 +224,7 @@ const Cart = () => {
               Total: Rs.{total?.toLocaleString()}.00
             </span><br/>
             <span style={{color: 'aquamarine'}}>(* Rs.50 included for Delivery Charges)</span>
-            <div style={{fontWeight:'600'}}>Order above 1000 for free delivery</div>
+            <div style={{fontWeight:'600'}}>Order above Rs.1000 for free delivery</div>
             <Button
               className="btn-info"
               style={{
