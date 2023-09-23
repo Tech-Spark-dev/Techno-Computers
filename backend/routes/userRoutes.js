@@ -18,7 +18,7 @@ router.route('/login').post(authUser);          //for login
 router.route('/products').post(products);      //api route to update products from admin users
 router.route('/showproducts').get(showProducts); //showing all the products to users
 router.route('/updateproducts/:id').put(updateProducts); //upating the stocks 
-router.route('/delete').delete(deleteProduts);  //delete all the products
+router.route('/delete/:id').delete(deleteProduts);  //delete all the products
 router.route('/postaddress').post(Address);        //saving all the addresses
 router.route('/address').get(userAddress);          //retreiving all the address and carts of all users
 router.route('/payment/:id').put(updatePayment);       //updating the payment info

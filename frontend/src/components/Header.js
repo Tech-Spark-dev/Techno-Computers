@@ -174,7 +174,7 @@ const Header = () => {
         <Col md={2}>
           <Navbar.Brand>
             <Link to="/products" style={{ color: "white" }}>
-              Home
+             <img src='techno_logo.png' alt="techno" style={{width: '50%'}}/>
             </Link>
           </Navbar.Brand>
         </Col>

@@ -49,8 +49,9 @@ const updateProducts = asyncHandler(async(req,res)=>{
 })
 
 const deleteProduts = asyncHandler(async(req,res)=>{
-    const deleted = await Product.deleteMany({});
-    res.json(deleted);
+    const {id} = req.params;
+    await Product.deleteOne({_id:id});
+    res.status(202).json('Deleted Successfully');
 })
 
 

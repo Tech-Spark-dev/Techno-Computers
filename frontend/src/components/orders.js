@@ -50,7 +50,7 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {address.map((item, index) => (
+          {address.reverse().map((item, index) => (
             <tr key={item._id}>
               <td>{no + index}</td>
               <td hidden>{item.userid}</td>

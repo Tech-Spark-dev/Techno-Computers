@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { GiClick } from "react-icons/gi";
 import { REACT_SERVER_URL } from "../configs/ENV";
 import { AiFillInfoCircle } from "react-icons/ai";
+import Swal from "sweetalert2";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -81,6 +82,36 @@ const Products = () => {
       setProducts(updatedProducts);
     }
   };
+
+  const removeData = async(id) =>{
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async(result)=>{
+      if(result.isConfirmed){
+       try {
+        await axios.delete(
+          `${REACT_SERVER_URL}/api/users/delete/${id}`
+        );
+       } catch (error) {
+        console.error('Error deleting product:', error);
+
+       }
+        Swal.fire(
+          'Deleted!',
+          'Your product has been deleted.',
+          'success'
+        );
+      }
+    })
+      
+  }
 
   return (
     <div>
@@ -162,13 +193,19 @@ const Products = () => {
                 </Button>
               )}
               {isAdmin && (
-                <Button
-                  style={{ float: "right" }}
-                  onClick={() => updateData(product._id)}
-                  disabled={!product.isavailable || guest_user}
-                >
-                  {product.isavailable ? "Mark Sold Out" : "Marked as sold"}
-                </Button>
+               <div>
+                 <Button variant="danger" onClick={()=>removeData(product._id)}
+                 >
+                 Delete
+                  </Button>
+                  <Button
+                    style={{ float: "right" }}
+                    onClick={() => updateData(product._id)}
+                    disabled={!product.isavailable || guest_user}
+                  >
+                    {product.isavailable ? "Mark Sold Out" : "Marked as sold"}
+                  </Button>
+               </div>
               )}
             </Card.Body>
           </Card>
