@@ -6,7 +6,8 @@ import { Contextreact } from "../Context";
 import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { GiClick } from "react-icons/gi";
-import {REACT_SERVER_URL} from '../configs/ENV'
+import { REACT_SERVER_URL } from "../configs/ENV";
+import { AiFillInfoCircle } from "react-icons/ai";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -100,12 +101,33 @@ const Products = () => {
               alt={product.name}
               style={{ height: "300px", width: "100%", objectFit: "cover" }}
             />
-            <Card.Body> 
-              <Card.Title>{product.name}</Card.Title>
+            <Card.Body>
+              <Card.Title>
+                <h6>{product.name}</h6>
+              </Card.Title>
               <Card.Subtitle style={{ paddingBottom: 10 }}>
-                <b><span>Rs. {product.price.toLocaleString()}.00</span></b>
-                <br /><br />
-                <span style={{ height: "10%" }}>{product.description}</span>
+                <b>
+                  <span
+                    style={{
+                      paddingBottom: 10,
+                      paddingLeft: "70%",
+                      backgroundColor: "aliceblue",
+                    }}
+                  >
+                    Rs. {product.price.toLocaleString()}.00
+                  </span>
+                </b>
+                <br />
+                <br />
+                <div className="description-container">
+                  <span className="description">{product.description}</span>
+                  <span className="info-icon dropdown">
+                    <AiFillInfoCircle />
+                    <div className="dropdown-content">
+                      {product.description}
+                    </div>
+                  </span>
+                </div>
               </Card.Subtitle>
 
               {cart.some((p) => p._id === product._id) ? (

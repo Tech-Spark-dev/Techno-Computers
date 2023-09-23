@@ -21,7 +21,7 @@ router.route('/updateproducts/:id').put(updateProducts); //upating the stocks
 router.route('/delete').delete(deleteProduts);  //delete all the products
 router.route('/postaddress').post(Address);        //saving all the addresses
 router.route('/address').get(userAddress);          //retreiving all the address and carts of all users
-router.route('/payment/:id').put(updatePayment);
-router.route('/userscart/:userid').get(userscart);
+router.route('/payment/:id').put(updatePayment);       //updating the payment info
+router.route('/userscart/:userid').get(userscart);      //getting the users cart with address
 
 module.exports = router;
