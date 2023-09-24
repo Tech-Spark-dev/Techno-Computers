@@ -27,7 +27,7 @@ const Orders = () => {
       }
     };
     fetchOrders();
-  }, []);
+  }, [address]);
   return (
     <>
       <Table striped bordered hover variant="light">
