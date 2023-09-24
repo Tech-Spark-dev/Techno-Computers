@@ -34,7 +34,7 @@ const Myorders = () => {
   return (
     <div>
       <h1 className="page-header">My orders</h1>
-      {ordersummary.reverse().some((item) => item.street !== "") ? (
+      {ordersummary.reverse().some((item) => item.ispaid !== "") ? (
         <Table striped bordered hover variant="light" style={{ width: "50%" }}>
           <thead>
             <tr>
