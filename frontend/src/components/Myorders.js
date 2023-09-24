@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Table } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
-import {REACT_SERVER_URL} from '../configs/ENV'
+import { REACT_SERVER_URL } from "../configs/ENV";
 
 const Myorders = () => {
   const [ordersummary, setOrdersummary] = useState([]);
@@ -30,51 +30,59 @@ const Myorders = () => {
       }
     };
     orderSummary(userid);
-  }, [userid]);
+  }, [userid,ordersummary]);
   return (
     <div>
       <h1 className="page-header">My orders</h1>
-      {ordersummary.some((item)=>item.ispaid !=='0')?
-      (<Table striped bordered hover variant="light" style={{ width: "50%" }}>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Products</th>
-          <th hidden>User ID:</th>
-          <th> Total Amount</th>
-          <th>Delivery Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        {ordersummary.map((item, index) => {
-          const options = { month: "short", day: "numeric", year: "numeric" };
-          const formattedDate = new Date(item.createdAt).toLocaleDateString(
-            undefined,
-            options
-          );
-          return (
-            
-            <tr key={index}>
-              <td>{formattedDate}</td>
-              <td>
-                {item.details.map((prod, i) => (
-                  <span>{prod.name}
-                  {i !==item.details.length -1 && (<>,</>)}
-                  </span>
-                ))}
-              </td>
-              <td hidden>{item.userid}</td>
-              <td>{item.total.toLocaleString()}</td>
-              <td>
-                {item.street},{item.place},{item.city},{item.state},
-                {item.district}
-              </td>
+      {ordersummary.reverse().some((item) => item.street !== "") ? (
+        <Table striped bordered hover variant="light" style={{ width: "50%" }}>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Products</th>
+              <th hidden>User ID:</th>
+              <th> Total Amount</th>
+              <th>Delivery Address</th>
+              <th>Status</th>
             </tr>
-          );
-        })}
-      </tbody>
-    </Table>):(<div className="Noorders">You haven't placed any orders</div>)  
-    }
+          </thead>
+          <tbody>
+            {ordersummary.map((item, index) => {
+              const options = {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              };
+              const formattedDate = new Date(item.createdAt).toLocaleDateString(
+                undefined,
+                options
+              );
+              return (
+                <tr key={index}>
+                  <td>{formattedDate}</td>
+                  <td>
+                    {item.details.map((prod, i) => (
+                      <span>
+                        {prod.name}
+                        {i !== item.details.length - 1 && <>,</>}
+                      </span>
+                    ))}
+                  </td>
+                  <td hidden>{item.userid}</td>
+                  <td>{item.total.toLocaleString()}</td>
+                  <td>
+                    {item.street},{item.place},{item.city},{item.state},
+                    {item.district}
+                  </td>
+                  <td>{item.ispaid !== "0" ? "Paid" : "Not Paid"}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      ) : (
+        <div className="Noorders">You haven't placed any orders</div>
+      )}
     </div>
   );
 };

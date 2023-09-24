@@ -85,7 +85,7 @@ const Cart = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    if (street === "" || phonenumber === "" || state === "" || place === "") {
+    if (street === "" || phonenumber === "" || state === "" || place === "" || district==="") {
       setErrorMessage("Please Enter the required Fields");
     } else {
       setErrorMessage("");
