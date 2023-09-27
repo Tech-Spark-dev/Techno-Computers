@@ -149,8 +149,10 @@ const Header = () => {
             />
           </div>
           <Nav defaultActiveKey="/home" className="flex-column">
-            <Nav.Link as={Link} to="/products" className="hover-effect">
-              Products
+            <Nav.Link as={Link} to="/products" className="hover-effect" onClick={()=>productDispatch({
+            type:'RESET_PRODUCTS'
+          })}>
+              Products  
             </Nav.Link>
             <Nav.Link as={Link} to="/cart" className="hover-effect">
               Cart
@@ -189,7 +191,9 @@ const Header = () => {
         <Col md={2}>
           <Navbar.Brand>
             <Link to="/products" style={{ color: "white" }}>
-              <img src='techno_logo.png' alt="techno" style={{ width: '50%' }} />
+              <img src='techno_logo.png' alt="techno" style={{ width: '50%' }} onClick={()=>productDispatch({
+            type:'RESET_PRODUCTS'
+          })} />
             </Link>
           </Navbar.Brand>
         </Col>
