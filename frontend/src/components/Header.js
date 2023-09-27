@@ -13,7 +13,7 @@ import axios from "axios";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Contextreact } from "../Context";
 import { AiOutlineMenu } from "react-icons/ai";
-import {REACT_SERVER_URL} from '../configs/ENV'
+import { REACT_SERVER_URL } from '../configs/ENV'
 
 const Header = () => {
   const [show, setShow] = useState(false);
@@ -127,15 +127,32 @@ const Header = () => {
         show={canvasshow}
         onMouseLeave={handlecloseCanvas}
         onHide={handlecloseCanvas}
+        className="mobile-full"
         style={{ backgroundColor: "white", width: "20%" }}
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Techno Computers</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
+          <div className="show-mini">
+            <h5 className="welcome text-black">Welcome, {userName}!</h5>
+            <Form.Control
+              style={{ width: "100%", }}
+              placeholder="Search a product"
+              type="text"
+              onChange={(e) => {
+                productDispatch({
+                  type: "search_product",
+                  payload: e.target.value,
+                });
+              }}
+            />
+          </div>
           <Nav defaultActiveKey="/home" className="flex-column">
-            <Nav.Link as={Link} to="/products" className="hover-effect">
-              Products
+            <Nav.Link as={Link} to="/products" className="hover-effect" onClick={()=>productDispatch({
+            type:'RESET_PRODUCTS'
+          })}>
+              Products  
             </Nav.Link>
             <Nav.Link as={Link} to="/cart" className="hover-effect">
               Cart
@@ -174,11 +191,13 @@ const Header = () => {
         <Col md={2}>
           <Navbar.Brand>
             <Link to="/products" style={{ color: "white" }}>
-             <img src='techno_logo.png' alt="techno" style={{width: '50%'}}/>
+              <img src='techno_logo.png' alt="techno" style={{ width: '50%' }} onClick={()=>productDispatch({
+            type:'RESET_PRODUCTS'
+          })} />
             </Link>
           </Navbar.Brand>
         </Col>
-        <Col md={5}>
+        <Col className="hide-mini" md={5}>
           <Navbar.Text>
             <Form.Control
               style={{ width: 500, marginLeft: "10%" }}
@@ -193,7 +212,7 @@ const Header = () => {
             />
           </Navbar.Text>
         </Col>
-        <Col md={2}>
+        <Col className="hide-mini" md={2}>
           <h5 className="welcome">Welcome, {userName}!</h5>
         </Col>
 
@@ -210,7 +229,7 @@ const Header = () => {
               variant="success"
               id="dropdown-split-basic"
             />
-            <Dropdown.Menu>
+            <Dropdown.Menu className="nav-mini">
               {isAdmin && (
                 <>
                   <Dropdown.Item onClick={handleShow}>

@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
-import {AiFillEyeInvisible,AiFillEye} from 'react-icons/ai'
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 import { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
@@ -13,13 +13,13 @@ import "../styles.css";
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import {REACT_SERVER_URL} from '../configs/ENV'
+import { REACT_SERVER_URL } from '../configs/ENV'
 
 
 const Home = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordtype,setPasswordtype] = useState("password");
+  const [passwordtype, setPasswordtype] = useState("password");
   const [error, setError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -86,92 +86,90 @@ const Home = () => {
   ];
 
   return (
-    <div className="full-height-container d-flex align-items-center">
-      <Container className="d-flex align-items-center">
-        <Row className="align-items-center justify-content-center gap-5">
-          <Col md={6}>
-            <Container>
-              <h1 className="mb-5 text-center techno">Techno Computers</h1>
-              <Slider {...settings}>
-                {images.map((image, index) => (
-                  <div key={index} className="slider-item">
-                    <img src={image} alt={`Slide ${index + 1}`} />
-                  </div>
-                ))}
-              </Slider>
-            </Container>
-          </Col>
-          <Col md={6} className="loginForm">
-            <div className="error-container">
-              {error && (
-                <ErrorMessage variant="danger">{errorMessage}</ErrorMessage>
-              )}
-            </div>
-            <Form className="login" onSubmit={SubmitHandler}>
-              <Form.Group
-                className="mb-3"
-                style={{ width: "70%", marginLeft: "10%" }}
-              >
-                <Form.Label>Email:</Form.Label>
-                <Form.Control
-                  type="email"
-                  value={email}
-                  placeholder="Enter email"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                style={{ width: "70%", marginLeft: "10%" }}
-              >
-                <Form.Label>Password</Form.Label>
-                <InputGroup>
+    <div className="full-height-container">
+      <Row className="container-1 gap-5">
+        <Col md={6}>
+          <Container>
+            <h1 className="mb-5 text-center techno">Techno Computers</h1>
+            <Slider {...settings}>
+              {images.map((image, index) => (
+                <div key={index} className="slider-item">
+                  <img src={image} alt={`Slide ${index + 1}`} />
+                </div>
+              ))}
+            </Slider>
+          </Container>
+        </Col>
+        <Col md={6} className="loginForm">
+          <div className="error-container">
+            {error && (
+              <ErrorMessage variant="danger">{errorMessage}</ErrorMessage>
+            )}
+          </div>
+          <Form className="login" onSubmit={SubmitHandler}>
+            <Form.Group
+              className="mb-3"
+              style={{ width: "70%", marginLeft: "10%" }}
+            >
+              <Form.Label>Email:</Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                placeholder="Enter email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+              style={{ width: "70%", marginLeft: "10%" }}
+            >
+              <Form.Label>Password</Form.Label>
+              <InputGroup>
                 <Form.Control
                   type={passwordtype}
                   value={password}
                   placeholder="Enter your password"
                   onChange={(e) => setPassword(e.target.value)}
-                  
-                  />
-                  <Button onClick={()=>setPasswordtype((prevtype)=>(prevtype==='password'?'text':'password'))}>
-                    {passwordtype ==='password' ?<AiFillEye/>:<AiFillEyeInvisible/>}
-                    </Button>
-                  </InputGroup>   
-                  
-              </Form.Group>
-              <Row>
-                <Col md={6}>
-                  <Button
-                    variant="success"
-                    type="submit"
-                    style={{ marginLeft: "20%" }}
-                  >
-                    Submit
-                  </Button>
-                </Col>
-                <Col md={6}>
-                  <div style={{ textAlign: "left", position: "fixed" }}>
-                    {loading && <Loading />}
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col style={{ marginLeft: "10%", marginTop: "10%" }}>
-                  <Link onClick={Guestuser}>Login as Guest</Link>
-                </Col>
-              </Row>
-              <Row>
-                <Col style={{ marginLeft: "10%", marginTop: "10px" }}>
-                  New Customer?
-                  <Link to="/signup" id="signup">
-                    &nbsp;Create Account
-                  </Link>
-                </Col>
-              </Row>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+
+                />
+                <Button onClick={() => setPasswordtype((prevtype) => (prevtype === 'password' ? 'text' : 'password'))}>
+                  {passwordtype === 'password' ? <AiFillEye /> : <AiFillEyeInvisible />}
+                </Button>
+              </InputGroup>
+
+            </Form.Group>
+            <Row>
+              <Col md={6}>
+                <Button
+                  variant="success"
+                  type="submit"
+                  style={{ marginLeft: "20%" }}
+                >
+                  Submit
+                </Button>
+              </Col>
+              <Col md={6}>
+                <div style={{ textAlign: "left", position: "fixed" }}>
+                  {loading && <Loading />}
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col style={{ marginLeft: "10%", marginTop: "10%" }}>
+                <Link onClick={Guestuser}>Login as Guest</Link>
+              </Col>
+            </Row>
+            <Row>
+              <Col style={{ marginLeft: "10%", marginTop: "10px" }}>
+                New Customer?
+                <Link to="/signup" id="signup">
+                  &nbsp;Create Account
+                </Link>
+              </Col>
+            </Row>
+          </Form>
+        </Col>
+      </Row>
     </div>
   );
 };
