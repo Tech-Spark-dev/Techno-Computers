@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+// import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import {REACT_SERVER_URL} from '../configs/ENV'
 
@@ -46,7 +46,7 @@ const Orders = () => {
             <th>State</th>
             <th>Landmark</th>
             <th>Phone Number</th>
-            <th>Status</th>
+            {/* <th>Status</th> */}
           </tr>
         </thead>
         <tbody>
@@ -91,7 +91,7 @@ const Orders = () => {
               <td>{item.state}</td>
               <td>{item.landmark}</td>
               <td>{item.phonenumber}</td>
-              <td>
+              {/* <td>
                 {item.ispaid !=='0' ? (
                   <Button
                     variant="success"
@@ -105,7 +105,7 @@ const Orders = () => {
                     Not Paid
                   </Button>
                 )}
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>
