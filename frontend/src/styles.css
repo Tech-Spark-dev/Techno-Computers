@@ -61,6 +61,7 @@ a {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   padding: 5px;
   margin: 0 auto;
+  background-color:aliceblue ;
 }
 
 .products {
@@ -274,4 +275,9 @@ a {
   .mobile-full {
     width: 100% !important;
   }
+}
+
+.bg-dark {
+  --bs-bg-opacity: 1;
+  background-color:chocolate !important
 }

@@ -30,6 +30,7 @@ const Cart = () => {
   const [landmark, setLandmark] = useState("");
   const [errormessage, setErrorMessage] = useState("");
   const [addressid, setAddressid] = useState("");
+  const [paymentmodel,setPaymentmodel] = useState(false);
 
   useEffect(() => {
     const userInfo = localStorage.getItem("userInfo");
@@ -38,11 +39,12 @@ const Cart = () => {
     setName(username);
     const id = userInfoParsed._id;
     setUserid(id);
-  }, []);
+  }, [userid]);
 
   const handleClose = () => {
     setShow(false);
     setErrorMessage("");
+    setPaymentmodel(false);
   };
   
   useEffect(() => {
@@ -58,16 +60,16 @@ const Cart = () => {
   
   }, [cart]);
 
-  const updatePayment = async (id, payment_id) => {
-    try {
-      await axios.put(`${REACT_SERVER_URL}/api/users/payment/${id}`, {
-        razorpay_payment_id: payment_id,
-      });
-    } catch (error) {
-      console.log(error.message);
-      setErrorMessage(error.message);
-    }
-  };
+  // const updatePayment = async (id, payment_id) => {
+  //   try {
+  //     await axios.put(`${REACT_SERVER_URL}/api/users/payment/${id}`, {
+  //       razorpay_payment_id: payment_id,
+  //     });
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     setErrorMessage(error.message);
+  //   }
+  // };
 
   function getaddressId() {
     const addressInfo = localStorage.getItem("address");
@@ -127,34 +129,38 @@ const Cart = () => {
     if (total === "") {
       alert("Please select products!");
     } else {
-      var options = {
-        key: "rzp_test_NJFXSw0fIlBdTh",
-        key_secret: "uQzN9YXbDStqtE2eZX2miynf",
-        amount: Number(total) * 100,
-        currency: "INR",
-        name: "ivin",
-        description: "Testing_Demo",
-        handler: function (response) {
-          updatePayment(addressid, response.razorpay_payment_id);
-          dispatch({
-            type:'CLEAR_CART'
-          })
-        },
-        prefill: {
-          name: "Ivin_Austan",
-          email: "a.ivinaustan@gmail.com",
-          contact: "9500416612",
-        },
-        notes: {
-          address: "Razorpay",
-        },
-        theme: {
-          color: "red",
-        },
-      };
-      var pay = new window.Razorpay(options);
-      pay.open();
+      // var options = {
+      //   key: "rzp_test_NJFXSw0fIlBdTh",
+      //   key_secret: "uQzN9YXbDStqtE2eZX2miynf",
+      //   amount: Number(total) * 100,
+      //   currency: "INR",
+      //   name: "ivin",
+      //   description: "Testing_Demo",
+      //   handler: function (response) {
+      //     updatePayment(addressid, response.razorpay_payment_id);
+      //     dispatch({
+      //       type:'CLEAR_CART'
+      //     })
+      //   },
+      //   prefill: {
+      //     name: "Ivin_Austan",
+      //     email: "a.ivinaustan@gmail.com",
+      //     contact: "9500416612",
+      //   },
+      //   notes: {
+      //     address: "Razorpay",
+      //   },
+      //   theme: {
+      //     color: "red",
+      //   },
+      // };
+      // var pay = new window.Razorpay(options);
+      // pay.open();
+      setPaymentmodel(true);
+      
     }
+      
+
   };
   return (
     <>
@@ -342,6 +348,31 @@ const Cart = () => {
           </Button>
         </ModalFooter>
       </Modal>
+      <Modal show={paymentmodel} onHide={handleClose} backdrop="static" >
+        <Modal.Header closeButton>
+          <Modal.Title>Complete your payment</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={6}>
+            <img alt="upiid" src="upitechno_gpay.jpeg" className="img-fluid" rounded style={{height: '300px'}} />
+            </Col>
+            <Col md={6} >
+              <div className="d-flex flex-column h-100">
+              Also, you can pay in <i>amazonpay/phonepe/gpay</i> for the number: <b><h3>9488978792</h3></b> 
+              </div>
+              <div>Click on completed payment after paying the amount to complete order!!</div>
+            </Col>
+          </Row>
+          </Modal.Body>
+          <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="success" onClick={()=>dispatch({ type:'CLEAR_CART'})} >Completed payment</Button>
+        </Modal.Footer>
+          </Modal>
+
     </>
   );
 };
