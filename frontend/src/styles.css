@@ -281,3 +281,6 @@ a {
   --bs-bg-opacity: 1;
   background-color:chocolate !important
 }
+.h-100 {
+  height: 80%!important;
+}
