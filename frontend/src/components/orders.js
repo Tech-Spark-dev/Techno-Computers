@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import {REACT_SERVER_URL} from '../configs/ENV'
+import Footer from './Footer';
 
 const Orders = () => {
   const [address, setAddress] = useState([]);
@@ -110,6 +111,7 @@ const Orders = () => {
           ))}
         </tbody>
       </Table>
+      <Footer/>
     </>
   );
 };

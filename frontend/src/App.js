@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import Products from './components/Products';
 import Orders from './components/orders';
 import Myorders from './components/Myorders';
+import About from './components/About';
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
       <Route path='/signup' element={<Signup />}/>
       <Route path='/orders' element={<Orders/>}/>
       <Route path='/myorders' element={<Myorders/>}/>
-      {/* <Route path='/about' element={<About/>}/> */}
+      <Route path='/about' element={<About/>}/>
       </Routes>
       </div>
   );

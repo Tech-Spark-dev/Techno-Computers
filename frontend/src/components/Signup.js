@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import ErrorMessage from "./ErrorMessage";
 import {REACT_SERVER_URL} from '../configs/ENV'
+import Footer from './Footer';
 
 
 const Signup = () => {
@@ -170,6 +171,7 @@ const Signup = () => {
           </Col>
         </Row>
       </Container>
+      <Footer/>
     </div>
   );
 };

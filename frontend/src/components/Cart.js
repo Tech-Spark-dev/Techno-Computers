@@ -9,6 +9,7 @@ import ErrorMessage from "./ErrorMessage";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import {REACT_SERVER_URL} from '../configs/ENV'
+import Footer from './Footer';
 
 const Cart = () => {
   const {
@@ -372,7 +373,7 @@ const Cart = () => {
           <Button variant="success" onClick={()=>dispatch({ type:'CLEAR_CART'})} >Completed payment</Button>
         </Modal.Footer>
           </Modal>
-
+          <Footer/>
     </>
   );
 };
