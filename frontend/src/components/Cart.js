@@ -178,7 +178,7 @@ const Cart = () => {
                   <ListGroup.Item key={prod._id}>
                     <Row>
                       <Col md={3}>
-                        <Image src={prod.image} alt={prod.Name} fluid rounded />
+                        <Image src={prod.image} alt={prod.Name} fluid rounded className="cartimage" />
                       </Col>
                       <Col md={3} className="cartbox">
                         <span>{prod.name}</span>

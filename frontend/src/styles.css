@@ -308,3 +308,7 @@ a {
       display: block;
   }
 }
+.cartimage{
+  height: 100px;
+    max-width: 100%;
+}
