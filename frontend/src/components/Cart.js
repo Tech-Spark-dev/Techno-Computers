@@ -370,7 +370,7 @@ const Cart = () => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="success" onClick={()=>dispatch({ type:'CLEAR_CART'})} >Completed payment</Button>
+          <Button variant="success" onClick={()=>{dispatch({ type:'CLEAR_CART'}); handleClose();}} >Completed payment</Button>
         </Modal.Footer>
           </Modal>
           <Footer/>
