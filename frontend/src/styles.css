@@ -312,3 +312,17 @@ a {
   height: 100px;
     max-width: 100%;
 }
+
+.productsimage{
+  height: 80%;
+  width: 80%;
+    max-width: 100%;
+}
+
+.aboutcontent{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+
+}
