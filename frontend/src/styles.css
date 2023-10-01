@@ -296,3 +296,15 @@ a {
 .socialmedialogos{
   color: white;
 }
+
+@media (max-width: 767px) {
+  .footer {
+      position: relative; /* Change to relative positioning for mobile devices */
+      width: 100%;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      display: block;
+  }
+}
