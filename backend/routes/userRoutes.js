@@ -9,6 +9,7 @@ const {Address} = require('../controllers/cartController');
 const {userAddress} = require('../controllers/cartController');
 const {updatePayment} = require('../controllers/cartController');
 const {userscart} = require('../controllers/cartController');
+const {updateProductinfo} = require('../controllers/productController');
 
 const router = express.Router();
 
@@ -23,5 +24,6 @@ router.route('/postaddress').post(Address);        //saving all the addresses
 router.route('/address').get(userAddress);          //retreiving all the address and carts of all users
 router.route('/payment/:id').put(updatePayment);       //updating the payment info
 router.route('/userscart/:userid').get(userscart);      //getting the users cart with address
+router.route('/updateproductinfo/:id').put(updateProductinfo); 
 
 module.exports = router;
