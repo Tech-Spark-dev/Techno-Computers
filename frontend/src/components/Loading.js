@@ -2,7 +2,7 @@ import { Spinner } from 'react-bootstrap';
 
 import React from 'react'
 
-const Loading = ({size = 50}) => {
+const Loading = ({size = 50, style}) => {
   return (
     <div style={{
         display:'flex',
@@ -10,6 +10,7 @@ const Loading = ({size = 50}) => {
         alignItems:'center',
         width:'100%',
         height:'100%',
+        ...style
     }}>
         <Spinner style={{
             width:size,

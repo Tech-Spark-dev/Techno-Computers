@@ -11,12 +11,14 @@ import { AiFillInfoCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
+import Loading from "./Loading";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [filteredproducts, setFilteredproducts] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [loading,setLoading] = useState(true);
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
@@ -71,6 +73,7 @@ const Products = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setProducts(sortedProduct);
+        setLoading(false); 
       } catch (error) {
         console.log("Response Status:", error.response?.status);
         console.log("Response Data:", error.response?.data);
@@ -158,6 +161,8 @@ const Products = () => {
           </h4>
         </Link>
       )}
+            {loading && <Loading size={100} style={{marginTop:'20%'}} />}
+
       <div className="productContainer">
         {filteredproducts.map((product) => (
           <Card className="products" key={product._id}>
