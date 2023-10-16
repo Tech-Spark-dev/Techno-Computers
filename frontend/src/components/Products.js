@@ -36,26 +36,26 @@ const Products = () => {
     productstate: { searchQuery },
   } = useContext(Contextreact);
 
-  // const transformProducts = useCallback(() => {
-  //   let sortedProducts = products;
+  const transformProducts = useCallback(() => {
+    let sortedProducts = products;
 
-  //   if (searchQuery) {
-  //     sortedProducts = sortedProducts.filter((prod) =>
-  //       prod.name.toLowerCase().includes(searchQuery)
-  //     );
-  //   }
-  //   return sortedProducts;
-  // }, [products, searchQuery]);
+    if (searchQuery) {
+      sortedProducts = sortedProducts.filter((prod) =>
+        prod.name.toLowerCase().includes(searchQuery)
+      );
+    }
+    return sortedProducts;
+  }, [products, searchQuery]);
 
   const handleEdit = (product) => {
     setSelectedProduct(product);
     setShow(true);
   };
 
-  // useEffect(() => {
-  //   const filtered = transformProducts();
-  //   setFilteredproducts(filtered);
-  // }, [searchQuery, transformProducts]);
+  useEffect(() => {
+    const filtered = transformProducts();
+    setFilteredproducts(filtered);
+  }, [searchQuery, transformProducts]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -164,7 +164,7 @@ const Products = () => {
             {loading && <Loading size={100} style={{marginTop:'20%'}} />}
 
       <div className="productContainer">
-        {products.map((product) => (
+        {filteredproducts.map((product) => (
           <Card className="products" key={product._id}>
             <Card.Img
               variant="top"
