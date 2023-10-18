@@ -19,6 +19,7 @@ const Products = () => {
   const [show, setShow] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading,setLoading] = useState(true);
+  const [image, setImage] = useState();
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
@@ -101,11 +102,18 @@ const Products = () => {
       price: selectedProduct.price,
       description: selectedProduct.description,
     };
+    console.log(updatedProductInfo);
+    let updatedImage = null; 
+    if(image){
+      updatedImage = image;
+      updatedProductInfo.image = updatedImage;
+    }
     await axios.put(
       `${REACT_SERVER_URL}/api/users/updateproductinfo/${id}`,
       updatedProductInfo
     );
     setShow(false);
+    setImage(null);
   };
 
   const handleClose = () => {
@@ -117,6 +125,42 @@ const Products = () => {
       name: e.target.value,
     });
   };
+  const cloudName = "dxhpxvyih";
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "Techno_computers");
+
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          const imageUrl =  data.secure_url;
+          setImage(imageUrl);
+         }
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    }
+  };
+
+  // useEffect(()=>{
+  //   if(selectedProduct){
+  //     setSelectedProduct(selectedProduct.image);
+  //     console.log(selectedProduct.image);
+  //   }
+  // },[selectedProduct?.image,selectedProduct])
 
   const handlePricechange = (e) => {
     setSelectedProduct({
@@ -276,6 +320,17 @@ const Products = () => {
                 onChange={handleNamechange}
               />
             </Form.Group>
+            <Form.Group
+                className="mb-3"
+                style={{ width: "70%", marginLeft: "10%" }}
+              >
+                <Form.Label>Product Image</Form.Label>
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                />
+              </Form.Group>
             <Form.Group
               className="mb-3"
               style={{ width: "70%", marginLeft: "10%" }}

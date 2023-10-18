@@ -60,6 +60,7 @@ const updateProductinfo = asyncHandler(async (req, res) => {
   const { name } = req.body;
   const { price } = req.body;
   const { description } = req.body;
+  const {image} = req.body;
 
   const updateproductsinfo = await Product.findByIdAndUpdate(
     id,
@@ -67,6 +68,7 @@ const updateProductinfo = asyncHandler(async (req, res) => {
       name: name,
       price: price,
       description: description,
+      image: image
     },
     { new: true }
   );
