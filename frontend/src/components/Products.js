@@ -12,6 +12,8 @@ import Swal from "sweetalert2";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
 import Loading from "./Loading";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -81,7 +83,7 @@ const Products = () => {
       }
     };
     fetchData();
-  }, [products]);
+  }, []);
 
   const updateData = async (id) => {
     const update = await axios.put(
@@ -205,12 +207,11 @@ const Products = () => {
           </h4>
         </Link>
       )}
-            {loading && <Loading size={100} style={{marginTop:'20%'}} />}
-
+        {loading && <Loading size={100} style={{marginTop:'20%'}} />}
       <div className="productContainer">
         {filteredproducts.map((product) => (
           <Card className="products" key={product._id}>
-            <Card.Img
+            <LazyLoadImage
               variant="top"
               src={product.image}
               alt={product.name}
