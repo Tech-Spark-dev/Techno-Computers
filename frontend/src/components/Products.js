@@ -209,7 +209,7 @@ const Products = () => {
       )}
         {loading && <Loading size={100} style={{marginTop:'20%'}} />}
       <div className="productContainer">
-        {/* {filteredproducts.map((product) => (
+        {filteredproducts.map((product) => (
           <Card className="products" key={product._id}>
             <LazyLoadImage
               variant="top"
@@ -301,8 +301,7 @@ const Products = () => {
               )}
             </Card.Body>
           </Card>
-        ))} */}
-        Hi this is testing
+        ))}
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
