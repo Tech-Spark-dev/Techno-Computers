@@ -211,12 +211,12 @@ const Products = () => {
       <div className="productContainer">
         {filteredproducts.map((product) => (
           <Card className="products" key={product._id}>
-            <LazyLoadImage
+            {/* <LazyLoadImage
               variant="top"
               src={product.image}
               alt={product.name}
               style={{ height: "300px", width: "100%", objectFit: "cover" }}
-            />
+            /> */}
             <Card.Body>
               <Card.Title>
                 <h6>{product.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
