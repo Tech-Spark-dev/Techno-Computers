@@ -32,7 +32,10 @@ const products = asyncHandler(async (req, res) => {
 });
 
 const showProducts = asyncHandler(async (req, res) => {
-  const products = await Product.find({});
+  const limit = parseInt(req.query.limit) || 10; // Default limit is 10 if not provided in the query
+  const products = await Product.find({})
+  .sort({ createdAt: -1 })
+  .limit(limit);
   res.json(products);
 });
 

@@ -22,6 +22,7 @@ const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading,setLoading] = useState(true);
   const [image, setImage] = useState();
+  // const [offset, setOffset] = useState(0);
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
@@ -69,7 +70,7 @@ const Products = () => {
           },
         };
         const response = await axios.get(
-          `${REACT_SERVER_URL}/api/users/showproducts`,
+          `${REACT_SERVER_URL}/api/users/showproducts?limit=4&offset=0`,
           config
         );
         const sortedProduct = response.data.sort(
