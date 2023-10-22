@@ -32,10 +32,18 @@ const products = asyncHandler(async (req, res) => {
 });
 
 const showProducts = asyncHandler(async (req, res) => {
-  const limit = parseInt(req.query.limit) || 10; // Default limit is 10 if not provided in the query
-  const products = await Product.find({})
-  .sort({ createdAt: -1 })
-  .limit(limit);
+  const limit = parseInt(req.query.limit) || 10;
+  const page = parseInt(req.query.page) || 1;
+  const skip = (page - 1) * limit;
+
+  const query = Product.find({})
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  const products = await query.exec();
+  
   res.json(products);
 });
 

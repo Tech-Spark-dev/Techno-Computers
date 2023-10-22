@@ -22,7 +22,7 @@ const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading,setLoading] = useState(true);
   const [image, setImage] = useState();
-  // const [offset, setOffset] = useState(0);
+  const [page, setPage] = useState(0);
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
@@ -70,7 +70,7 @@ const Products = () => {
           },
         };
         const response = await axios.get(
-          `${REACT_SERVER_URL}/api/users/showproducts?limit=8&offset=0`,
+          `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=12`,
           config
         );
         const sortedProduct = response.data.sort(
@@ -84,7 +84,7 @@ const Products = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [page]);
 
   const updateData = async (id) => {
     const update = await axios.put(
@@ -201,6 +201,8 @@ const Products = () => {
 
   return (
     <div>
+      <button onClick={()=>setPage(page+1)}>next</button>
+      <button onClick={()=>setPage(page-1)}>Previous </button>
       {guest_user && (
         <Link to="/">
           <h4 className="guest_login">
