@@ -5,11 +5,10 @@ import Home from './components/Home';
 import Signup from './components/Signup';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-// import Products from './components/Products';
+import Products from './components/Products';
 import Orders from './components/orders';
 import Myorders from './components/Myorders';
 import About from './components/About';
-import LazyProducts from './components/Lazyloading';
 
 
 function App() {
@@ -25,7 +24,7 @@ function App() {
       { location.pathname !=='/'&& location.pathname !=='/signup' && <Header />}
      <Routes>
       <Route path='/' element={<Home/>}/>
-      <Route path='/products' element={<LazyProducts/>}/>
+      <Route path='/products' element={<Products/>}/>
       <Route path='/cart' element={<Cart />}/>
       <Route path='/signup' element={<Signup />}/>
       <Route path='/orders' element={<Orders/>}/>
