@@ -70,7 +70,7 @@ const Products = () => {
           },
         };
         const response = await axios.get(
-          `${REACT_SERVER_URL}/api/users/showproducts?limit=16&offset=0`,
+          `${REACT_SERVER_URL}/api/users/showproducts?limit=8&offset=0`,
           config
         );
         const sortedProduct = response.data.sort(
