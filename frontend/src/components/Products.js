@@ -70,7 +70,7 @@ const Products = () => {
           },
         };
         const response = await axios.get(
-          `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=12`,
+          `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=8`,
           config
         );
         const sortedProduct = response.data.sort(
@@ -201,8 +201,6 @@ const Products = () => {
 
   return (
     <div>
-      <button onClick={()=>setPage(page+1)}>next</button>
-      <button onClick={()=>setPage(page-1)}>Previous </button>
       {guest_user && (
         <Link to="/">
           <h4 className="guest_login">
@@ -373,6 +371,8 @@ const Products = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Button onClick={()=>setPage(page+1)} style={{float: 'right'}}>next</Button>
+      <Button onClick={()=>setPage(page-1)} >Previous </Button>
     </div>
   );
 };
