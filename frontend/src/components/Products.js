@@ -371,8 +371,12 @@ const Products = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {filteredproducts &&
+      <div>
       <Button onClick={()=>setPage(page+1)} style={{float: 'right'}}>next</Button>
       <Button onClick={()=>setPage(page-1)} >Previous </Button>
+      </div>
+       }
     </div>
   );
 };
