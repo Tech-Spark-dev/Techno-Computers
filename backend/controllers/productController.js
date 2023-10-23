@@ -34,6 +34,7 @@ const products = asyncHandler(async (req, res) => {
 const showProducts = asyncHandler(async (req, res) => {
   const limit = parseInt(req.query.limit) || 10;
   const page = parseInt(req.query.page) || 1;
+  const searchTerm = (req.query.search) || '';
   const skip = (page - 1) * limit;
 
   const query = Product.find({})
@@ -41,7 +42,12 @@ const showProducts = asyncHandler(async (req, res) => {
     .skip(skip)
     .limit(limit)
     .lean();
-
+    if (searchTerm) {
+      query.or([
+        { name: { $regex: new RegExp(searchTerm, 'i') } }, // Search by product name (case-insensitive)
+        { description: { $regex: new RegExp(searchTerm, 'i') } } // Search by product description (case-insensitive)
+      ]);
+    }
   const products = await query.exec();
   
   res.json(products);

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { GiClick } from "react-icons/gi";
 import { REACT_SERVER_URL } from "../configs/ENV";
 import { AiFillInfoCircle } from "react-icons/ai";
+import {GrFormPrevious,GrFormNext} from "react-icons/gr";
 import Swal from "sweetalert2";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
@@ -22,7 +23,7 @@ const Products = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading,setLoading] = useState(true);
   const [image, setImage] = useState();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
@@ -40,13 +41,17 @@ const Products = () => {
     productstate: { searchQuery },
   } = useContext(Contextreact);
 
-  const transformProducts = useCallback(() => {
+  const transformProducts = useCallback(async () => {
     let sortedProducts = products;
 
     if (searchQuery) {
-      sortedProducts = sortedProducts.filter((prod) =>
-        prod.name.toLowerCase().includes(searchQuery)
-      );
+      try {
+        const response = await axios.get(`${REACT_SERVER_URL}/api/users/showproducts?search=${searchQuery}&limit=8`);
+        return response.data;
+      } catch (error) {
+        console.error('Error fetching products:', error);
+
+      }
     }
     return sortedProducts;
   }, [products, searchQuery]);
@@ -57,8 +62,11 @@ const Products = () => {
   };
 
   useEffect(() => {
-    const filtered = transformProducts();
-    setFilteredproducts(filtered);
+    const fetchFilteredProducts = async () => {
+      const filtered = await transformProducts();
+      setFilteredproducts(filtered);
+    };
+    fetchFilteredProducts();
   }, [searchQuery, transformProducts]);
 
   useEffect(() => {
@@ -70,7 +78,7 @@ const Products = () => {
           },
         };
         const response = await axios.get(
-          `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=12`,
+          `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=8`,
           config
         );
         const sortedProduct = response.data.sort(
@@ -210,7 +218,7 @@ const Products = () => {
       )}
         {loading && <Loading size={100} style={{marginTop:'20%'}} />}
       <div className="productContainer">
-        {filteredproducts.map((product) => (
+        {filteredproducts.length > 0 && filteredproducts.map((product) => (
           <Card className="products" key={product._id}>
             <LazyLoadImage
               variant="top"
@@ -371,12 +379,12 @@ const Products = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {filteredproducts &&
+     {filteredproducts.length > 0 &&
       <div>
-      <Button onClick={()=>setPage(page+1)} style={{float: 'right'}}>next</Button>
-      <Button onClick={()=>setPage(page-1)} >Previous </Button>
+      <Button onClick={()=>setPage(page+1)} style={{float: 'right'}}> Next <GrFormNext/></Button>
+      <Button onClick={()=>setPage(page-1)}><GrFormPrevious/> Previous</Button>
       </div>
-       }
+}
     </div>
   );
 };
