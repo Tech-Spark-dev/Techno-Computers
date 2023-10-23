@@ -39,7 +39,7 @@ const Orders = () => {
             <th>Name</th>
             <th>Products</th>
             <th>Price:</th>
-            <th>Quantity</th>
+            <th>Total Quantity</th>
             <th>Total Amount:</th>
             <th>Street</th>
             <th>Place</th>
@@ -59,7 +59,7 @@ const Orders = () => {
               <td>
                 {item.details.map((prod, i) => (
                   <span key={prod.name}>
-                    {prod.name}
+                    {prod.name} [{prod.qty}]
                     {i !== item.details.length - 1 && (
                       <>
                         ,<br />
@@ -71,7 +71,7 @@ const Orders = () => {
               <td>
                 {item.details.map((amount, i) => (
                   <span key={amount.price}>
-                    {amount.price}.00
+                    {amount.price}.00 [{amount.qty}]
                     {i !== item.details.length - 1 && (
                       <>
                         , <br />
@@ -81,9 +81,7 @@ const Orders = () => {
                 ))}
               </td>
               <td>
-                {item.details.map((quantity, index) => (
-                  <span key={index}>{quantity.qty}</span>
-                ))}
+                 {item.details.reduce((total, quantity) => total + quantity.qty, 0)}   
               </td>
               <td>{item.total.toLocaleString()}.00</td>
               <td>{item.street}</td>
