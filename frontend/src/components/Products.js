@@ -14,8 +14,7 @@ import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
 import Loading from "./Loading";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-const NodeCache = require('node-cache');
-const myCache = new NodeCache();
+
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -70,7 +69,8 @@ const Products = () => {
     fetchFilteredProducts();
   }, [searchQuery, transformProducts]);
 
-    const fetchData = useCallback(async () => {
+  useEffect(() => {
+    const fetchData = async () => {
       try {
         const config = {
           headers: {
@@ -84,37 +84,15 @@ const Products = () => {
         const sortedProduct = response.data.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-      myCache.set('products', sortedProduct, /* TTL in seconds */ 60 * 5); // Cache data for 5 minutes
-        
         setProducts(sortedProduct);
         setLoading(false); 
       } catch (error) {
         console.log("Response Status:", error.response?.status);
         console.log("Response Data:", error.response?.data);
       }
-      fetchData();
-    },[page]);
- 
-
-  useEffect(() => {
-    const fetchingdata = async () => {
-      // Check if the data is already in the cache
-      const cachedData = myCache.get('products');
-
-      if (cachedData) {
-        // If data is in the cache, use it immediately
-        setProducts(cachedData);
-        setLoading(false);
-
-        // Then, initiate an asynchronous update in the background
-        fetchData();
-      } else {
-        // If data is not in the cache, fetch data from the server
-        fetchData();
-      }
     };
-    fetchingdata();
-  }, [page,fetchData]);
+    fetchData();
+  }, [page]);
 
   const updateData = async (id) => {
     const update = await axios.put(
