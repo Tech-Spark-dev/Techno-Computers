@@ -92,13 +92,13 @@ const Home = () => {
         <Col md={6}>
           <Container>
             <h1 className="mb-5 text-center techno">Techno Computers</h1>
-            <Slider {...settings}>
+            {/* <Slider {...settings}>
               {images.map((image, index) => (
                 <div key={index} className="slider-item">
                   <img src={image} alt={`Slide ${index + 1}`} />
                 </div>
               ))}
-            </Slider>
+            </Slider> */}
           </Container>
         </Col>
         <Col md={6} className="loginForm">
