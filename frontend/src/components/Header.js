@@ -173,7 +173,7 @@ const Header = () => {
             <Nav.Link as={Link} to="/">
               <Link
                 className="hover-effect"
-                to="/"
+                to="/home"
                 onClick={() => {
                   handleLogout();
                   dispatch({
