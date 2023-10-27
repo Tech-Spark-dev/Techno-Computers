@@ -23,7 +23,7 @@ function App() {
    <div>
       { location.pathname !=='/home'&& location.pathname !=='/signup' && <Header />}
      <Routes>
-      <Route path='/' element={<Products />}/>
+     <Route path='/' element={<Products/>}/>
       <Route path='/home' element={<Home/>}/>
       <Route path='/products' element={<Products/>}/>
       <Route path='/cart' element={<Cart />}/>

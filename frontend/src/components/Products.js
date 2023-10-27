@@ -8,11 +8,13 @@ import { Link } from "react-router-dom";
 import { GiClick } from "react-icons/gi";
 import { REACT_SERVER_URL } from "../configs/ENV";
 import { AiFillInfoCircle } from "react-icons/ai";
-import { GrFormPrevious, GrFormNext } from "react-icons/gr";
+import {GrFormPrevious,GrFormNext} from "react-icons/gr";
 import Swal from "sweetalert2";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
 import Loading from "./Loading";
+import { useLocation } from 'react-router-dom';
+
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Products = () => {
@@ -20,35 +22,29 @@ const Products = () => {
   const [filteredproducts, setFilteredproducts] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading,setLoading] = useState(true);
   const [image, setImage] = useState();
   const [page, setPage] = useState(1);
 
-  // const isAdmin = userInfoParsed.isAdmin;
+  const location = useLocation();
+  
+  if(location.pathname ==='/'){
+      const Guestdata = {
+        name: "Guest User",
+        email: "guest@example.com",
+        isAdmin:false
+      };
+      localStorage.setItem("userInfo", JSON.stringify(Guestdata));
+  }
 
-  let isAdminn;
-  let userInfo;
-  let userInfoParsed;
+  const userInfo = localStorage.getItem("userInfo");
+  const userInfoParsed = JSON.parse(userInfo);
+  const isAdmin = userInfoParsed.isAdmin;
 
-  if (userInfo) {
-
-    userInfo = localStorage.getItem("userInfo");
-    userInfoParsed = JSON.parse(userInfo);
-    // const userInfoParsedd = JSON.parse(userInfo);
-
-    var guest_user = false;
-    isAdminn = userInfoParsed.isAdmin;
-    var guest = userInfoParsed.email;
-
-    if (guest === "guest@example.com") {
-      guest_user = true;
-    }
-  } else {
-    var Guestdata = {
-      name: "Guest User",
-      email: "guest@example.com",
-    };
-    localStorage.setItem("userInfo", JSON.stringify(Guestdata));
+  var guest_user = false;
+  var guest = userInfoParsed.email;
+  if (guest === "guest@example.com") {
+    guest_user = true;
   }
 
   const {
@@ -62,12 +58,11 @@ const Products = () => {
 
     if (searchQuery) {
       try {
-        const response = await axios.get(
-          `${REACT_SERVER_URL}/api/users/showproducts?search=${searchQuery}&limit=8`
-        );
+        const response = await axios.get(`${REACT_SERVER_URL}/api/users/showproducts?search=${searchQuery}&limit=8`);
         return response.data;
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error('Error fetching products:', error);
+
       }
     }
     return sortedProducts;
@@ -102,7 +97,7 @@ const Products = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         setProducts(sortedProduct);
-        setLoading(false);
+        setLoading(false); 
       } catch (error) {
         console.log("Response Status:", error.response?.status);
         console.log("Response Data:", error.response?.data);
@@ -131,8 +126,8 @@ const Products = () => {
       description: selectedProduct.description,
     };
     console.log(updatedProductInfo);
-    let updatedImage = null;
-    if (image) {
+    let updatedImage = null; 
+    if(image){
       updatedImage = image;
       updatedProductInfo.image = updatedImage;
     }
@@ -174,9 +169,9 @@ const Products = () => {
 
         if (response.ok) {
           const data = await response.json();
-          const imageUrl = data.secure_url;
+          const imageUrl =  data.secure_url;
           setImage(imageUrl);
-        }
+         }
       } catch (error) {
         console.error("Error uploading image:", error);
       }
@@ -226,114 +221,108 @@ const Products = () => {
 
   return (
     <div>
-      {Guestdata && (
+      {guest_user && (
         <Link to="/home">
           <h4 className="guest_login">
             Login <GiClick /> and place your orders!!
           </h4>
         </Link>
       )}
-      {loading && <Loading size={100} style={{ marginTop: "20%" }} />}
+        {loading && <Loading size={100} style={{marginTop:'20%'}} />}
       <div className="productContainer">
-        {filteredproducts.length > 0 &&
-          filteredproducts.map((product) => (
-            <Card className="products" key={product._id}>
-              <LazyLoadImage
-                variant="top"
-                src={product.image}
-                alt={product.name}
-                style={{ height: "300px", width: "100%", objectFit: "cover" }}
-              />
-              <Card.Body>
-                <Card.Title>
-                  <h6>
-                    {product.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span>
-                      {isAdminn && (
-                        <AiTwotoneEdit
-                          onClick={() => handleEdit(product)}
-                          style={{ cursor: "pointer" }}
-                        />
-                      )}
-                    </span>
-                  </h6>
-                </Card.Title>
-                <Card.Subtitle style={{ paddingBottom: 10 }}>
-                  <b>
-                    <span
-                      style={{
-                        paddingBottom: 10,
-                        paddingLeft: "70%",
-                        backgroundColor: "aliceblue",
-                      }}
-                    >
-                      Rs. {product.price.toLocaleString()}.00
-                    </span>
-                  </b>
-                  <br />
-                  <br />
-                  <div className="description-container">
-                    <span className="description">{product.description}</span>
-                    <span className="info-icon dropdown">
-                      <AiFillInfoCircle />
-                      <div className="dropdown-content">
-                        {product.description}
-                      </div>
-                    </span>
-                  </div>
-                </Card.Subtitle>
+        {filteredproducts.length > 0 && filteredproducts.map((product) => (
+          <Card className="products" key={product._id}>
+            <LazyLoadImage
+              variant="top"
+              src={product.image}
+              alt={product.name}
+              style={{ height: "300px", width: "100%", objectFit: "cover" }}
+            />
+            <Card.Body>
+              <Card.Title>
+                <h6>{product.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span>
+                  {isAdmin && (
+                    <AiTwotoneEdit onClick={() => handleEdit(product)} style={{cursor: 'pointer'}}/>
+                  )}
+                </span></h6>
+              </Card.Title>
+              <Card.Subtitle style={{ paddingBottom: 10 }}>
+                <b>
+                  <span
+                    style={{
+                      paddingBottom: 10,
+                      paddingLeft: "70%",
+                      backgroundColor: "aliceblue",
+                    }}
+                  >
+                    Rs. {product.price.toLocaleString()}.00
+                  </span>
+                </b>
+                <br />
+                <br />
+                <div className="description-container">
+                  <span className="description">{product.description}</span>
+                  <span className="info-icon dropdown">
+                    <AiFillInfoCircle />
+                    <div className="dropdown-content">
+                      {product.description}
+                    </div>
+                  </span>
+                </div>
+              </Card.Subtitle>
 
-                {cart.some((p) => p._id === product._id) ? (
+              {cart.some((p) => p._id === product._id) ? (
+                <Button
+                  onClick={() => {
+                    dispatch({
+                      type: "REMOVE_FROM_CART",
+                      payload: product,
+                    });
+                  }}
+                  variant="warning"
+                >
+                  Remove from cart
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    dispatch({
+                      type: "ADD_TO_CART",
+                      payload: product,
+                    });
+                  }}
+                  variant={product.isavailable ? "success" : "danger"}
+                  disabled={!product.isavailable || guest_user}
+                  hidden={isAdmin}
+                >
+                  {product.isavailable && !isAdmin
+                    ? "Add to cart"
+                    : isAdmin
+                    ? "Out of Stock"
+                    : "Sold Out"}
+                </Button>
+              )}
+              {isAdmin && (
+                <div>
                   <Button
-                    onClick={() => {
-                      dispatch({
-                        type: "REMOVE_FROM_CART",
-                        payload: product,
-                      });
-                    }}
-                    variant="warning"
+                    variant="danger"
+                    onClick={() => removeData(product._id)}
                   >
-                    Remove from cart
+                    Delete
                   </Button>
-                ) : (
                   <Button
-                    onClick={() => {
-                      dispatch({
-                        type: "ADD_TO_CART",
-                        payload: product,
-                      });
-                    }}
-                    variant={product.isavailable ? "success" : "danger"}
+                    style={{ float: "right" }}
+                    onClick={() => updateData(product._id)}
                     disabled={!product.isavailable || guest_user}
-                    hidden={isAdminn}
                   >
-                    {product.isavailable && !isAdminn
-                      ? "Add to cart"
-                      : isAdminn
-                      ? "Out of Stock"
-                      : "Sold Out"}
+                    {product.isavailable ? "Mark Sold Out" : "Marked as sold"}
                   </Button>
-                )}
-                {isAdminn && (
-                  <div>
-                    <Button
-                      variant="danger"
-                      onClick={() => removeData(product._id)}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      style={{ float: "right" }}
-                      onClick={() => updateData(product._id)}
-                      disabled={!product.isavailable || guest_user}
-                    >
-                      {product.isavailable ? "Mark Sold Out" : "Marked as sold"}
-                    </Button>
-                  </div>
-                )}
-              </Card.Body>
-            </Card>
-          ))}
+                </div>
+              )}
+            </Card.Body>
+          </Card>
+        ))}
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -354,16 +343,16 @@ const Products = () => {
               />
             </Form.Group>
             <Form.Group
-              className="mb-3"
-              style={{ width: "70%", marginLeft: "10%" }}
-            >
-              <Form.Label>Product Image</Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={handleFileUpload}
-              />
-            </Form.Group>
+                className="mb-3"
+                style={{ width: "70%", marginLeft: "10%" }}
+              >
+                <Form.Label>Product Image</Form.Label>
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                />
+              </Form.Group>
             <Form.Group
               className="mb-3"
               style={{ width: "70%", marginLeft: "10%" }}
@@ -402,17 +391,12 @@ const Products = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      {filteredproducts.length > 0 && (
-        <div>
-          <Button onClick={() => setPage(page + 1)} style={{ float: "right" }}>
-            {" "}
-            Next <GrFormNext />
-          </Button>
-          <Button onClick={() => setPage(page - 1)}>
-            <GrFormPrevious /> Previous
-          </Button>
-        </div>
-      )}
+     {filteredproducts.length > 0 &&
+      <div>
+      <Button onClick={()=>setPage(page+1)} style={{float: 'right'}}> Next <GrFormNext/></Button>
+      <Button onClick={()=>setPage(page-1)}><GrFormPrevious/> Previous</Button>
+      </div>
+}
     </div>
   );
 };
