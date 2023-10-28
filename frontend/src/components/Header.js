@@ -173,7 +173,7 @@ const Header = () => {
             <Nav.Link as={Link} to="/">
               <Link
                 className="hover-effect"
-                to="/"
+                to="/home"
                 onClick={() => {
                   handleLogout();
                   dispatch({
@@ -243,7 +243,7 @@ const Header = () => {
               </Dropdown.Item>
               <Dropdown.Item>
                 <Link
-                  to="/"
+                  to="/home"
                   onClick={() => {
                     handleLogout();
                     dispatch({

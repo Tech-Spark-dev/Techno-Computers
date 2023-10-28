@@ -13,8 +13,9 @@ import Swal from "sweetalert2";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
 import Loading from "./Loading";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useLocation } from 'react-router-dom';
 
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -24,6 +25,17 @@ const Products = () => {
   const [loading,setLoading] = useState(true);
   const [image, setImage] = useState();
   const [page, setPage] = useState(1);
+
+  const location = useLocation();
+  
+  if(location.pathname ==='/'){
+      const Guestdata = {
+        name: "Guest User",
+        email: "guest@example.com",
+        isAdmin:false
+      };
+      localStorage.setItem("userInfo", JSON.stringify(Guestdata));
+  }
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
@@ -78,7 +90,7 @@ const Products = () => {
           },
         };
         const response = await axios.get(
-          `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=8`,
+          `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=16`,
           config
         );
         const sortedProduct = response.data.sort(
@@ -92,7 +104,7 @@ const Products = () => {
       }
     };
     fetchData();
-  }, [page]);
+  }, [products,page]);
 
   const updateData = async (id) => {
     const update = await axios.put(
@@ -210,7 +222,7 @@ const Products = () => {
   return (
     <div>
       {guest_user && (
-        <Link to="/">
+        <Link to="/home">
           <h4 className="guest_login">
             Login <GiClick /> and place your orders!!
           </h4>
@@ -381,8 +393,8 @@ const Products = () => {
       </Modal>
      {filteredproducts.length > 0 &&
       <div>
-      <Button onClick={()=>setPage(page+1)} style={{float: 'right'}}> Next <GrFormNext/></Button>
-      <Button onClick={()=>setPage(page-1)}><GrFormPrevious/> Previous</Button>
+      <Button onClick={()=>setPage(page+1)} style={{float: 'right',padding:'1%'}}> Next <GrFormNext/><GrFormNext/></Button>
+      <Button onClick={()=>setPage(page-1)} style={{padding:'1%'}}><GrFormPrevious/><GrFormPrevious/> Previous</Button>
       </div>
 }
     </div>

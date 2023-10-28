@@ -162,7 +162,7 @@ const Signup = () => {
               </Row>
               <Row>
                 <Col style={{ marginLeft: "10%", marginTop: "10%" }}>
-                  <Link to="/" id="home">
+                  <Link to="/home" id="home">
                     Back to Login
                   </Link>
                 </Col>
