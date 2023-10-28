@@ -90,7 +90,7 @@ const Products = () => {
           },
         };
         const response = await axios.get(
-          `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=8`,
+          `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=16`,
           config
         );
         const sortedProduct = response.data.sort(
@@ -104,7 +104,7 @@ const Products = () => {
       }
     };
     fetchData();
-  }, [page]);
+  }, [products,page]);
 
   const updateData = async (id) => {
     const update = await axios.put(
@@ -393,8 +393,8 @@ const Products = () => {
       </Modal>
      {filteredproducts.length > 0 &&
       <div>
-      <Button onClick={()=>setPage(page+1)} style={{float: 'right'}}> Next <GrFormNext/></Button>
-      <Button onClick={()=>setPage(page-1)}><GrFormPrevious/> Previous</Button>
+      <Button onClick={()=>setPage(page+1)} style={{float: 'right',padding:'1%'}}> Next <GrFormNext/><GrFormNext/></Button>
+      <Button onClick={()=>setPage(page-1)} style={{padding:'1%'}}><GrFormPrevious/><GrFormPrevious/> Previous</Button>
       </div>
 }
     </div>

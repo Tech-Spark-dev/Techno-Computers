@@ -243,7 +243,7 @@ const Header = () => {
               </Dropdown.Item>
               <Dropdown.Item>
                 <Link
-                  to="/"
+                  to="/home"
                   onClick={() => {
                     handleLogout();
                     dispatch({
