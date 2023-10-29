@@ -25,7 +25,8 @@ const Products = () => {
   const [loading,setLoading] = useState(true);
   const [image, setImage] = useState();
   const [page, setPage] = useState(1);
-
+  const [trackpage,settrackpage] = useState(0);
+  const [count,setCount] = useState(0);
   const location = useLocation();
   
   if(location.pathname ==='/'){
@@ -58,11 +59,10 @@ const Products = () => {
 
     if (searchQuery) {
       try {
-        const response = await axios.get(`${REACT_SERVER_URL}/api/users/showproducts?search=${searchQuery}&limit=8`);
-        return response.data;
+        const response = await axios.get(`${REACT_SERVER_URL}/api/users/showproducts?search=${searchQuery}&limit=12`);
+        return response.data.products;
       } catch (error) {
         console.error('Error fetching products:', error);
-
       }
     }
     return sortedProducts;
@@ -92,10 +92,14 @@ const Products = () => {
         const response = await axios.get(
           `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=12`,
           config
-        );
-        const sortedProduct = response.data.sort(
+        ); 
+     
+        const sortedProduct = response.data.products.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
+        
+        setCount(response.data.totalProductCount);
+        settrackpage(page);
         setProducts(sortedProduct);
         setLoading(false); 
       } catch (error) {
@@ -226,6 +230,13 @@ const Products = () => {
       }
     });
   };
+  const handleNextpage =()=>{
+  setPage(page+1);
+  }
+
+  const handlePreviouspage = ()=>{
+      setPage(page-1); 
+  }
 
   return (
     <div>
@@ -401,8 +412,8 @@ const Products = () => {
       </Modal>
      {filteredproducts.length > 0 &&
       <div>
-      <Button onClick={()=>setPage(page+1)} style={{float: 'right',padding:'1%'}}> Next <GrFormNext/><GrFormNext/></Button>
-      <Button onClick={()=>setPage(page-1)} style={{padding:'1%'}}><GrFormPrevious/><GrFormPrevious/> Previous</Button>
+      <Button onClick={handleNextpage} style={{float: 'right',padding:'1%'}} disabled ={trackpage*12 >=count }> Next <GrFormNext/><GrFormNext/></Button>
+      <Button onClick={handlePreviouspage} style={{padding:'1%'}} disabled={trackpage === 1}><GrFormPrevious/><GrFormPrevious/> Previous</Button>
       </div>
 }
     </div>

@@ -49,8 +49,9 @@ const showProducts = asyncHandler(async (req, res) => {
       ]);
     }
   const products = await query.exec();
-  
-  res.json(products);
+  const totalProductCount = await Product.countDocuments({}); // Count all documents in the collection
+
+  res.json({products,totalProductCount});
 });
 
 const updateProducts = asyncHandler(async (req, res) => {
