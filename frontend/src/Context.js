@@ -10,7 +10,8 @@ const Context = ({children}) => {
     })
 
     const [productstate,productDispatch] = useReducer(productReducer,{
-      searchQuery:''
+      searchQuery:'',
+      updatedproducts:[],
     })
 
 

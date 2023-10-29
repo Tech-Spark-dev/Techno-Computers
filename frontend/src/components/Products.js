@@ -50,7 +50,7 @@ const Products = () => {
   const {
     state: { cart },
     dispatch,
-    productstate: { searchQuery },
+    productstate: { searchQuery,updatedproducts },
   } = useContext(Contextreact);
 
   const transformProducts = useCallback(async () => {
@@ -104,7 +104,7 @@ const Products = () => {
       }
     };
     fetchData();
-  }, [page]);
+  }, [page,updatedproducts]);
 
   const updateData = async (id) => {
     const update = await axios.put(
@@ -112,10 +112,10 @@ const Products = () => {
     ); //update the availability of product
 
     if (update) {
-      const updatedProducts = products.map((prod) =>
+      const updatedProduct = products.map((prod) =>
         prod._id === id ? { ...prod, isavailable: !prod.isavailable } : prod
       );
-      setProducts(updatedProducts);
+      setProducts(updatedProduct);
     }
   };
 
@@ -125,7 +125,7 @@ const Products = () => {
       price: selectedProduct.price,
       description: selectedProduct.description,
     };
-    console.log(updatedProductInfo);
+    // console.log(updatedProductInfo);
     let updatedImage = null; 
     if(image){
       updatedImage = image;
@@ -135,6 +135,11 @@ const Products = () => {
       `${REACT_SERVER_URL}/api/users/updateproductinfo/${id}`,
       updatedProductInfo
     );
+    
+      setProducts((prevproducts)=>{
+        return prevproducts.map((prod)=>prod._id===id ? {...prod,...updatedProductInfo}:prod);
+      })
+    
     setShow(false);
     setImage(null);
   };
@@ -215,6 +220,9 @@ const Products = () => {
           console.error("Error deleting product:", error);
         }
         Swal.fire("Deleted!", "Your product has been deleted.", "success");
+        setProducts((prevproducts)=>{
+          return prevproducts.filter((prod)=>prod._id !==id)
+        })
       }
     });
   };

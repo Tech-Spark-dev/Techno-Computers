@@ -106,7 +106,13 @@ const Header = () => {
           },
           config
         );
-        console.log(data);
+     
+          productDispatch({
+            type: "Update_Products",
+            payload: data,
+          });
+     
+        // console.log(data);
         handleClose();
       } catch (error) {
         console.log("error");

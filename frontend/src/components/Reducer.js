@@ -19,6 +19,8 @@ export const productReducer =(state,action)=>{
             return {...state,searchQuery:action.payload};
         case "RESET_PRODUCTS":
             return {...state,searchQuery:''};
+        case "Update_Products":
+            return {...state, updatedproducts: [...state.updatedproducts,action.payload]};
         default:
             return state;
     }
