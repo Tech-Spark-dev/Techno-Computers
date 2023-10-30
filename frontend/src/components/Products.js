@@ -105,7 +105,7 @@ const Products = () => {
       } catch (error) {
         console.log("Response Status:", error.response?.status);
         console.log("Response Data:", error.response?.data);
-      }
+      } 
     };
     fetchData();
   }, [page,updatedproducts]);
