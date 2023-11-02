@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { GiClick } from "react-icons/gi";
 import { REACT_SERVER_URL } from "../configs/ENV";
 import { AiFillInfoCircle } from "react-icons/ai";
-import {GrFormPrevious,GrFormNext} from "react-icons/gr";
+// import {GrFormPrevious,GrFormNext} from "react-icons/gr";
 import Swal from "sweetalert2";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
@@ -25,8 +25,8 @@ const Products = () => {
   const [loading,setLoading] = useState(true);
   const [image, setImage] = useState();
   const [page, setPage] = useState(1);
-  const [trackpage,settrackpage] = useState(0);
-  const [count,setCount] = useState(0);
+  // const [trackpage,settrackpage] = useState(0);
+  const [hasMoreData, setHasMoreData] = useState(true);
   const location = useLocation();
   
   if(location.pathname ==='/'){
@@ -82,6 +82,17 @@ const Products = () => {
   }, [searchQuery, transformProducts]);
 
   useEffect(() => {
+
+    const handleScroll = ()=>{
+      if ( hasMoreData && window.innerHeight + document.documentElement.scrollTop + 500 >= document.documentElement.offsetHeight) 
+        {
+        setPage((prevPage) => prevPage + 1);
+        // console.log(page);
+      }
+    }
+    
+    window.addEventListener('scroll', handleScroll);
+
     const fetchData = async () => {
       try {
         const config = {
@@ -98,17 +109,27 @@ const Products = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         
-        setCount(response.data.totalProductCount);
-        settrackpage(page);
-        setProducts(sortedProduct);
+        // setCount(response.data.totalProductCount);
+        // settrackpage(page);
+        setProducts((prevProducts) => [...prevProducts, ...sortedProduct]);
         setLoading(false); 
+        console.log(sortedProduct.length);
+         if (sortedProduct.length === 0) {
+        // If no new data was fetched, it means there's no more data to load.
+        setHasMoreData(false);
+      }
       } catch (error) {
         console.log("Response Status:", error.response?.status);
         console.log("Response Data:", error.response?.data);
       }
+     
     };
     fetchData();
-  }, [page,updatedproducts]);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+    
+  }, [page,updatedproducts,hasMoreData]);
 
   const updateData = async (id) => {
     const update = await axios.put(
@@ -230,13 +251,13 @@ const Products = () => {
       }
     });
   };
-  const handleNextpage =()=>{
-  setPage(page+1);
-  }
+  // const handleNextpage =()=>{
+  // setPage(page+1);
+  // }
 
-  const handlePreviouspage = ()=>{
-      setPage(page-1); 
-  }
+  // const handlePreviouspage = ()=>{
+  //     setPage(page-1); 
+  // }
 
   return (
     <div>
@@ -410,12 +431,12 @@ const Products = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-     {filteredproducts.length > 0 &&
+     {/* {filteredproducts.length > 0 &&
       <div>
       <Button onClick={handleNextpage} style={{float: 'right',padding:'1%'}} disabled ={trackpage*12 >=count }> Next <GrFormNext/><GrFormNext/></Button>
       <Button onClick={handlePreviouspage} style={{padding:'1%'}} disabled={trackpage === 1}><GrFormPrevious/><GrFormPrevious/> Previous</Button>
       </div>
-}
+} */}
     </div>
   );
 };
