@@ -26,9 +26,10 @@ const Products = () => {
   const [image, setImage] = useState();
   const [page, setPage] = useState(1);
   // const [trackpage,settrackpage] = useState(0);
-  const [hasMoreData, setHasMoreData] = useState(true);
+  const [count, setCount] = useState(true);   //for storing the total products count
   const location = useLocation();
-  
+  const [initialLoad, setInitialLoad] = useState(false);    //to avoid unwanted duplications on initial load
+
   if(location.pathname ==='/'){
       const Guestdata = {
         name: "Guest User",
@@ -81,19 +82,22 @@ const Products = () => {
     fetchFilteredProducts();
   }, [searchQuery, transformProducts]);
 
+  const maxAvailablePage = count/12;        //to get the maximum available 
+
   useEffect(() => {
 
     const handleScroll = ()=>{
-      if ( hasMoreData && window.innerHeight + document.documentElement.scrollTop + 500 >= document.documentElement.offsetHeight) 
+      if (page < maxAvailablePage && window.innerHeight + document.documentElement.scrollTop + 500 >= document.documentElement.offsetHeight) 
         {
         setPage((prevPage) => prevPage + 1);
-        // console.log(page);
+        setInitialLoad(false);    //to avoid the initial duplication of requests
       }
     }
-    
+  
     window.addEventListener('scroll', handleScroll);
 
     const fetchData = async () => {
+      if(!initialLoad){    
       try {
         const config = {
           headers: {
@@ -109,27 +113,29 @@ const Products = () => {
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         
-        // setCount(response.data.totalProductCount);
+        setCount(response.data.totalProductCount);
         // settrackpage(page);
         setProducts((prevProducts) => [...prevProducts, ...sortedProduct]);
         setLoading(false); 
+        setInitialLoad(true); 
         console.log(sortedProduct.length);
-         if (sortedProduct.length === 0) {
-        // If no new data was fetched, it means there's no more data to load.
-        setHasMoreData(false);
-      }
+      //    if (sortedProduct.length === 0) {
+      //   // If no new data was fetched, it means there's no more data to load.
+      //   setHasMoreData(false);
+      // }
       } catch (error) {
         console.log("Response Status:", error.response?.status);
         console.log("Response Data:", error.response?.data);
       }
      
     };
+      }
     fetchData();
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
     
-  }, [page,updatedproducts,hasMoreData]);
+  }, [page,updatedproducts,maxAvailablePage,initialLoad]);
 
   const updateData = async (id) => {
     const update = await axios.put(
