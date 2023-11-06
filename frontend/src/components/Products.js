@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
 import Loading from "./Loading";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
@@ -22,21 +22,21 @@ const Products = () => {
   const [filteredproducts, setFilteredproducts] = useState([]);
   const [show, setShow] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const [loading,setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [image, setImage] = useState();
   const [page, setPage] = useState(1);
   // const [trackpage,settrackpage] = useState(0);
-  const [count, setCount] = useState(true);   //for storing the total products count
+  const [count, setCount] = useState(true); //for storing the total products count
   const location = useLocation();
-  const [initialLoad, setInitialLoad] = useState(false);    //to avoid unwanted duplications on initial load
+  const [initialLoad, setInitialLoad] = useState(false); //to avoid unwanted duplications on initial load
 
-  if(location.pathname ==='/'){
-      const Guestdata = {
-        name: "Guest User",
-        email: "guest@example.com",
-        isAdmin:false
-      };
-      localStorage.setItem("userInfo", JSON.stringify(Guestdata));
+  if (location.pathname === "/") {
+    const Guestdata = {
+      name: "Guest User",
+      email: "guest@example.com",
+      isAdmin: false,
+    };
+    localStorage.setItem("userInfo", JSON.stringify(Guestdata));
   }
 
   const userInfo = localStorage.getItem("userInfo");
@@ -52,7 +52,7 @@ const Products = () => {
   const {
     state: { cart },
     dispatch,
-    productstate: { searchQuery,updatedproducts },
+    productstate: { searchQuery, updatedproducts },
   } = useContext(Contextreact);
 
   const transformProducts = useCallback(async () => {
@@ -60,10 +60,12 @@ const Products = () => {
 
     if (searchQuery) {
       try {
-        const response = await axios.get(`${REACT_SERVER_URL}/api/users/showproducts?search=${searchQuery}&limit=12`);
+        const response = await axios.get(
+          `${REACT_SERVER_URL}/api/users/showproducts?search=${searchQuery}&limit=12`
+        );
         return response.data.products;
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
       }
     }
     return sortedProducts;
@@ -82,22 +84,24 @@ const Products = () => {
     fetchFilteredProducts();
   }, [searchQuery, transformProducts]);
 
-  const maxAvailablePage = count/12;        //to get the maximum available 
+  const maxAvailablePage = count / 12; //to get the maximum available
 
   useEffect(() => {
-
-    const handleScroll = ()=>{
-      if (page < maxAvailablePage && window.innerHeight + document.documentElement.scrollTop + 500 >= document.documentElement.offsetHeight) 
-        {
+    const handleScroll = () => {
+      if (
+        page < maxAvailablePage &&
+        initialLoad &&
+        window.innerHeight + document.documentElement.scrollTop + 500 >=
+          document.documentElement.offsetHeight
+      ) {
         setPage((prevPage) => prevPage + 1);
-        setInitialLoad(false);    //to avoid the initial duplication of requests
+        setInitialLoad(false); //to avoid the initial duplication of requests
       }
-    }
-  
-    window.addEventListener('scroll', handleScroll);
+    };
+
+    window.addEventListener("scroll", handleScroll);
 
     const fetchData = async () => {
-      if(!initialLoad){    
       try {
         const config = {
           headers: {
@@ -107,35 +111,34 @@ const Products = () => {
         const response = await axios.get(
           `${REACT_SERVER_URL}/api/users/showproducts?page=${page}&limit=12`,
           config
-        ); 
-     
+        );
+
         const sortedProduct = response.data.products.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
-        
+
         setCount(response.data.totalProductCount);
         // settrackpage(page);
         setProducts((prevProducts) => [...prevProducts, ...sortedProduct]);
-        setLoading(false); 
-        setInitialLoad(true); 
+        setLoading(false);
+        setInitialLoad(true);
         console.log(sortedProduct.length);
-      //    if (sortedProduct.length === 0) {
-      //   // If no new data was fetched, it means there's no more data to load.
-      //   setHasMoreData(false);
-      // }
+        //    if (sortedProduct.length === 0) {
+        //   // If no new data was fetched, it means there's no more data to load.
+        //   setHasMoreData(false);
+        // }
       } catch (error) {
         console.log("Response Status:", error.response?.status);
         console.log("Response Data:", error.response?.data);
       }
-     
     };
-      }
-    fetchData();
+    if (!initialLoad) {
+      fetchData();
+    }
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
-    
-  }, [page,updatedproducts,maxAvailablePage,initialLoad]);
+  }, [page, updatedproducts, maxAvailablePage, initialLoad]);
 
   const updateData = async (id) => {
     const update = await axios.put(
@@ -157,8 +160,8 @@ const Products = () => {
       description: selectedProduct.description,
     };
     // console.log(updatedProductInfo);
-    let updatedImage = null; 
-    if(image){
+    let updatedImage = null;
+    if (image) {
       updatedImage = image;
       updatedProductInfo.image = updatedImage;
     }
@@ -166,11 +169,13 @@ const Products = () => {
       `${REACT_SERVER_URL}/api/users/updateproductinfo/${id}`,
       updatedProductInfo
     );
-    
-      setProducts((prevproducts)=>{
-        return prevproducts.map((prod)=>prod._id===id ? {...prod,...updatedProductInfo}:prod);
-      })
-    
+
+    setProducts((prevproducts) => {
+      return prevproducts.map((prod) =>
+        prod._id === id ? { ...prod, ...updatedProductInfo } : prod
+      );
+    });
+
     setShow(false);
     setImage(null);
   };
@@ -205,9 +210,9 @@ const Products = () => {
 
         if (response.ok) {
           const data = await response.json();
-          const imageUrl =  data.secure_url;
+          const imageUrl = data.secure_url;
           setImage(imageUrl);
-         }
+        }
       } catch (error) {
         console.error("Error uploading image:", error);
       }
@@ -251,9 +256,9 @@ const Products = () => {
           console.error("Error deleting product:", error);
         }
         Swal.fire("Deleted!", "Your product has been deleted.", "success");
-        setProducts((prevproducts)=>{
-          return prevproducts.filter((prod)=>prod._id !==id)
-        })
+        setProducts((prevproducts) => {
+          return prevproducts.filter((prod) => prod._id !== id);
+        });
       }
     });
   };
@@ -262,7 +267,7 @@ const Products = () => {
   // }
 
   // const handlePreviouspage = ()=>{
-  //     setPage(page-1); 
+  //     setPage(page-1);
   // }
 
   return (
@@ -274,101 +279,107 @@ const Products = () => {
           </h4>
         </Link>
       )}
-        {loading && <Loading size={100} style={{marginTop:'20%'}} />}
+      {loading && <Loading size={100} style={{ marginTop: "20%" }} />}
       <div className="productContainer">
-        {filteredproducts.length > 0 && filteredproducts.map((product) => (
-          <Card className="products" key={product._id}>
-            <LazyLoadImage
-              variant="top"
-              src={product.image}
-              alt={product.name}
-              style={{ height: "300px", width: "100%", objectFit: "cover" }}
-            />
-            <Card.Body>
-              <Card.Title>
-                <h6>{product.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span>
-                  {isAdmin && (
-                    <AiTwotoneEdit onClick={() => handleEdit(product)} style={{cursor: 'pointer'}}/>
-                  )}
-                </span></h6>
-              </Card.Title>
-              <Card.Subtitle style={{ paddingBottom: 10 }}>
-                <b>
-                  <span
-                    style={{
-                      paddingBottom: 10,
-                      paddingLeft: "70%",
-                      backgroundColor: "aliceblue",
-                    }}
-                  >
-                    Rs. {product.price.toLocaleString()}.00
-                  </span>
-                </b>
-                <br />
-                <br />
-                <div className="description-container">
-                  <span className="description">{product.description}</span>
-                  <span className="info-icon dropdown">
-                    <AiFillInfoCircle />
-                    <div className="dropdown-content">
-                      {product.description}
-                    </div>
-                  </span>
-                </div>
-              </Card.Subtitle>
+        {filteredproducts.length > 0 &&
+          filteredproducts.map((product) => (
+            <Card className="products" key={product._id}>
+              <LazyLoadImage
+                variant="top"
+                src={product.image}
+                alt={product.name}
+                style={{ height: "300px", width: "100%", objectFit: "cover" }}
+              />
+              <Card.Body>
+                <Card.Title>
+                  <h6>
+                    {product.name} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>
+                      {isAdmin && (
+                        <AiTwotoneEdit
+                          onClick={() => handleEdit(product)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      )}
+                    </span>
+                  </h6>
+                </Card.Title>
+                <Card.Subtitle style={{ paddingBottom: 10 }}>
+                  <b>
+                    <span
+                      style={{
+                        paddingBottom: 10,
+                        paddingLeft: "70%",
+                        backgroundColor: "aliceblue",
+                      }}
+                    >
+                      Rs. {product.price.toLocaleString()}.00
+                    </span>
+                  </b>
+                  <br />
+                  <br />
+                  <div className="description-container">
+                    <span className="description">{product.description}</span>
+                    <span className="info-icon dropdown">
+                      <AiFillInfoCircle />
+                      <div className="dropdown-content">
+                        {product.description}
+                      </div>
+                    </span>
+                  </div>
+                </Card.Subtitle>
 
-              {cart.some((p) => p._id === product._id) ? (
-                <Button
-                  onClick={() => {
-                    dispatch({
-                      type: "REMOVE_FROM_CART",
-                      payload: product,
-                    });
-                  }}
-                  variant="warning"
-                >
-                  Remove from cart
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => {
-                    dispatch({
-                      type: "ADD_TO_CART",
-                      payload: product,
-                    });
-                  }}
-                  variant={product.isavailable ? "success" : "danger"}
-                  disabled={!product.isavailable || guest_user}
-                  hidden={isAdmin}
-                >
-                  {product.isavailable && !isAdmin
-                    ? "Add to cart"
-                    : isAdmin
-                    ? "Out of Stock"
-                    : "Sold Out"}
-                </Button>
-              )}
-              {isAdmin && (
-                <div>
+                {cart.some((p) => p._id === product._id) ? (
                   <Button
-                    variant="danger"
-                    onClick={() => removeData(product._id)}
+                    onClick={() => {
+                      dispatch({
+                        type: "REMOVE_FROM_CART",
+                        payload: product,
+                      });
+                    }}
+                    variant="warning"
                   >
-                    Delete
+                    Remove from cart
                   </Button>
+                ) : (
                   <Button
-                    style={{ float: "right" }}
-                    onClick={() => updateData(product._id)}
+                    onClick={() => {
+                      dispatch({
+                        type: "ADD_TO_CART",
+                        payload: product,
+                      });
+                    }}
+                    variant={product.isavailable ? "success" : "danger"}
                     disabled={!product.isavailable || guest_user}
+                    hidden={isAdmin}
                   >
-                    {product.isavailable ? "Mark Sold Out" : "Marked as sold"}
+                    {product.isavailable && !isAdmin
+                      ? "Add to cart"
+                      : isAdmin
+                      ? "Out of Stock"
+                      : "Sold Out"}
                   </Button>
-                </div>
-              )}
-            </Card.Body>
-          </Card>
-        ))}
+                )}
+                {isAdmin && (
+                  <div>
+                    <Button
+                      variant="danger"
+                      onClick={() => removeData(product._id)}
+                    >
+                      Delete
+                    </Button>
+                    <Button
+                      style={{ float: "right" }}
+                      onClick={() => updateData(product._id)}
+                      disabled={!product.isavailable || guest_user}
+                    >
+                      {product.isavailable ? "Mark Sold Out" : "Marked as sold"}
+                    </Button>
+                  </div>
+                )}
+              </Card.Body>
+            </Card>
+          ))}
       </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -389,16 +400,16 @@ const Products = () => {
               />
             </Form.Group>
             <Form.Group
-                className="mb-3"
-                style={{ width: "70%", marginLeft: "10%" }}
-              >
-                <Form.Label>Product Image</Form.Label>
-                <Form.Control
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileUpload}
-                />
-              </Form.Group>
+              className="mb-3"
+              style={{ width: "70%", marginLeft: "10%" }}
+            >
+              <Form.Label>Product Image</Form.Label>
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+              />
+            </Form.Group>
             <Form.Group
               className="mb-3"
               style={{ width: "70%", marginLeft: "10%" }}
@@ -437,7 +448,7 @@ const Products = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-     {/* {filteredproducts.length > 0 &&
+      {/* {filteredproducts.length > 0 &&
       <div>
       <Button onClick={handleNextpage} style={{float: 'right',padding:'1%'}} disabled ={trackpage*12 >=count }> Next <GrFormNext/><GrFormNext/></Button>
       <Button onClick={handlePreviouspage} style={{padding:'1%'}} disabled={trackpage === 1}><GrFormPrevious/><GrFormPrevious/> Previous</Button>
