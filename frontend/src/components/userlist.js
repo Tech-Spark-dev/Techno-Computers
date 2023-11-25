@@ -5,7 +5,7 @@ import { Table } from "react-bootstrap";
 
 const Userlist = () => {
   const [userlist, setUserlist] = useState([]);
-
+  const [initialLoad, setInitialLoad] = useState(false);
   const fetchData = async () => {
     try {
       const config = {
@@ -21,12 +21,14 @@ const Userlist = () => {
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
       setUserlist(sortedData);
+      setInitialLoad(true);
     } catch (error) {
       console.log("error");
     }
   };
-
-  fetchData();
+  if (!initialLoad) {
+    fetchData();
+  }
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
