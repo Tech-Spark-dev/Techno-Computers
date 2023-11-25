@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
 import { REACT_SERVER_URL } from "../configs/ENV";
-import Footer from './Footer';
+import Footer from "./Footer";
 
 const Myorders = () => {
   const [ordersummary, setOrdersummary] = useState([]);
@@ -31,7 +31,7 @@ const Myorders = () => {
       }
     };
     orderSummary(userid);
-  }, [userid,ordersummary]);
+  }, [userid, ordersummary]);
   return (
     <div>
       <h1 className="page-header">My orders</h1>
@@ -84,7 +84,7 @@ const Myorders = () => {
       ) : (
         <div className="Noorders">You haven't placed any orders</div>
       )}
-      <Footer/>
+      <Footer />
     </div>
   );
 };
