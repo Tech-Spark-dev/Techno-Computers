@@ -8,6 +8,7 @@ const Userlist = () => {
   const [initialLoad, setInitialLoad] = useState(false);
   const fetchData = async () => {
     try {
+      console.log(`${REACT_SERVER_URL}/api/users/userlist`);
       const config = {
         headers: {
           "Content-type": "application/json",
