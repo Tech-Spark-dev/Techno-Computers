@@ -6,9 +6,9 @@ import { Table } from "react-bootstrap";
 const Userlist = () => {
   const [userlist, setUserlist] = useState([]);
   const [initialLoad, setInitialLoad] = useState(false);
+
   const fetchData = async () => {
     try {
-      console.log(`${REACT_SERVER_URL}/api/users/userlist`);
       const config = {
         headers: {
           "Content-type": "application/json",
@@ -18,7 +18,6 @@ const Userlist = () => {
         `${REACT_SERVER_URL}/api/users/userlist`,
         config
       );
-      console.log(response.status);
       const sortedData = response.data.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
