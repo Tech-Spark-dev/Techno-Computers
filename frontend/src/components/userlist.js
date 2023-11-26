@@ -17,6 +17,7 @@ const Userlist = () => {
         `${REACT_SERVER_URL}/api/users/userlist`,
         config
       );
+      console.log(response.status);
       const sortedData = response.data.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
