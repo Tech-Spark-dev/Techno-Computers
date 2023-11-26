@@ -13,7 +13,7 @@ import axios from "axios";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Contextreact } from "../Context";
 import { AiOutlineMenu } from "react-icons/ai";
-import { REACT_SERVER_URL } from '../configs/ENV'
+import { REACT_SERVER_URL } from "../configs/ENV";
 
 const Header = () => {
   const [show, setShow] = useState(false);
@@ -106,12 +106,12 @@ const Header = () => {
           },
           config
         );
-     
-          productDispatch({
-            type: "Update_Products",
-            payload: data,
-          });
-     
+
+        productDispatch({
+          type: "Update_Products",
+          payload: data,
+        });
+
         // console.log(data);
         handleClose();
       } catch (error) {
@@ -143,7 +143,7 @@ const Header = () => {
           <div className="show-mini">
             <h5 className="welcome text-black">Welcome, {userName}!</h5>
             <Form.Control
-              style={{ width: "100%", }}
+              style={{ width: "100%" }}
               placeholder="Search a product"
               type="text"
               onChange={(e) => {
@@ -155,10 +155,17 @@ const Header = () => {
             />
           </div>
           <Nav defaultActiveKey="/home" className="flex-column">
-            <Nav.Link as={Link} to="/products" className="hover-effect" onClick={()=>productDispatch({
-            type:'RESET_PRODUCTS'
-          })}>
-              Products  
+            <Nav.Link
+              as={Link}
+              to="/products"
+              className="hover-effect"
+              onClick={() =>
+                productDispatch({
+                  type: "RESET_PRODUCTS",
+                })
+              }
+            >
+              Products
             </Nav.Link>
             <Nav.Link as={Link} to="/cart" className="hover-effect">
               Cart
@@ -171,6 +178,11 @@ const Header = () => {
             {isAdmin && (
               <Nav.Link as={Link} to="/orders" className="hover-effect">
                 User's Orders
+              </Nav.Link>
+            )}
+            {isAdmin && (
+              <Nav.Link as={Link} to="/userlist" className="hover-effect">
+                Registered Users
               </Nav.Link>
             )}
             <Nav.Link as={Link} to="/about" className="hover-effect">
@@ -197,9 +209,16 @@ const Header = () => {
         <Col md={2}>
           <Navbar.Brand>
             <Link to="/products" style={{ color: "white" }}>
-              <img src='techno_logo.png' alt="techno" style={{ width: '50%' }} onClick={()=>productDispatch({
-            type:'RESET_PRODUCTS'
-          })} />
+              <img
+                src="techno_logo.png"
+                alt="techno"
+                style={{ width: "50%" }}
+                onClick={() =>
+                  productDispatch({
+                    type: "RESET_PRODUCTS",
+                  })
+                }
+              />
             </Link>
           </Navbar.Brand>
         </Col>

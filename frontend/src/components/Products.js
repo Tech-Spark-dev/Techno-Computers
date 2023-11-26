@@ -118,15 +118,11 @@ const Products = () => {
         );
 
         setCount(response.data.totalProductCount);
-        // settrackpage(page);
+
         setProducts((prevProducts) => [...prevProducts, ...sortedProduct]);
         setLoading(false);
         setInitialLoad(true);
         console.log(sortedProduct.length);
-        //    if (sortedProduct.length === 0) {
-        //   // If no new data was fetched, it means there's no more data to load.
-        //   setHasMoreData(false);
-        // }
       } catch (error) {
         console.log("Response Status:", error.response?.status);
         console.log("Response Data:", error.response?.data);
