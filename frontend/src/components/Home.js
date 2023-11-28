@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "react-bootstrap/Container";
-import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
@@ -10,12 +10,11 @@ import { useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import ErrorMessage from "./ErrorMessage";
 import "../styles.css";
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import { REACT_SERVER_URL } from '../configs/ENV'
-import Footer from './Footer';
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { REACT_SERVER_URL } from "../configs/ENV";
+import Footer from "./Footer";
 
 const Home = () => {
   const [email, setEmail] = useState("");
@@ -63,7 +62,7 @@ const Home = () => {
       email: "guest@example.com",
     };
     localStorage.setItem("userInfo", JSON.stringify(Guestdata));
-    navigate("/products");
+    navigate("/");
   };
 
   const settings = {
@@ -75,14 +74,14 @@ const Home = () => {
 
   const images = [
     // 'techno1.jpg',
-    'techno2.jpg',
-    'techno3.jpg',
-    'techno6.jpg',
-    'techno9.jpg',
-    'techno7.jpg',
-    'technoservice.jpg',
-    'technosales.jpg',
-    'technoser.jpg',
+    "techno2.jpg",
+    "techno3.jpg",
+    "techno6.jpg",
+    "techno9.jpg",
+    "techno7.jpg",
+    "technoservice.jpg",
+    "technosales.jpg",
+    "technoser.jpg",
     // Add more image paths as needed
   ];
 
@@ -131,13 +130,21 @@ const Home = () => {
                   value={password}
                   placeholder="Enter your password"
                   onChange={(e) => setPassword(e.target.value)}
-
                 />
-                <Button onClick={() => setPasswordtype((prevtype) => (prevtype === 'password' ? 'text' : 'password'))}>
-                  {passwordtype === 'password' ? <AiFillEye /> : <AiFillEyeInvisible />}
+                <Button
+                  onClick={() =>
+                    setPasswordtype((prevtype) =>
+                      prevtype === "password" ? "text" : "password"
+                    )
+                  }
+                >
+                  {passwordtype === "password" ? (
+                    <AiFillEye />
+                  ) : (
+                    <AiFillEyeInvisible />
+                  )}
                 </Button>
               </InputGroup>
-
             </Form.Group>
             <Row>
               <Col md={6}>
@@ -171,7 +178,7 @@ const Home = () => {
           </Form>
         </Col>
       </Row>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

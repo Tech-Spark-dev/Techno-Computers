@@ -8,8 +8,10 @@ import Image from "react-bootstrap/Image";
 import ErrorMessage from "./ErrorMessage";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
-import {REACT_SERVER_URL} from '../configs/ENV'
-import Footer from './Footer';
+import { REACT_SERVER_URL } from "../configs/ENV";
+import Footer from "./Footer";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const {
@@ -31,7 +33,9 @@ const Cart = () => {
   const [landmark, setLandmark] = useState("");
   const [errormessage, setErrorMessage] = useState("");
   const [addressid, setAddressid] = useState("");
-  const [paymentmodel,setPaymentmodel] = useState(false);
+  const [paymentmodel, setPaymentmodel] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userInfo = localStorage.getItem("userInfo");
@@ -47,18 +51,15 @@ const Cart = () => {
     setErrorMessage("");
     setPaymentmodel(false);
   };
-  
+
   useEffect(() => {
-  
-     const newTotal = cart.reduce(
-        (acc, current) => acc + Number(current.price) * current.qty,
-        0
-      );
-      if (newTotal< 1000 && cart.length !==0 ){
-        setTotal(newTotal+50);
-      }
-      else setTotal(newTotal);
-  
+    const newTotal = cart.reduce(
+      (acc, current) => acc + Number(current.price) * current.qty,
+      0
+    );
+    if (newTotal < 1000 && cart.length !== 0) {
+      setTotal(newTotal + 50);
+    } else setTotal(newTotal);
   }, [cart]);
 
   // const updatePayment = async (id, payment_id) => {
@@ -88,7 +89,13 @@ const Cart = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    if (street === "" || phonenumber === "" || state === "" || place === "" || district==="") {
+    if (
+      street === "" ||
+      phonenumber === "" ||
+      state === "" ||
+      place === "" ||
+      district === ""
+    ) {
       setErrorMessage("Please Enter the required Fields");
     } else {
       setErrorMessage("");
@@ -129,6 +136,16 @@ const Cart = () => {
   const handlePay = (e) => {
     if (total === "") {
       alert("Please select products!");
+    } else if (userid === "23011998") {
+      Swal.fire({
+        icon: "error",
+        title: "You are not logged in",
+        text: "Please Login and Buy your products!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/home");
+        }
+      });
     } else {
       // var options = {
       //   key: "rzp_test_NJFXSw0fIlBdTh",
@@ -158,10 +175,7 @@ const Cart = () => {
       // var pay = new window.Razorpay(options);
       // pay.open();
       setPaymentmodel(true);
-      
     }
-      
-
   };
   return (
     <>
@@ -178,7 +192,13 @@ const Cart = () => {
                   <ListGroup.Item key={prod._id}>
                     <Row>
                       <Col md={3}>
-                        <Image src={prod.image} alt={prod.Name} fluid rounded className="cartimage" />
+                        <Image
+                          src={prod.image}
+                          alt={prod.Name}
+                          fluid
+                          rounded
+                          className="cartimage"
+                        />
                       </Col>
                       <Col md={3} className="cartbox">
                         <span>{prod.name}</span>
@@ -229,22 +249,30 @@ const Cart = () => {
             <span className="title"> Subtotal ({cart.length}) items</span>
             <span style={{ fontWeight: 700, fontSize: 20 }}>
               Total: Rs.{total?.toLocaleString()}.00
-            </span><br/>
-            <span style={{color: 'aquamarine'}}>(* Rs.50 included for Delivery Charges)</span>
-            <div style={{fontWeight:'600'}}>Order above Rs.1000 for free delivery</div>
+            </span>
+            <br />
+            <span style={{ color: "aquamarine" }}>
+              (* Rs.50 included for Delivery Charges)
+            </span>
+            <div style={{ fontWeight: "600" }}>
+              Order above Rs.1000 for free delivery
+            </div>
             <Button
               className="btn-info"
               style={{
                 marginTop: "25%",
                 marginLeft: "25%",
                 marginRight: "25%",
-                fontWeight:"bold"
+                fontWeight: "bold",
               }}
               onClick={() => setShow(true)}
             >
               Add Delivery Address
-            </Button><br/>
-              <h6 className="ordermessage">* Add your address to place your order</h6>
+            </Button>
+            <br />
+            <h6 className="ordermessage">
+              * Add your address to place your order
+            </h6>
             <Button
               className={address ? "" : "disabled"}
               style={{ margin: 20 }}
@@ -349,31 +377,52 @@ const Cart = () => {
           </Button>
         </ModalFooter>
       </Modal>
-      <Modal show={paymentmodel} onHide={handleClose} backdrop="static" >
+      <Modal show={paymentmodel} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Complete your payment</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row>
             <Col md={6}>
-            <img alt="upiid" src="upitechno_gpay.jpeg" className="img-fluid" rounded style={{height: '300px'}} />
+              <img
+                alt="upiid"
+                src="upitechno_gpay.jpeg"
+                className="img-fluid"
+                rounded
+                style={{ height: "300px" }}
+              />
             </Col>
-            <Col md={6} >
+            <Col md={6}>
               <div className="d-flex flex-column h-100">
-              Also, you can pay in <i>amazonpay/phonepe/gpay</i> for the number: <b><h3>9488978792</h3></b> 
+                Also, you can pay in <i>amazonpay/phonepe/gpay</i> for the
+                number:{" "}
+                <b>
+                  <h3>9488978792</h3>
+                </b>
               </div>
-              <div>Click on completed payment after paying the amount to complete order!!</div>
+              <div>
+                Click on completed payment after paying the amount to complete
+                order!!
+              </div>
             </Col>
           </Row>
-          </Modal.Body>
-          <Modal.Footer>
+        </Modal.Body>
+        <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="success" onClick={()=>{dispatch({ type:'CLEAR_CART'}); handleClose();}} >Completed payment</Button>
+          <Button
+            variant="success"
+            onClick={() => {
+              dispatch({ type: "CLEAR_CART" });
+              handleClose();
+            }}
+          >
+            Completed payment
+          </Button>
         </Modal.Footer>
-          </Modal>
-          <Footer/>
+      </Modal>
+      <Footer />
     </>
   );
 };

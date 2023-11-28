@@ -188,6 +188,11 @@ const Header = () => {
             <Nav.Link as={Link} to="/about" className="hover-effect">
               About Us
             </Nav.Link>
+            {!isAdmin && userName === "Guest User" && (
+              <Nav.Link as={Link} to="/home" className="hover-effect">
+                Login
+              </Nav.Link>
+            )}
             <Nav.Link as={Link} to="/">
               <Link
                 className="hover-effect"

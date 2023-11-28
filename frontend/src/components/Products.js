@@ -35,6 +35,7 @@ const Products = () => {
       name: "Guest User",
       email: "guest@example.com",
       isAdmin: false,
+      _id: "23011998",
     };
     localStorage.setItem("userInfo", JSON.stringify(Guestdata));
   }
@@ -346,7 +347,7 @@ const Products = () => {
                       });
                     }}
                     variant={product.isavailable ? "success" : "danger"}
-                    disabled={!product.isavailable || guest_user}
+                    disabled={!product.isavailable}
                     hidden={isAdmin}
                   >
                     {product.isavailable && !isAdmin
