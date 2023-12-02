@@ -35,6 +35,7 @@ const Products = () => {
       name: "Guest User",
       email: "guest@example.com",
       isAdmin: false,
+      _id: "23011998",
     };
     localStorage.setItem("userInfo", JSON.stringify(Guestdata));
   }
@@ -268,13 +269,13 @@ const Products = () => {
 
   return (
     <div>
-      {guest_user && (
+      {/* {guest_user && (
         <Link to="/home">
           <h4 className="guest_login">
             Login <GiClick /> and place your orders!!
           </h4>
         </Link>
-      )}
+      )} */}
       {loading && <Loading size={100} style={{ marginTop: "20%" }} />}
       <div className="productContainer">
         {filteredproducts.length > 0 &&
@@ -346,7 +347,7 @@ const Products = () => {
                       });
                     }}
                     variant={product.isavailable ? "success" : "danger"}
-                    disabled={!product.isavailable || guest_user}
+                    disabled={!product.isavailable}
                     hidden={isAdmin}
                   >
                     {product.isavailable && !isAdmin
