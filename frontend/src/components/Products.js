@@ -269,13 +269,13 @@ const Products = () => {
 
   return (
     <div>
-      {guest_user && (
+      {/* {guest_user && (
         <Link to="/home">
           <h4 className="guest_login">
             Login <GiClick /> and place your orders!!
           </h4>
         </Link>
-      )}
+      )} */}
       {loading && <Loading size={100} style={{ marginTop: "20%" }} />}
       <div className="productContainer">
         {filteredproducts.length > 0 &&
