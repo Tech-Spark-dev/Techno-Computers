@@ -86,10 +86,26 @@ const Cart = () => {
     qty: item.qty,
   }));
 
+  const checkUser = ()=>{
+    if (userid === "23011998") {
+      Swal.fire({
+        icon: "error",
+        title: "You are not logged in",
+        text: "Please Login and Buy your products!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/home");
+        }
+      });
+    }
+    else(
+      setShow(true)
+    )
+  }
+
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    if (
+  if (
       street === "" ||
       phonenumber === "" ||
       state === "" ||
@@ -136,16 +152,6 @@ const Cart = () => {
   const handlePay = (e) => {
     if (total === "") {
       alert("Please select products!");
-    } else if (userid === "23011998") {
-      Swal.fire({
-        icon: "error",
-        title: "You are not logged in",
-        text: "Please Login and Buy your products!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/home");
-        }
-      });
     } else {
       // var options = {
       //   key: "rzp_test_NJFXSw0fIlBdTh",
@@ -265,7 +271,7 @@ const Cart = () => {
                 marginRight: "25%",
                 fontWeight: "bold",
               }}
-              onClick={() => setShow(true)}
+              onClick={checkUser}
             >
               Add Delivery Address
             </Button>
