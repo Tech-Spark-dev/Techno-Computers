@@ -27,6 +27,8 @@ app.get('/',(req,res)=>{
     res.send("API is running");
 })                                   //api created
 
+app.options("/api/users/login", cors(corsOptions));
+
 app.use('/api/users',userRoutes);                       //middleware config.
 
 app.use(notFound,errorHandler);
