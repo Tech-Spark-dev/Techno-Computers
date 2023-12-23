@@ -26,10 +26,14 @@ const About = () => {
               assistance, and various other computer-related tasks. We are
               committed to ensuring that our pricing remains affordable and
               accessible to all our valued customers. You can find us situated
-              in Thammathu Konam, Nagercoil-4, serving the local community. </p>
-              <br></br>
-              <b> Phone:</b> +91-9488978792<br/>
-             <b> Email: </b>technosoftware13@gmail.com
+              in Thammathu Konam, Nagercoil-4, serving the local community.{" "}
+            </p>
+            <br></br>
+            <b> Address:</b> Thammathu Konam (Near Golden Bakery), Nagercoil -4. 
+            <br />
+            <b> Phone:</b> +91-9488978792
+            <br />
+            <b> Email: </b>technosoftware13@gmail.com
           </Col>
         </Row>
       </Container>

@@ -10,6 +10,10 @@ import Orders from "./components/orders";
 import Myorders from "./components/Myorders";
 import About from "./components/About";
 import Userlist from "./components/userlist";
+import Termsandconditions from "./components/termsandconditions";
+import Shippingpolicy from "./components/shippingpolicy";
+import Privacypolicy from "./components/privacypolicy";
+import Refundpolicy from "./components/refund-cancel";
 
 function App() {
   useEffect(() => {
@@ -33,6 +37,10 @@ function App() {
         <Route path="/myorders" element={<Myorders />} />
         <Route path="/about" element={<About />} />
         <Route path="/userlist" element={<Userlist />} />
+        <Route path="/termsandconditions" element={<Termsandconditions />} />
+        <Route path="/privacypolicy" element={<Privacypolicy />} />
+        <Route path="/refund-cancellation" element={<Refundpolicy />} />
+        <Route path="/shippingpolicy" element={<Shippingpolicy />} />
       </Routes>
     </div>
   );

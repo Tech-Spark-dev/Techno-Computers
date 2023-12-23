@@ -326,3 +326,11 @@ a {
     height: 60vh;
 
 }
+
+.custom-fixed-bottom {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+  /* Add any additional styles you want to keep */
+}
