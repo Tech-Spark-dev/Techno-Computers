@@ -12,12 +12,11 @@ connectDB();          //DB connection
 app.use(express.json()); // for getting json data from user
 
 const corsOptions = {
-  "Access-Control-Allow-Origin": "*",
   origin: [
     "http://localhost:3000",
     "https://techno-stage1.onrender.com",
     "https://technocomputers.onrender.com",
-    "https://technocomputers.org.in",
+    "https://www.technocomputers.org.in",
   ],
   credentials: true, //access-control-allow-credentials:true
   optionSuccessStatus: 200,
