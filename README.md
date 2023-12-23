@@ -1,3 +1,3 @@
 # Techno Computers
  
-https://technocomputers.onrender.com/
+https://technocomputers.org.in/
