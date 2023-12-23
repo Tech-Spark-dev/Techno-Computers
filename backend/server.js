@@ -16,7 +16,7 @@ const corsOptions = {
     "http://localhost:3000",
     "https://techno-stage1.onrender.com",
     "https://technocomputers.onrender.com",
-    "https://www.technocomputers.org.in",
+    "https://technocomputers.org.in",
   ],
   // credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus: 200,

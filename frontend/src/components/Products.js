@@ -16,6 +16,7 @@ import Loading from "./Loading";
 import { useLocation } from "react-router-dom";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import Footerpolicy from "./footerpolicy";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -378,6 +379,7 @@ const Products = () => {
             </Card>
           ))}
       </div>
+      {page * 12 > count && !loading && <Footerpolicy />}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Product</Modal.Title>
