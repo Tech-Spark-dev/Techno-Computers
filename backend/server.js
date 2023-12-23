@@ -18,7 +18,7 @@ const corsOptions = {
     "https://technocomputers.onrender.com",
     "https://technocomputers.org.in",
   ],
-  // credentials:true,            //access-control-allow-credentials:true
+  credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
