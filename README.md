@@ -10,4 +10,6 @@ Nodejs 20.9.0
 
 # How to run Docker
 
-`docker compose up -d`
+- `docker compose build`  
+- `docker compose up`  
+- `docker compose up -d`  
