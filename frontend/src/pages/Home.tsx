@@ -40,7 +40,7 @@ const Home = () => {
           email,
           password,
         },
-        config
+        // config
       );
       navigate("/products");
       localStorage.setItem("userInfo", JSON.stringify(data));
@@ -164,7 +164,7 @@ const Home = () => {
             </Row>
             <Row>
               <Col style={{ marginLeft: "10%", marginTop: "10%" }}>
-                <Link onClick={Guestuser}>Login as Guest</Link>
+                {/* <Link onClick={Guestuser}>Login as Guest</Link> */}
               </Col>
             </Row>
             <Row>

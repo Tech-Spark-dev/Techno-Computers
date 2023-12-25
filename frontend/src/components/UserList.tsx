@@ -19,7 +19,7 @@ const UserList = () => {
         config
       );
       const sortedData = response.data.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        // (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
       setUserlist(sortedData);
       setInitialLoad(true);
@@ -32,7 +32,7 @@ const UserList = () => {
   }
 
   const formatDate = (dateString:string) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
+    const options:any = { year: "numeric", month: "long", day: "numeric" };
     return new Intl.DateTimeFormat("en-US", options).format(
       new Date(dateString)
     );
@@ -48,7 +48,7 @@ const UserList = () => {
           </tr>
         </thead>
         <tbody>
-          {userlist.map((user) => (
+          {userlist.map((user:any) => (
             <tr key={user._id}>
               <td> {user.name}</td>
               <td>{user.email}</td>

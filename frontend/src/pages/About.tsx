@@ -9,7 +9,7 @@ const About = () => {
         <Row>
           <Col md={5}>
             <img
-              src="technoboard1.jpg"
+              src="images/technoboard1.jpg"
               alt="techno"
               className="productsimage"
             />

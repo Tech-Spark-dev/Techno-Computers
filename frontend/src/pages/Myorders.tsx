@@ -6,7 +6,7 @@ import { REACT_SERVER_URL } from "../config/ENV";
 import { Footer } from "../components";
 
 const Myorders = () => {
-  const [ordersummary, setOrdersummary] = useState([]);
+  const [ordersummary, setOrdersummary] = useState<any>([]);
 
   const userInfo = localStorage.getItem("userInfo") || "";
   const userInfoParsed = JSON.parse(userInfo);
@@ -35,7 +35,7 @@ const Myorders = () => {
   return (
     <div>
       <h1 className="page-header">My orders</h1>
-      {ordersummary.reverse().some((item) => item.ispaid !== "") ? (
+      {ordersummary.reverse().some((item:any) => item.ispaid !== "") ? (
         <Table striped bordered hover variant="light" style={{ width: "50%" }}>
           <thead>
             <tr>
@@ -48,7 +48,7 @@ const Myorders = () => {
             </tr>
           </thead>
           <tbody>
-            {ordersummary.map((item, index) => {
+            {ordersummary.map((item:any, index:number) => {
               const options = {
                 month: "short",
                 day: "numeric",
@@ -56,13 +56,13 @@ const Myorders = () => {
               };
               const formattedDate = new Date(item.createdAt).toLocaleDateString(
                 undefined,
-                options
+                // options
               );
               return (
                 <tr key={index}>
                   <td>{formattedDate}</td>
                   <td>
-                    {item.details.map((prod, i) => (
+                    {item.details.map((prod:any, i:number) => (
                       <span>
                         {prod.name}
                         {i !== item.details.length - 1 && <>,</>}

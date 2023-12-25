@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from "react";
 import axios from "axios";
-import { useState } from "react";
-import { useContext } from "react";
-import { Contextreact } from "../Context";
+import { useState } from "react"; 
+import { useProduct } from "../context/products-context";
+import { useCart } from "../context/cart-context";
 import { Button, Card, Form } from "react-bootstrap";
 // import { Link } from "react-router-dom";
 // import { GiClick } from "react-icons/gi";
@@ -19,12 +19,12 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { FooterPolicy } from "../components";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any>([]);
   const [filteredproducts, setFilteredproducts] = useState([]);
   const [show, setShow] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [image, setImage] = useState();
+  const [image, setImage] = useState<any>();
   const [page, setPage] = useState<number>(1);
   // const [trackpage,settrackpage] = useState(0);
   const [count, setCount] = useState<number>(0); //for storing the total products count
@@ -50,17 +50,14 @@ const Products = () => {
   if (guest === "guest@example.com") {
     guest_user = true;
   }
+  const { cart, CartDispatch, } = useCart();
 
-  const {
-    state: { cart },
-    dispatch,
-    productstate: { searchQuery, updatedproducts },
-  } = useContext(Contextreact);
-
+  const { products: productstate, ProductsDispatch } = useProduct();
+const searchQuery="";
   const transformProducts = useCallback(async () => {
     let sortedProducts = products;
 
-    if (searchQuery) {
+    if (productstate) {
       try {
         const response = await axios.get(
           `${REACT_SERVER_URL}/api/users/showproducts?search=${searchQuery}&limit=12`
@@ -73,7 +70,7 @@ const Products = () => {
     return sortedProducts;
   }, [products, searchQuery]);
 
-  const handleEdit = (product) => {
+  const handleEdit = (product:any) => {
     setSelectedProduct(product);
     setShow(true);
   };
@@ -116,16 +113,16 @@ const Products = () => {
         );
 
         const sortedProduct = response.data.products.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          // (a:any, b:any) => new Date(b.createdAt) - new Date(a.createdAt)
         );
 
         setCount(response.data.totalProductCount);
 
-        setProducts((prevProducts) => [...prevProducts, ...sortedProduct]);
+        setProducts((prevProducts:any) => [...prevProducts, ...sortedProduct]);
         setLoading(false);
         setInitialLoad(true);
         console.log(sortedProduct.length);
-      } catch (error) {
+      } catch (error:any) {
         console.log("Response Status:", error.response?.status);
         console.log("Response Data:", error.response?.data);
       }
@@ -136,15 +133,15 @@ const Products = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [page, updatedproducts, maxAvailablePage, initialLoad]);
+  }, [page, maxAvailablePage, initialLoad]);
 
-  const updateData = async (id) => {
+  const updateData = async (id:number) => {
     const update = await axios.put(
       `${REACT_SERVER_URL}/api/users/updateproducts/${id}`
     ); //update the availability of product
 
     if (update) {
-      const updatedProduct = products.map((prod) =>
+      const updatedProduct = products.map((prod:any) =>
         prod._id === id ? { ...prod, isavailable: !prod.isavailable } : prod
       );
       setProducts(updatedProduct);
@@ -156,6 +153,7 @@ const Products = () => {
       name: selectedProduct.name,
       price: selectedProduct.price,
       description: selectedProduct.description,
+      image:"",
     };
     // console.log(updatedProductInfo);
     let updatedImage = null;
@@ -168,8 +166,8 @@ const Products = () => {
       updatedProductInfo
     );
 
-    setProducts((prevproducts) => {
-      return prevproducts.map((prod) =>
+    setProducts((prevproducts:any) => {
+      return prevproducts.map((prod:any) =>
         prod._id === id ? { ...prod, ...updatedProductInfo } : prod
       );
     });
@@ -181,7 +179,7 @@ const Products = () => {
   const handleClose = () => {
     setShow(false);
   };
-  const handleNamechange = (e) => {
+  const handleNamechange = (e:any) => {
     setSelectedProduct({
       ...selectedProduct,
       name: e.target.value,
@@ -189,7 +187,7 @@ const Products = () => {
   };
   const cloudName = "dxhpxvyih";
 
-  const handleFileUpload = async (e) => {
+  const handleFileUpload = async (e:any) => {
     const file = e.target.files[0];
 
     if (file) {
@@ -224,14 +222,14 @@ const Products = () => {
   //   }
   // },[selectedProduct?.image,selectedProduct])
 
-  const handlePricechange = (e) => {
+  const handlePricechange = (e:any) => {
     setSelectedProduct({
       ...selectedProduct,
       price: e.target.value,
     });
   };
 
-  const handleDescriptionchange = (e) => {
+  const handleDescriptionchange = (e:any) => {
     setSelectedProduct({
       ...selectedProduct,
       description: e.target.value,
@@ -254,8 +252,8 @@ const Products = () => {
           console.error("Error deleting product:", error);
         }
         Swal.fire("Deleted!", "Your product has been deleted.", "success");
-        setProducts((prevproducts) => {
-          return prevproducts.filter((prod) => prod._id !== id);
+        setProducts((prevproducts:any) => {
+          return prevproducts.filter((prod:any) => prod._id !== id);
         });
       }
     });
@@ -280,10 +278,9 @@ const Products = () => {
       {loading && <Loading size={100} style={{ marginTop: "20%" }} />}
       <div className="productContainer">
         {filteredproducts.length > 0 &&
-          filteredproducts.map((product) => (
+          filteredproducts.map((product:any) => (
             <Card className="products" key={product._id}>
               <LazyLoadImage
-                variant="top"
                 src={product.image}
                 alt={product.name}
                 style={{ height: "300px", width: "100%", objectFit: "cover" }}
@@ -327,10 +324,10 @@ const Products = () => {
                   </div>
                 </Card.Subtitle>
 
-                {cart.some((p) => p._id === product._id) ? (
+                {cart.some((p:any) => p._id === product._id) ? (
                   <Button
                     onClick={() => {
-                      dispatch({
+                      CartDispatch({
                         type: "REMOVE_FROM_CART",
                         payload: product,
                       });
@@ -342,7 +339,7 @@ const Products = () => {
                 ) : (
                   <Button
                     onClick={() => {
-                      dispatch({
+                      CartDispatch({
                         type: "ADD_TO_CART",
                         payload: product,
                       });

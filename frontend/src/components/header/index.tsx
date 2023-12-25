@@ -11,14 +11,15 @@ import { ErrorMessage } from "../index";
 import "../../styles.css";
 import axios from "axios";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { Contextreact } from "../../Context";
+import { useCart } from "../../context/cart-context";
+import { useProduct } from "../../context/products-context";
 import { AiOutlineMenu } from "react-icons/ai";
 import { REACT_SERVER_URL } from "../../config/ENV";
 
 const Header = () => {
   const [show, setShow] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
+  const [price, setPrice] = useState<number|string>(0);
   const [image, setImage] = useState<string>("");
   const [isAvailable] = useState<boolean>(true);
   const [description, setDescription] = useState<string>("");
@@ -28,12 +29,9 @@ const Header = () => {
   const handlecloseCanvas = () => setCanvasshow(false);
   const handleshowCanvas = () => setCanvasshow(true);
 
-  const {
-    state: { cart },
-    dispatch,
-    productDispatch,
-  } = useContext(Contextreact);
+  const { cart, CartDispatch, } = useCart();
 
+  const { products, ProductsDispatch } = useProduct();
   const handleLogout = () => {
     localStorage.clear();
   };
@@ -84,7 +82,7 @@ const Header = () => {
     };
   }
 
-  const SubmitHandler = async (e) => {
+  const SubmitHandler = async (e:any) => {
     e.preventDefault();
 
     if (name === "" || price === "" || description === "") {
@@ -110,8 +108,8 @@ const Header = () => {
           config
         );
 
-        productDispatch({
-          type: "Update_Products",
+        ProductsDispatch({
+          type: "UPDATE_PRODUCTS",
           payload: data,
         });
 
@@ -150,8 +148,8 @@ const Header = () => {
               placeholder="Search a product"
               type="text"
               onChange={(e) => {
-                productDispatch({
-                  type: "search_product",
+                ProductsDispatch({
+                  type: "SEARCH_PRODUCT",
                   payload: e.target.value,
                 });
               }}
@@ -163,7 +161,7 @@ const Header = () => {
               to="/products"
               className="hover-effect"
               onClick={() =>
-                productDispatch({
+                ProductsDispatch({
                   type: "RESET_PRODUCTS",
                 })
               }
@@ -202,7 +200,7 @@ const Header = () => {
                 to="/home"
                 onClick={() => {
                   handleLogout();
-                  dispatch({
+                  CartDispatch({
                     type: "CLEAR_CART",
                   });
                 }}
@@ -218,11 +216,11 @@ const Header = () => {
           <Navbar.Brand>
             <Link to="/products" style={{ color: "white" }}>
               <img
-                src="techno_logo.png"
+                src="/images/techno_logo.png"
                 alt="techno"
                 style={{ width: "50%" }}
                 onClick={() =>
-                  productDispatch({
+                  ProductsDispatch({
                     type: "RESET_PRODUCTS",
                   })
                 }
@@ -237,8 +235,8 @@ const Header = () => {
               placeholder="Search a product"
               type="text"
               onChange={(e) => {
-                productDispatch({
-                  type: "search_product",
+                ProductsDispatch({
+                  type: "SEARCH_PRODUCT",
                   payload: e.target.value,
                 });
               }}
@@ -279,7 +277,7 @@ const Header = () => {
                   to="/home"
                   onClick={() => {
                     handleLogout();
-                    dispatch({
+                    CartDispatch({
                       type: "CLEAR_CART",
                     });
                   }}

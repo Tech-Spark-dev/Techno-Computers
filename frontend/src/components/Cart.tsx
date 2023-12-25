@@ -1,6 +1,6 @@
 import React from "react";
 import { useContext, useState, useEffect } from "react";
-import { Contextreact } from "../Context";
+import { useCart } from "../context/cart-context";
 import { Button, Col, Form, ListGroup, ModalFooter } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { AiFillDelete } from "react-icons/ai";
@@ -14,10 +14,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const {
-    state: { cart },
-    dispatch,
-  } = useContext(Contextreact);
+  const { cart, CartDispatch, } = useCart();
 
   const [name, setName] = useState<string>("");
   const [userid, setUserid] = useState<string>("");
@@ -54,7 +51,7 @@ const Cart = () => {
 
   useEffect(() => {
     const newTotal = cart.reduce(
-      (acc, current) => acc + Number(current.price) * current.qty,
+      (acc:any, current:any) => acc + Number(current.price) * current.qty,
       0
     );
     if (newTotal < 1000 && cart.length !== 0) {
@@ -80,7 +77,7 @@ const Cart = () => {
     setAddressid(address_id);
   }
 
-  const newDetails = cart.map((item) => ({
+  const newDetails = cart.map((item:any) => ({
     name: item.name,
     price: item.price,
     qty: item.qty,
@@ -103,7 +100,7 @@ const Cart = () => {
     )
   }
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e:any) => {
     e.preventDefault();
     if (
       street === "" ||
@@ -195,7 +192,7 @@ const Cart = () => {
               </h4>
             ) : (
               <ListGroup>
-                {cart.map((prod) => (
+                {cart.map((prod:any) => (
                   <ListGroup.Item key={prod._id}>
                     <Row>
                       <Col md={3}>
@@ -217,13 +214,10 @@ const Cart = () => {
                         <Form.Select
                           value={prod.qty}
                           onChange={(e) =>
-                            dispatch({
-                              type: "CHANGE_CART_QTY",
-                              payload: {
-                                id: prod._id,
-                                qty: e.target.value,
-                              },
-                            })
+                            CartDispatch({ type: 'CHANGE_CART_QTY', payload: {
+                              id: prod._id,
+                              qty: Number(e.target.value),
+                            } })
                           }
                         >
                           {[...Array(10).keys()].map((x) => (
@@ -234,7 +228,7 @@ const Cart = () => {
                       <Col md={2} className="cartbox">
                         <Button
                           onClick={() =>
-                            dispatch({
+                            CartDispatch({
                               type: "REMOVE_FROM_CART",
                               payload: prod,
                             })
@@ -420,7 +414,7 @@ const Cart = () => {
           <Button
             variant="success"
             onClick={() => {
-              dispatch({ type: "CLEAR_CART" });
+              CartDispatch({ type: "CLEAR_CART" });
               handleClose();
             }}
           >

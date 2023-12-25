@@ -51,13 +51,13 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {address.reverse().map((item, index) => (
+          {address.reverse().map((item:any, index) => (
             <tr key={item._id}>
               <td>{no + index}</td>
               <td hidden>{item.userid}</td>
               <td>{item.name}</td>
               <td>
-                {item.details.map((prod, i) => (
+                {item.details.map((prod:any, i:number) => (
                   <span key={prod.name}>
                     {prod.name} [{prod.qty}]
                     {i !== item.details.length - 1 && (
@@ -69,7 +69,7 @@ const Orders = () => {
                 ))}
               </td>
               <td>
-                {item.details.map((amount, i) => (
+                {item.details.map((amount:any, i:number) => (
                   <span key={amount.price}>
                     {amount.price}.00 [{amount.qty}]
                     {i !== item.details.length - 1 && (
@@ -81,7 +81,7 @@ const Orders = () => {
                 ))}
               </td>
               <td>
-                {item.details.reduce((total, quantity) => total + quantity.qty, 0)}
+                {item.details.reduce((total:number, quantity:any) => total + quantity.qty, 0)}
               </td>
               <td>{item.total.toLocaleString()}.00</td>
               <td>{item.street}</td>
