@@ -1,7 +1,7 @@
 import React from "react";
-import Footer from "./Footer";
 import { Col, Container, Row } from "react-bootstrap";
 import "../styles.css";
+import Footerpolicy from "./footerpolicy";
 
 const About = () => {
   return (
@@ -29,7 +29,7 @@ const About = () => {
               in Thammathu Konam, Nagercoil-4, serving the local community.{" "}
             </p>
             <br></br>
-            <b> Address:</b> Thammathu Konam (Near Golden Bakery), Nagercoil -4. 
+            <b> Address:</b> Thammathu Konam (Near Golden Bakery), Nagercoil -4.
             <br />
             <b> Phone:</b> +91-9488978792
             <br />
@@ -37,7 +37,9 @@ const About = () => {
           </Col>
         </Row>
       </Container>
-      <Footer />
+      <div className="custom-fixed-bottom" style={{ position: "fixed" }}>
+        <Footerpolicy />
+      </div>
     </div>
   );
 };
