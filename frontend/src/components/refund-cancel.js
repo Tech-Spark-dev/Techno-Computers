@@ -36,11 +36,18 @@ const Refundpolicy = () => {
             you. All products listed under a particular category may not have
             the same returns policy. For all products, the returns/replacement
             policy provided on the product page shall prevail over the general
-            returns policy. Do refer the respective item's applicable
-            return/replacement policy on the product page for any exceptions to
-            this returns policy and the table below The return policy is divided
-            into three parts; Do read all sections carefully to understand the
-            conditions and cases under which returns will be accepted.
+            returns policy. We accept returns within 5 days of the original
+            purchase date. To be eligible for a return, your item must be
+            unused, in the same condition that you received it, and in the
+            original packaging. Once your return is received and inspected, we
+            will send you an email to notify you that we have received your
+            returned item. We will also notify you of the approval or rejection
+            of your refund. If your return is approved, the refund will be
+            processed, and a credit will automatically be applied to your
+            original method of payment within 5 days. We only replace items if
+            they are defective or damaged. If you need to exchange an item for
+            the same product, please contact our customer service team at
+            [technosoftware13@gmail.com].
           </Col>
         </Row>
         <br />

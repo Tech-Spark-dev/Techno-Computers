@@ -11,7 +11,7 @@ const Shippingpolicy = () => {
           <Col md={10}>
             <br />
             <br />
-            <b> 1. What are the delivery charges? </b>6
+            <b> 1. What are the delivery charges? </b>
             <br />
             <br />
             Delivery charge varies with each Seller. Sellers incur relatively
@@ -27,7 +27,7 @@ const Shippingpolicy = () => {
             <br />
             <br />
             Sellers generally procure and ship the items within the time
-            specified on the product page. Business days exclude public holidays
+            specified on the product page. Normally it will take 5 Business days exclude public holidays
             and Sundays. Estimated delivery time depends on the following
             factors: The Seller offering the product Product's availability with
             the Seller The destination to which you want the order shipped to
