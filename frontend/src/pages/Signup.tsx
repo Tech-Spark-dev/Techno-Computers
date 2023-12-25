@@ -7,10 +7,10 @@ import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Loading from "./Loading";
-import ErrorMessage from "./ErrorMessage";
-import {REACT_SERVER_URL} from '../configs/ENV'
-import Footer from './Footer';
+import {Loading} from "../components/index";
+import ErrorMessage from "../components/errors/ErrorMessage";
+import {REACT_SERVER_URL} from '../config/ENV'
+import {Footer} from '../components/index';
 
 
 const Signup = () => {

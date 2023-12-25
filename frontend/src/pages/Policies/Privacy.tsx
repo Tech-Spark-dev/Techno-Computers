@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, Container, Row } from "react-bootstrap";
-import Footerpolicy from './footerpolicy';
+import {FooterPolicy} from '../../components';
 
-const Privacypolicy = () => {
+const PrivacyPolicy = () => {
   return (
     <div>
       <h1 className="page-header">Privacy Policy</h1>
@@ -70,10 +70,10 @@ const Privacypolicy = () => {
         <br />
       </Container>
       <div className="custom-fixed-bottom">
-        <Footerpolicy />
+        <FooterPolicy />
       </div>
     </div>
   );
 }
 
-export default Privacypolicy;
+export default PrivacyPolicy;

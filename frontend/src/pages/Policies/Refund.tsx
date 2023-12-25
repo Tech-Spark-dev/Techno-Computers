@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, Container, Row } from "react-bootstrap";
-import Footerpolicy from "./footerpolicy";
+import {FooterPolicy} from "../../components";
 
-const Refundpolicy = () => {
+const RefundPolicy = () => {
   return (
     <div>
       <h1 className="page-header">Refund & Cancellation Policy</h1>
@@ -46,10 +46,10 @@ const Refundpolicy = () => {
         <br />
       </Container>
       <div className="custom-fixed-bottom">
-        <Footerpolicy />
+        <FooterPolicy />
       </div>
     </div>
   );
 }
 
-export default Refundpolicy;
+export default RefundPolicy;

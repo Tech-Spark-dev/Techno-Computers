@@ -5,11 +5,11 @@ import { Button, Col, Form, ListGroup, ModalFooter } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { AiFillDelete } from "react-icons/ai";
 import Image from "react-bootstrap/Image";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "./errors/ErrorMessage";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
-import { REACT_SERVER_URL } from "../configs/ENV";
-import Footer from "./Footer";
+import { REACT_SERVER_URL } from "../config/ENV";
+import {Footer} from "./index";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 

@@ -6,17 +6,17 @@ import { Contextreact } from "../Context";
 import { Button, Card, Form } from "react-bootstrap";
 // import { Link } from "react-router-dom";
 // import { GiClick } from "react-icons/gi";
-import { REACT_SERVER_URL } from "../configs/ENV";
+import { REACT_SERVER_URL } from "../config/ENV";
 import { AiFillInfoCircle } from "react-icons/ai";
 // import {GrFormPrevious,GrFormNext} from "react-icons/gr";
 import Swal from "sweetalert2";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 import { useLocation } from "react-router-dom";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import Footerpolicy from "./footerpolicy";
+import {FooterPolicy} from "../components";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -379,7 +379,7 @@ const Products = () => {
             </Card>
           ))}
       </div>
-      {page * 12 > count && !loading && <Footerpolicy />}
+      {page * 12 > count && !loading && <FooterPolicy />}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Product</Modal.Title>

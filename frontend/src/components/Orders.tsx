@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 // import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import {REACT_SERVER_URL} from '../configs/ENV'
-import Footer from './Footer';
+import {REACT_SERVER_URL} from '../config/ENV'
+import {Footer} from './index';
 
 const Orders = () => {
   const [address, setAddress] = useState([]);

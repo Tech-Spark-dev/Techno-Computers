@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { REACT_SERVER_URL } from "../configs/ENV";
+import { REACT_SERVER_URL } from "../config/ENV";
 import axios from "axios";
 import { Table } from "react-bootstrap";
 
-const Userlist = () => {
+const UserList = () => {
   const [userlist, setUserlist] = useState([]);
   const [initialLoad, setInitialLoad] = useState(false);
 
@@ -61,4 +61,4 @@ const Userlist = () => {
   );
 };
 
-export default Userlist;
+export default UserList;

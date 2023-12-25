@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Container, Row } from "react-bootstrap";
-import Footerpolicy from "./footerpolicy";
+import {FooterPolicy} from "../../components";
 
 const Shippingpolicy = () => {
   return (
@@ -48,7 +48,7 @@ const Shippingpolicy = () => {
         <br />
       </Container>
       <div className="custom-fixed-bottom" >
-        <Footerpolicy />
+        <FooterPolicy />
       </div>
     </div>
   );

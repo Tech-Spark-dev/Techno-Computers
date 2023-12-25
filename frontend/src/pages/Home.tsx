@@ -7,14 +7,14 @@ import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Loading from "./Loading";
-import ErrorMessage from "./ErrorMessage";
+import Loading from "../components/Loading";
+import ErrorMessage from "../components/errors/ErrorMessage";
 import "../styles.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { REACT_SERVER_URL } from "../configs/ENV";
-import Footer from "./Footer";
+import { REACT_SERVER_URL } from "../config/ENV";
+import {Footer} from "../components";
 
 const Home = () => {
   const [email, setEmail] = useState("");

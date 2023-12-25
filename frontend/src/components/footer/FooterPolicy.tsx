@@ -3,7 +3,7 @@ import {  Navbar, Nav } from "react-bootstrap";
 import "../styles.css";
 import { Link } from "react-router-dom";
 
-const Footerpolicy = () => {
+const FooterPolicy = () => {
   return (
     <div>
       <Navbar bg="light" variant="light" className="custom-fixed-bottom">
@@ -33,4 +33,4 @@ const Footerpolicy = () => {
   ); 
 }
 
-export default Footerpolicy;
+export default FooterPolicy;

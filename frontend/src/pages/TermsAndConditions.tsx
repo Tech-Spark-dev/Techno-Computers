@@ -1,10 +1,10 @@
 import React from 'react';
 import { Col, Container, Row } from "react-bootstrap";
-import Footerpolicy from './footerpolicy';
+import {FooterPolicy} from '../components';
 import "../styles.css";
 
 
-const Termsandconditions = () => {
+const TermsAndConditions = () => {
   return (
     <div>
       <h1 className="page-header">Terms and Conditions</h1>
@@ -50,10 +50,10 @@ const Termsandconditions = () => {
         </Row>
       </Container>
       <div className="custom-fixed-bottom" style={{position:'fixed'}}>
-        <Footerpolicy />
+        <FooterPolicy />
       </div>
     </div>
   );
 }
 
-export default Termsandconditions;
+export default TermsAndConditions;

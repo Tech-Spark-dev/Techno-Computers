@@ -1,19 +1,19 @@
 import { Route, Routes } from "react-router-dom";
-import Header from "./components/Header";
-import Cart from "./components/Cart";
-import Home from "./components/Home";
-import Signup from "./components/Signup";
+import {Header} from "./components";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Products from "./components/Products";
-import Orders from "./components/orders";
-import Myorders from "./components/Myorders";
-import About from "./components/About";
-import Userlist from "./components/userlist";
-import Termsandconditions from "./components/termsandconditions";
-import Shippingpolicy from "./components/shippingpolicy";
-import Privacypolicy from "./components/privacypolicy";
-import Refundpolicy from "./components/refund-cancel";
+import Products from "./pages/Products";
+import About from "./pages/About";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/Policies/Privacy";
+import Cart from "./components/Cart";
+import Home from "./pages/Home";
+import Signup from "./pages/Signup";
+import Orders from "./components/Orders";
+import Myorders from "./pages/Myorders";
+import UserList from "./components/UserList";
+import Shippingpolicy from "./pages/Policies/Shipping";
+import Refundpolicy from "./pages/Policies/Refund";
 
 function App() {
   useEffect(() => {
@@ -36,9 +36,9 @@ function App() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/myorders" element={<Myorders />} />
         <Route path="/about" element={<About />} />
-        <Route path="/userlist" element={<Userlist />} />
-        <Route path="/termsandconditions" element={<Termsandconditions />} />
-        <Route path="/privacypolicy" element={<Privacypolicy />} />
+        <Route path="/userlist" element={<UserList />} />
+        <Route path="/termsandconditions" element={<TermsAndConditions />} />
+        <Route path="/privacypolicy" element={<PrivacyPolicy />} />
         <Route path="/refund-cancellation" element={<Refundpolicy />} />
         <Route path="/shippingpolicy" element={<Shippingpolicy />} />
       </Routes>
