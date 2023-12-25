@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    ports:
+      - "5000:5000"
+    networks:
+      - my-network
+    volumes:
+      - ./backend:/app:delegated
+      - /backend/node_modules
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:80"
+    networks:
+      - my-network
+
+#   mongo:
+#     image: mongo
+#     container_name: app_mongo
+#     restart: always
+#     ports:
+#       - 27017:27017
+#     volumes:
+#       - ~/mongo:/data/db
+
+# volumes:
+#   mongodb:
+
+networks:
+  my-network:
+    driver: bridge
