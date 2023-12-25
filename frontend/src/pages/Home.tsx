@@ -74,14 +74,14 @@ const Home = () => {
 
   const images = [
     // 'techno1.jpg',
-    "techno2.jpg",
-    "techno3.jpg",
-    "techno6.jpg",
-    "techno9.jpg",
-    "techno7.jpg",
-    "technoservice.jpg",
-    "technosales.jpg",
-    "technoser.jpg",
+    "images/techno2.jpg",
+    "images/techno3.jpg",
+    "images/techno6.jpg",
+    "images/techno9.jpg",
+    "images/techno7.jpg",
+    "images/technoservice.jpg",
+    "images/technosales.jpg",
+    "images/technoser.jpg",
     // Add more image paths as needed
   ];
 

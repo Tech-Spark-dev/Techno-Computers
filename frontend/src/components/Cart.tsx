@@ -387,7 +387,7 @@ const Cart = () => {
             <Col md={6}>
               <img
                 alt="upiid"
-                src="upitechno_gpay.jpeg"
+                src="images/upitechno_gpay.jpeg"
                 className="img-fluid"
                 style={{ height: "300px" }}
               />
