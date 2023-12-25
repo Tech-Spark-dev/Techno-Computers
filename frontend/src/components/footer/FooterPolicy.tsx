@@ -1,7 +1,6 @@
-import React from 'react';
-import {  Navbar, Nav } from "react-bootstrap";
-import "../styles.css";
 import { Link } from "react-router-dom";
+import { Navbar, Nav } from "react-bootstrap";
+import "../styles.css";
 
 const FooterPolicy = () => {
   return (
@@ -30,7 +29,7 @@ const FooterPolicy = () => {
         </Nav>
       </Navbar>
     </div>
-  ); 
+  );
 }
 
 export default FooterPolicy;

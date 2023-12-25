@@ -5,27 +5,27 @@ import { useState } from "react";
 import { Button, Form, InputGroup } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosHeaders, AxiosRequestHeaders } from "axios";
 import { useNavigate } from "react-router-dom";
-import Loading from "../components/Loading";
+import { Loading } from "../components";
 import ErrorMessage from "../components/errors/ErrorMessage";
 import "../styles.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { REACT_SERVER_URL } from "../config/ENV";
-import {Footer} from "../components";
+import { Footer } from "../components";
 
 const Home = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordtype, setPasswordtype] = useState("password");
-  const [error, setError] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordtype, setPasswordtype] = useState<string>("password");
+  const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const SubmitHandler = async (e) => {
+  const SubmitHandler = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const config = {
@@ -47,15 +47,15 @@ const Home = () => {
       setLoading(false);
       setError(false);
       setErrorMessage("");
-    } catch (error) {
-      let message = error?.response?.data?.message;
+    } catch (error: any) {
+      let message = error?.response?.data?.message || "";
       setError(true);
       setErrorMessage(message ? message : error.message); //error.message - frontend error
       setLoading(false);
     }
   };
 
-  const Guestuser = (e) => {
+  const Guestuser = (e: React.MouseEvent) => {
     e.preventDefault();
     const Guestdata = {
       name: "Guest User",

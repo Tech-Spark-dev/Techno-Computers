@@ -1,6 +1,5 @@
-import React from 'react';
 import { Col, Container, Row } from "react-bootstrap";
-import {FooterPolicy} from '../components';
+import { FooterPolicy } from '../components';
 import "../styles.css";
 
 
@@ -49,7 +48,7 @@ const TermsAndConditions = () => {
           </Col>
         </Row>
       </Container>
-      <div className="custom-fixed-bottom" style={{position:'fixed'}}>
+      <div className="custom-fixed-bottom" style={{ position: 'fixed' }}>
         <FooterPolicy />
       </div>
     </div>

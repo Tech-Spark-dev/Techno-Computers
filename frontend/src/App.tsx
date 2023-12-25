@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import {Header} from "./components";
+import { Header } from "./components";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Products from "./pages/Products";

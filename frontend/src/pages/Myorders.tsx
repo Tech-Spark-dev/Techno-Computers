@@ -3,17 +3,17 @@ import { Table } from "react-bootstrap";
 import axios from "axios";
 import { useState } from "react";
 import { REACT_SERVER_URL } from "../config/ENV";
-import {Footer} from "../components";
+import { Footer } from "../components";
 
 const Myorders = () => {
   const [ordersummary, setOrdersummary] = useState([]);
 
-  const userInfo = localStorage.getItem("userInfo");
+  const userInfo = localStorage.getItem("userInfo") || "";
   const userInfoParsed = JSON.parse(userInfo);
   const userid = userInfoParsed._id;
 
   useEffect(() => {
-    const orderSummary = async (userid) => {
+    const orderSummary = async (userid: number) => {
       try {
         const config = {
           headers: {

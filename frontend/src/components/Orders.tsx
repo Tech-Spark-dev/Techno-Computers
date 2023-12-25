@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 // import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import {REACT_SERVER_URL} from '../config/ENV'
-import {Footer} from './index';
+import { REACT_SERVER_URL } from '../config/ENV'
+import { Footer } from './index';
 
 const Orders = () => {
   const [address, setAddress] = useState([]);
@@ -81,7 +81,7 @@ const Orders = () => {
                 ))}
               </td>
               <td>
-                 {item.details.reduce((total, quantity) => total + quantity.qty, 0)}   
+                {item.details.reduce((total, quantity) => total + quantity.qty, 0)}
               </td>
               <td>{item.total.toLocaleString()}.00</td>
               <td>{item.street}</td>
@@ -109,7 +109,7 @@ const Orders = () => {
           ))}
         </tbody>
       </Table>
-      <Footer/>
+      <Footer />
     </>
   );
 };

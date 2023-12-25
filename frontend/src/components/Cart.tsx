@@ -9,7 +9,7 @@ import ErrorMessage from "./errors/ErrorMessage";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { REACT_SERVER_URL } from "../config/ENV";
-import {Footer} from "./index";
+import { Footer } from "./index";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -19,26 +19,26 @@ const Cart = () => {
     dispatch,
   } = useContext(Contextreact);
 
-  const [name, setName] = useState("");
-  const [userid, setUserid] = useState("");
-  const [total, setTotal] = useState();
-  const [show, setShow] = useState(false);
-  const [address, setAddress] = useState(false);
-  const [street, setStreet] = useState("");
-  const [place, setPlace] = useState("");
-  const [district, setDistrict] = useState("");
-  const [state, setState] = useState("");
-  const [phonenumber, setPhonenumber] = useState("");
-  const [city, setCity] = useState("");
-  const [landmark, setLandmark] = useState("");
-  const [errormessage, setErrorMessage] = useState("");
-  const [addressid, setAddressid] = useState("");
+  const [name, setName] = useState<string>("");
+  const [userid, setUserid] = useState<string>("");
+  const [total, setTotal] = useState<number>();
+  const [show, setShow] = useState<boolean>(false);
+  const [address, setAddress] = useState<boolean>(false);
+  const [street, setStreet] = useState<string>("");
+  const [place, setPlace] = useState<string>("");
+  const [district, setDistrict] = useState<string>("");
+  const [state, setState] = useState<string>("");
+  const [phonenumber, setPhonenumber] = useState<string>("");
+  const [city, setCity] = useState<string>("");
+  const [landmark, setLandmark] = useState<string>("");
+  const [errormessage, setErrorMessage] = useState<string>("");
+  const [addressid, setAddressid] = useState<string>("");
   const [paymentmodel, setPaymentmodel] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userInfo = localStorage.getItem("userInfo");
+    const userInfo: string = localStorage.getItem("userInfo") || "";
     const userInfoParsed = JSON.parse(userInfo);
     const username = userInfoParsed.name;
     setName(username);
@@ -74,7 +74,7 @@ const Cart = () => {
   // };
 
   function getaddressId() {
-    const addressInfo = localStorage.getItem("address");
+    const addressInfo: string = localStorage.getItem("address") || "";
     const addressInfoParsed = JSON.parse(addressInfo);
     const address_id = addressInfoParsed._id;
     setAddressid(address_id);
@@ -86,7 +86,7 @@ const Cart = () => {
     qty: item.qty,
   }));
 
-  const checkUser = ()=>{
+  const checkUser = () => {
     if (userid === "23011998") {
       Swal.fire({
         icon: "error",
@@ -98,14 +98,14 @@ const Cart = () => {
         }
       });
     }
-    else(
+    else (
       setShow(true)
     )
   }
 
   const submitHandler = async (e) => {
     e.preventDefault();
-  if (
+    if (
       street === "" ||
       phonenumber === "" ||
       state === "" ||
@@ -143,14 +143,15 @@ const Cart = () => {
         setAddress(true);
         handleClose();
         getaddressId();
-      } catch (error) {
-        setErrorMessage(error.message);
+      } catch (error: any) {
+        const err = error.message || ""
+        setErrorMessage(err);
       }
     }
   };
 
-  const handlePay = (e) => {
-    if (total === "") {
+  const handlePay = (e: React.MouseEvent) => {
+    if (total === 0) {
       alert("Please select products!");
     } else {
       // var options = {
@@ -394,7 +395,6 @@ const Cart = () => {
                 alt="upiid"
                 src="upitechno_gpay.jpeg"
                 className="img-fluid"
-                rounded
                 style={{ height: "300px" }}
               />
             </Col>

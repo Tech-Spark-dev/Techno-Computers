@@ -7,23 +7,23 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
 import { useContext, useState } from "react";
 import { Form } from "react-bootstrap";
-import ErrorMessage from "./ErrorMessage";
+import { ErrorMessage } from "../index";
 import "../styles.css";
 import axios from "axios";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { Contextreact } from "../Context";
+import { Contextreact } from "../../Context";
 import { AiOutlineMenu } from "react-icons/ai";
-import { REACT_SERVER_URL } from "../configs/ENV";
+import { REACT_SERVER_URL } from "../../config/ENV";
 
 const Header = () => {
-  const [show, setShow] = useState(false);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [image, setImage] = useState();
-  const [isAvailable] = useState(true);
-  const [description, setDescription] = useState("");
-  const [errormessage, setErrorMessage] = useState("");
-  const [canvasshow, setCanvasshow] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
+  const [price, setPrice] = useState<number>(0);
+  const [image, setImage] = useState<string>("");
+  const [isAvailable] = useState<boolean>(true);
+  const [description, setDescription] = useState<string>("");
+  const [errormessage, setErrorMessage] = useState<string>("");
+  const [canvasshow, setCanvasshow] = useState<boolean>(false);
 
   const handlecloseCanvas = () => setCanvasshow(false);
   const handleshowCanvas = () => setCanvasshow(true);
@@ -42,44 +42,47 @@ const Header = () => {
   const handleClose = () => {
     setShow(false);
     setName("");
-    setPrice("");
+    setPrice(0);
     setDescription("");
     setErrorMessage("");
   };
   const handleShow = () => setShow(true);
 
-  const userInfo = localStorage.getItem("userInfo");
+  const userInfo: string = localStorage.getItem("userInfo") || "";
   const userInfoParsed = JSON.parse(userInfo);
   const isAdmin = userInfoParsed.isAdmin;
   const userName = userInfoParsed.name;
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
 
-    if (file) {
-      try {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "Techno_computers");
+      if (file) {
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+          formData.append("upload_preset", "Techno_computers");
 
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-          {
-            method: "POST",
-            body: formData,
+          const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            const imageUrl = data.secure_url;
+            setImage(imageUrl);
           }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          const imageUrl = data.secure_url;
-          setImage(imageUrl);
+        } catch (error) {
+          console.error("Error uploading image:", error);
         }
-      } catch (error) {
-        console.error("Error uploading image:", error);
       }
-    }
-  };
+    };
+  }
 
   const SubmitHandler = async (e) => {
     e.preventDefault();

@@ -12,24 +12,24 @@ import { AiFillInfoCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
-import Loading from "../components/Loading";
+import { Loading } from "../components";
 import { useLocation } from "react-router-dom";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import {FooterPolicy} from "../components";
+import { FooterPolicy } from "../components";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [filteredproducts, setFilteredproducts] = useState([]);
   const [show, setShow] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [image, setImage] = useState();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
   // const [trackpage,settrackpage] = useState(0);
-  const [count, setCount] = useState(true); //for storing the total products count
+  const [count, setCount] = useState<number>(0); //for storing the total products count
   const location = useLocation();
-  const [initialLoad, setInitialLoad] = useState(false); //to avoid unwanted duplications on initial load
+  const [initialLoad, setInitialLoad] = useState<boolean>(false); //to avoid unwanted duplications on initial load
 
   if (location.pathname === "/") {
     const Guestdata = {
@@ -41,7 +41,7 @@ const Products = () => {
     localStorage.setItem("userInfo", JSON.stringify(Guestdata));
   }
 
-  const userInfo = localStorage.getItem("userInfo");
+  const userInfo = localStorage.getItem("userInfo") || "";
   const userInfoParsed = JSON.parse(userInfo);
   const isAdmin = userInfoParsed.isAdmin;
 
@@ -94,7 +94,7 @@ const Products = () => {
         page < maxAvailablePage &&
         initialLoad &&
         window.innerHeight + document.documentElement.scrollTop + 500 >=
-          document.documentElement.offsetHeight
+        document.documentElement.offsetHeight
       ) {
         setPage((prevPage) => prevPage + 1);
         setInitialLoad(false); //to avoid the initial duplication of requests
@@ -151,7 +151,7 @@ const Products = () => {
     }
   };
 
-  const updateProduct = async (id) => {
+  const updateProduct = async (id: number) => {
     const updatedProductInfo = {
       name: selectedProduct.name,
       price: selectedProduct.price,
@@ -237,7 +237,7 @@ const Products = () => {
       description: e.target.value,
     });
   };
-  const removeData = async (id) => {
+  const removeData = async (id: number) => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -354,8 +354,8 @@ const Products = () => {
                     {product.isavailable && !isAdmin
                       ? "Add to cart"
                       : isAdmin
-                      ? "Out of Stock"
-                      : "Sold Out"}
+                        ? "Out of Stock"
+                        : "Sold Out"}
                   </Button>
                 )}
                 {isAdmin && (

@@ -1,6 +1,5 @@
-import React from 'react';
+import { SiLinkedin } from "react-icons/si";
 import "../styles.css";
-import { SiLinkedin } from "react-icons/si"; // Import the icons
 
 const Footer = () => {
   return (
