@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const addressSchema = mongoose.Schema(
   {
-    userid:{
-      type:String,
-      required:true,
+    userid: {
+      type: String,
+      required: true,
     },
-    name:{
+    name: {
       type: String,
       required: true,
     },
@@ -22,9 +22,9 @@ const addressSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    phonenumber:{
-      type:String,
-      required:true,
+    phonenumber: {
+      type: String,
+      required: true,
     },
     district: {
       type: String,
@@ -34,30 +34,30 @@ const addressSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    landmark:{
-        type:String,
-        required:false
+    landmark: {
+      type: String,
+      required: false
     },
-    total:{
-      type:Number,
-      required:true
+    total: {
+      type: Number,
+      required: true
     },
-    ispaid:{
-        type:String,
-        required:true,
-        default:0
+    ispaid: {
+      type: String,
+      required: true,
+      default: 0
     },
-  details:[{
-    name:String,
-    price:Number,
-    qty:Number,
-  }],
+    details: [{
+      name: String,
+      price: Number,
+      qty: Number,
+    }],
   },
   {
     timestamps: true,
   }
 );
 
-const AddressModel = mongoose.model('address_cart',addressSchema);
+const AddressModel = mongoose.model('address_cart', addressSchema);
 
 module.exports = AddressModel;
