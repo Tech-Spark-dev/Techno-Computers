@@ -8,7 +8,7 @@ import Modal from "react-bootstrap/Modal";
 import { useContext, useState } from "react";
 import { Form } from "react-bootstrap";
 import { ErrorMessage } from "../index";
-import "../styles.css";
+import "../../styles.css";
 import axios from "axios";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { Contextreact } from "../../Context";

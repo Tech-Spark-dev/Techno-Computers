@@ -1,5 +1,5 @@
 import { SiLinkedin } from "react-icons/si";
-import "../styles.css";
+import "../../styles.css";
 
 const Footer = () => {
   return (

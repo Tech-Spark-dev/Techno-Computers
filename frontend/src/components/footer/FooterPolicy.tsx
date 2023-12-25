@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
-import "../styles.css";
+import "../../styles.css";
 
 const FooterPolicy = () => {
   return (
