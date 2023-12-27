@@ -160,7 +160,7 @@ const Cart = () => {
       var options = {
         key: "rzp_live_aPG4BNzqxBZR3n",
         key_secret: "EfcmXIDEakJYOTBALhf0J4t7",
-        amount: 1 * 100,
+        amount: Number(total) * 100,
         currency: "INR",
         name: name,
         description: "Live_payment",
