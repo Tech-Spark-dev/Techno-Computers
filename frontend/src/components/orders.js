@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import {REACT_SERVER_URL} from '../configs/ENV'
 import Footer from './Footer';
+import { Button } from "react-bootstrap";
 
 const Orders = () => {
   const [address, setAddress] = useState([]);
@@ -29,6 +30,7 @@ const Orders = () => {
     };
     fetchOrders();
   }, [address]);
+  
   return (
     <>
       <Table striped bordered hover variant="light">
@@ -36,6 +38,7 @@ const Orders = () => {
           <tr>
             <th>Sl.No.</th>
             <th hidden>User ID:</th>
+            <th>Date</th>
             <th>Name</th>
             <th>Products</th>
             <th>Price:</th>
@@ -47,7 +50,7 @@ const Orders = () => {
             <th>State</th>
             <th>Landmark</th>
             <th>Phone Number</th>
-            {/* <th>Status</th> */}
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -55,6 +58,7 @@ const Orders = () => {
             <tr key={item._id}>
               <td>{no + index}</td>
               <td hidden>{item.userid}</td>
+              <td>{new Date(item.createdAt).toLocaleDateString()}</td>
               <td>{item.name}</td>
               <td>
                 {item.details.map((prod, i) => (
@@ -81,7 +85,10 @@ const Orders = () => {
                 ))}
               </td>
               <td>
-                 {item.details.reduce((total, quantity) => total + quantity.qty, 0)}   
+                {item.details.reduce(
+                  (total, quantity) => total + quantity.qty,
+                  0
+                )}
               </td>
               <td>{item.total.toLocaleString()}.00</td>
               <td>{item.street}</td>
@@ -90,8 +97,8 @@ const Orders = () => {
               <td>{item.state}</td>
               <td>{item.landmark}</td>
               <td>{item.phonenumber}</td>
-              {/* <td>
-                {item.ispaid !=='0' ? (
+              <td>
+                {item.ispaid !== "0" ? (
                   <Button
                     variant="success"
                     title={item.ispaid}
@@ -104,12 +111,12 @@ const Orders = () => {
                     Not Paid
                   </Button>
                 )}
-              </td> */}
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
-      <Footer/>
+      <Footer />
     </>
   );
 };

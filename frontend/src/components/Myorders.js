@@ -44,7 +44,7 @@ const Myorders = () => {
               <th hidden>User ID:</th>
               <th> Total Amount</th>
               <th>Delivery Address</th>
-              {/* <th>Status</th> */}
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -75,7 +75,7 @@ const Myorders = () => {
                     {item.street},{item.place},{item.city},{item.state},
                     {item.district}
                   </td>
-                  {/* <td>{item.ispaid !== "0" ? "Paid" : "Not Paid"}</td> */}
+                  <td>{item.ispaid !== "0" ? "Paid" : "Not Paid"}</td>
                 </tr>
               );
             })}

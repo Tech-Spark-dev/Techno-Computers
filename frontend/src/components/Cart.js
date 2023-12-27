@@ -13,6 +13,7 @@ import Footer from "./Footer";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
+
 const Cart = () => {
   const {
     state: { cart },
@@ -20,6 +21,7 @@ const Cart = () => {
   } = useContext(Contextreact);
 
   const [name, setName] = useState("");
+  const [email,setEmail] = useState('');
   const [userid, setUserid] = useState("");
   const [total, setTotal] = useState();
   const [show, setShow] = useState(false);
@@ -33,7 +35,7 @@ const Cart = () => {
   const [landmark, setLandmark] = useState("");
   const [errormessage, setErrorMessage] = useState("");
   const [addressid, setAddressid] = useState("");
-  const [paymentmodel, setPaymentmodel] = useState(false);
+  // const [paymentmodel, setPaymentmodel] = useState(false);
 
   const navigate = useNavigate();
 
@@ -44,12 +46,14 @@ const Cart = () => {
     setName(username);
     const id = userInfoParsed._id;
     setUserid(id);
+     const email = userInfoParsed.email;
+     setEmail(email);
   }, [userid]);
 
   const handleClose = () => {
     setShow(false);
     setErrorMessage("");
-    setPaymentmodel(false);
+    // setPaymentmodel(false);
   };
 
   useEffect(() => {
@@ -62,17 +66,17 @@ const Cart = () => {
     } else setTotal(newTotal);
   }, [cart]);
 
-  // const updatePayment = async (id, payment_id) => {
-  //   try {
-  //     await axios.put(`${REACT_SERVER_URL}/api/users/payment/${id}`, {
-  //       razorpay_payment_id: payment_id,
-  //     });
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     setErrorMessage(error.message);
-  //   }
-  // };
-
+  const updatePayment = async (id, payment_id) => {
+    try {
+      await axios.put(`${REACT_SERVER_URL}/api/users/payment/${id}`, {
+        razorpay_payment_id: payment_id,
+      });
+    } catch (error) {
+      console.log(error.message);
+      setErrorMessage(error.message);
+    }
+  };
+  
   function getaddressId() {
     const addressInfo = localStorage.getItem("address");
     const addressInfoParsed = JSON.parse(addressInfo);
@@ -153,34 +157,35 @@ const Cart = () => {
     if (total === "") {
       alert("Please select products!");
     } else {
-      // var options = {
-      //   key: "rzp_test_NJFXSw0fIlBdTh",
-      //   key_secret: "uQzN9YXbDStqtE2eZX2miynf",
-      //   amount: Number(total) * 100,
-      //   currency: "INR",
-      //   name: "ivin",
-      //   description: "Testing_Demo",
-      //   handler: function (response) {
-      //     updatePayment(addressid, response.razorpay_payment_id);
-      //     dispatch({
-      //       type:'CLEAR_CART'
-      //     })
-      //   },
-      //   prefill: {
-      //     name: "Ivin_Austan",
-      //     email: "a.ivinaustan@gmail.com",
-      //     contact: "9500416612",
-      //   },
-      //   notes: {
-      //     address: "Razorpay",
-      //   },
-      //   theme: {
-      //     color: "red",
-      //   },
-      // };
-      // var pay = new window.Razorpay(options);
-      // pay.open();
-      setPaymentmodel(true);
+      var options = {
+        key: "rzp_live_aPG4BNzqxBZR3n",
+        key_secret: "EfcmXIDEakJYOTBALhf0J4t7",
+        amount: 1 * 100,
+        currency: "INR",
+        name: name,
+        description: "Live_payment",
+        handler: function (response) {
+          updatePayment(addressid, response.razorpay_payment_id);
+          dispatch({
+            type: "CLEAR_CART",
+          });
+        },
+        prefill: {
+          name: name,
+          email: email,
+          contact: phonenumber,
+        },
+        notes: {
+          address: place,
+        },
+        theme: {
+          color: "red",
+        },
+      };
+      console.log(options);
+      var pay = new window.Razorpay(options);
+      pay.open();
+      // setPaymentmodel(true);
     }
   };
   return (
@@ -383,7 +388,7 @@ const Cart = () => {
           </Button>
         </ModalFooter>
       </Modal>
-      <Modal show={paymentmodel} onHide={handleClose} backdrop="static">
+      {/* <Modal show={paymentmodel} onHide={handleClose} backdrop="static">
         <Modal.Header closeButton>
           <Modal.Title>Complete your payment</Modal.Title>
         </Modal.Header>
@@ -427,7 +432,7 @@ const Cart = () => {
             Completed payment
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
       <Footer />
     </>
   );
