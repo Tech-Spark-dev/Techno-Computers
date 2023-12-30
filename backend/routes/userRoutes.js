@@ -11,7 +11,7 @@ const { userAddress } = require("../controllers/cartController");
 const { updatePayment } = require("../controllers/cartController");
 const { userscart } = require("../controllers/cartController");
 const { updateProductinfo } = require("../controllers/productController");
-
+const {handlepay} = require("../controllers/cartController");
 const router = express.Router();
 
 router.route("/").post(registerUser); //for register
@@ -26,5 +26,5 @@ router.route("/payment/:id").put(updatePayment); //updating the payment info
 router.route("/userscart/:userid").get(userscart); //getting the users cart with address
 router.route("/updateproductinfo/:id").put(updateProductinfo);
 router.route("/userlist").get(userlist);
-
+router.route("/payment").post(handlepay);
 module.exports = router;

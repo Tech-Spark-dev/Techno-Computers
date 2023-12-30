@@ -51,14 +51,14 @@ const userAddress = asyncHandler(async(req,res)=>{
 
 const updatePayment = asyncHandler(async(req,res)=>{                            // updating the payment status
 
-    const {id}= req.params;
-    const {razorpay_payment_id } = req.body;
+        const { id } = req.params;
+        const { razorpay_payment_id } = req.body;
 
-    const paymentDetail = await AddressModel.findByIdAndUpdate(id,
+        const paymentDetail = await AddressModel.findByIdAndUpdate(id,
         {ispaid:razorpay_payment_id},
         {new:true}
         );
-    res.json(paymentDetail);     
+    res.json(paymentDetail); 
 })
 
 const userscart = asyncHandler(async(req,res)=>{
@@ -72,4 +72,42 @@ const userscart = asyncHandler(async(req,res)=>{
     res.json(usercart);
 })
 
-module.exports={Address,userAddress,updatePayment,userscart};
+const handlepay = asyncHandler(async(req,res)=>{
+  const { total, name, email, phonenumber, addressid } = req.body;
+
+  const options = {
+    key: process.env.KEY,
+    key_secret: process.env.KEY_SECRET,
+    amount: Number(total) * 100,
+    currency: "INR",
+    name: "Techno Computers",
+    description: "Live_payment",
+
+    prefill: {
+      name: name,
+      email: email,
+      contact: phonenumber,
+    },
+    notes: {
+      address: addressid,
+    },
+    theme: {
+      color: "red",
+    },
+  };
+ res.json({ options });
+     
+
+})
+
+
+
+
+module.exports = {
+  Address,
+  userAddress,
+  updatePayment,
+  userscart,
+  handlepay,
+
+};

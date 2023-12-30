@@ -153,41 +153,49 @@ const Cart = () => {
     }
   };
 
-  const handlePay = (e) => {
-    if (total === "") {
-      alert("Please select products!");
-    } else {
-      var options = {
-        key: "rzp_live_aPG4BNzqxBZR3n",
-        key_secret: "EfcmXIDEakJYOTBALhf0J4t7",
-        amount: Number(total) * 100,
-        currency: "INR",
-        name: name,
-        description: "Live_payment",
-        handler: function (response) {
+ const handlePay = async (e) => {
+   if (total === "") {
+     alert("Please select products!");
+   } else {
+     try {
+       const config = {
+         headers: {
+           "Content-type": "application/json",
+         },
+       };
+       const response = await axios.post(`${REACT_SERVER_URL}/api/users/payment`, {
+           total,
+           name,
+           email,
+           phonenumber,
+           addressid,
+       },
+       config
+       );
+
+       if (response.status === 200) {
+
+        const result = response.data;
+
+         result.options.handler =  function (response) {          //for handling the handler
           updatePayment(addressid, response.razorpay_payment_id);
+
           dispatch({
             type: "CLEAR_CART",
-          });
-        },
-        prefill: {
-          name: name,
-          email: email,
-          contact: phonenumber,
-        },
-        notes: {
-          address: place,
-        },
-        theme: {
-          color: "red",
-        },
-      };
-      console.log(options);
-      var pay = new window.Razorpay(options);
-      pay.open();
-      // setPaymentmodel(true);
-    }
-  };
+          }); }
+
+         var pay = new window.Razorpay(result.options);
+
+          console.log(result.options);
+          pay.open();
+       } else {
+         console.error("Failed to get payment options");
+       }
+     } catch (error) {
+       console.error("Error making payment:", error);
+     }
+   }
+ };
   return (
     <>
       <Row className="container">
