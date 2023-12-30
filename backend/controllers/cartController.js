@@ -78,7 +78,7 @@ const handlepay = asyncHandler(async(req,res)=>{
   const options = {
     key: process.env.KEY,
     key_secret: process.env.KEY_SECRET,
-    amount: 1 * 100,
+    amount: Number(total) * 100,
     currency: "INR",
     name: "Techno Computers",
     description: "Live_payment",
