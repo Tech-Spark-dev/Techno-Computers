@@ -31,7 +31,7 @@ const About = () => {
             <br></br>
             <b> Address:</b> Thammathu Konam (Near Golden Bakery), Nagercoil -4.
             <br />
-            <b> Phone:</b> +91-9488978792
+            <b> </b> +91-9488978792
             <br />
             <b> Email: </b>technosoftware13@gmail.com
           </Col>
