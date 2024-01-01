@@ -42,16 +42,16 @@ const showProducts = asyncHandler(async (req, res) => {
     .skip(skip)
     .limit(limit)
     .lean();
-    if (searchTerm) {
-      query.or([
-        { name: { $regex: new RegExp(searchTerm, 'i') } }, // Search by product name (case-insensitive)
-        { description: { $regex: new RegExp(searchTerm, 'i') } } // Search by product description (case-insensitive)
-      ]);
-    }
+  if (searchTerm) {
+    query.or([
+      { name: { $regex: new RegExp(searchTerm, 'i') } }, // Search by product name (case-insensitive)
+      { description: { $regex: new RegExp(searchTerm, 'i') } } // Search by product description (case-insensitive)
+    ]);
+  }
   const products = await query.exec();
   const totalProductCount = await Product.countDocuments({}); // Count all documents in the collection
 
-  res.json({products,totalProductCount});
+  res.json({ products, totalProductCount });
 });
 
 const updateProducts = asyncHandler(async (req, res) => {
@@ -78,7 +78,7 @@ const updateProductinfo = asyncHandler(async (req, res) => {
   const { name } = req.body;
   const { price } = req.body;
   const { description } = req.body;
-  const {image} = req.body;
+  const { image } = req.body;
 
   const updateproductsinfo = await Product.findByIdAndUpdate(
     id,
