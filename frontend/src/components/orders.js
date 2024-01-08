@@ -84,7 +84,11 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {address.reverse().map((item, index) => (
+          
+          {address
+          .slice()                                                       // Create a shallow copy to avoid modifying the original array
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .map((item, index) => (
             <tr key={item._id}>
               <td>{no + index}</td>
               <td hidden>{item.userid}</td>
