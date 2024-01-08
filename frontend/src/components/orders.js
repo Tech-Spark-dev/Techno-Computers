@@ -5,10 +5,19 @@ import Table from "react-bootstrap/Table";
 import {REACT_SERVER_URL} from '../configs/ENV'
 import Footer from './Footer';
 import { Button } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
+import jsPDF from "jspdf";
+import { FaEye } from "react-icons/fa";
+
 
 const Orders = () => {
   const [address, setAddress] = useState([]);
   const [no] = useState(1);
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [selectedAddress, setSelectedAddress] = useState(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -29,8 +38,29 @@ const Orders = () => {
       }
     };
     fetchOrders();
-  }, [address]);
-  
+  }, []);
+
+  const viewaddress = (item) => {
+    handleShow(true);
+    setSelectedAddress(item);
+  };
+  const printAddres = ( selectedAddress ) => {
+          const doc = new jsPDF();
+          doc.setFont("helvetica");
+           const textContent = `Name: ${
+             selectedAddress?.name.toUpperCase()
+           }\nProducts: ${selectedAddress?.details
+             .map((detail) => `${detail.name} (${detail.qty})`)
+             .join(",\n")} \n\nTotal Amount: ${
+             selectedAddress?.total
+           }.00\nDelivery Address:\n${selectedAddress?.street},\n${
+             selectedAddress?.place
+           }, \n${selectedAddress?.city},\n${selectedAddress?.district},\n${
+             selectedAddress?.landmark
+           }\n\nContact Number:${selectedAddress?.phonenumber}`;
+            doc.text(textContent, 20, 20); // Set the position of the text in the PDF
+          doc.save("document.pdf");      
+  };
   return (
     <>
       <Table striped bordered hover variant="light">
@@ -102,20 +132,71 @@ const Orders = () => {
                   <Button
                     variant="success"
                     title={item.ispaid}
-                    style={{ cursor: "default" }}
                   >
                     Paid
                   </Button>
                 ) : (
-                  <Button variant="danger" style={{ pointerEvents: "none" }}>
-                    Not Paid
-                  </Button>
+                  <Button variant="danger">Not Paid</Button>
                 )}
+              </td>
+              <td>
+                <FaEye
+                  onClick={() => viewaddress(item)}
+                  style={{ cursor: "pointer" }}
+                />
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+       {selectedAddress && (
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Customer's Address </Modal.Title>
+        </Modal.Header>
+        <Modal.Body> 
+            <b>Name:</b> {selectedAddress?.name.toUpperCase()}
+            <br />
+            <b> Products:</b>{" "}
+            {selectedAddress?.details.map((detail, index) => (
+              <span key={detail.name}>
+                {detail.name} [{detail.qty}]
+                {index !== selectedAddress.details.length - 1 && ", "}
+              </span>
+            ))}
+            <br />
+            <b> Total Amount: </b>
+            {selectedAddress?.total}
+            <div>
+              <b>Address: </b> <br />
+              {selectedAddress?.street},
+              <br />
+              {selectedAddress?.place},
+              <br />
+              {selectedAddress?.city}, <br />
+              {selectedAddress?.district},
+              <br />
+              {selectedAddress?.landmark}
+              <br />
+              <b>
+                <i>Contact Number: </i>
+              </b>
+              {selectedAddress?.phonenumber}
+              <br />
+            </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => printAddres(selectedAddress)}
+          >
+            Print Address
+          </Button>
+        </Modal.Footer>
+      </Modal> )}
       <Footer />
     </>
   );
