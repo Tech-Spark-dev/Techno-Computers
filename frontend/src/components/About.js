@@ -29,7 +29,8 @@ const About = () => {
               in Thammathu Konam, Nagercoil-4, serving the local community.{" "}
             </p>
             <br></br>
-            <b> Address:</b> Thammathu Konam (Near Golden Bakery), Nagercoil -4.
+            <b> Address:</b> 4/5b, River bridge near Thammathu
+            Konam (Near Golden Bakery), Nagercoil -4.
             <br />
             <b> Phone:</b> +91-9488978792
             <br />
