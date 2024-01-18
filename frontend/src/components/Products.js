@@ -154,6 +154,7 @@ const Products = () => {
   const updateProduct = async (id) => {
     const updatedProductInfo = {
       name: selectedProduct.name,
+      originalprice:selectedProduct.originalprice,
       price: selectedProduct.price,
       description: selectedProduct.description,
     };
@@ -230,6 +231,13 @@ const Products = () => {
       price: e.target.value,
     });
   };
+    const handleoriginalpricechange = (e) => {
+      setSelectedProduct({
+        ...selectedProduct,
+        originalprice: e.target.value,
+      });
+    };
+
 
   const handleDescriptionchange = (e) => {
     setSelectedProduct({
@@ -307,10 +315,23 @@ const Products = () => {
                     <span
                       style={{
                         paddingBottom: 10,
-                        paddingLeft: "70%",
+                        paddingLeft: "43%",
                         backgroundColor: "aliceblue",
                       }}
                     >
+                      {" "}
+                      <span
+                        style={{
+                          paddingBottom: 10,
+                          paddingRight: "3%",
+                        }}
+                      >
+                        {product.originalprice && (
+                          <del style={{ color: "#c23838" }}>
+                            Rs. {product.originalprice}.00
+                          </del>
+                        )}
+                      </span>
                       Rs. {product.price.toLocaleString()}.00
                     </span>
                   </b>
@@ -413,10 +434,22 @@ const Products = () => {
               className="mb-3"
               style={{ width: "70%", marginLeft: "10%" }}
             >
+              <Form.Label>MRP:</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter the actual Price"
+                value={selectedProduct && selectedProduct.originalprice}
+                onChange={handleoriginalpricechange}
+              />
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+              style={{ width: "70%", marginLeft: "10%" }}
+            >
               <Form.Label>Product Price:</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter the Product Price"
+                placeholder="Enter the discounted Price"
                 value={selectedProduct && selectedProduct.price}
                 onChange={handlePricechange}
               />

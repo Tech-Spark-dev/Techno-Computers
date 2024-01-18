@@ -18,6 +18,7 @@ import { REACT_SERVER_URL } from "../configs/ENV";
 const Header = () => {
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
+  const [originalprice, setoriginalprice] = useState(0);
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState();
   const [isAvailable] = useState(true);
@@ -43,6 +44,7 @@ const Header = () => {
     setShow(false);
     setName("");
     setPrice("");
+    setoriginalprice("");
     setDescription("");
     setErrorMessage("");
   };
@@ -99,6 +101,7 @@ const Header = () => {
           `${REACT_SERVER_URL}/api/users/products`,
           {
             name,
+            originalprice,
             price,
             description,
             image,
@@ -193,20 +196,24 @@ const Header = () => {
                 Login
               </Nav.Link>
             )}
-            <Nav.Link as={Link} to="/">
-              <Link
-                className="hover-effect"
-                to="/home"
-                onClick={() => {
-                  handleLogout();
-                  dispatch({
-                    type: "CLEAR_CART",
-                  });
-                }}
-              >
-                Logout
-              </Link>
-            </Nav.Link>
+            {userName !== "Guest User" ? (
+              <Nav.Link as={Link} to="/">
+                <Link
+                  className="hover-effect"
+                  to="/home"
+                  onClick={() => {
+                    handleLogout();
+                    dispatch({
+                      type: "CLEAR_CART",
+                    });
+                  }}
+                >
+                  Logout
+                </Link>
+              </Nav.Link>
+            ) : (
+              ""
+            )}
           </Nav>
         </Offcanvas.Body>
       </Offcanvas>
@@ -306,6 +313,18 @@ const Header = () => {
                   placeholder="Enter the Product Name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                style={{ width: "70%", marginLeft: "10%" }}
+              >
+                <Form.Label>MRP:</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter the Product's MRP"
+                  value={originalprice}
+                  onChange={(e) => setoriginalprice(e.target.value)}
                 />
               </Form.Group>
               <Form.Group
