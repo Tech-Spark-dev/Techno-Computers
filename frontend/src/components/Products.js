@@ -326,10 +326,17 @@ const Products = () => {
                           paddingRight: "3%",
                         }}
                       >
-                        {product.originalprice && (
+                        {product.originalprice ? (
                           <del style={{ color: "#c23838" }}>
                             Rs. {product.originalprice}.00
                           </del>
+                        ) : (
+                          <span
+                            style={{
+                              paddingBottom: 10,
+                              paddingRight: "25%",
+                            }}
+                          ></span>
                         )}
                       </span>
                       Rs. {product.price.toLocaleString()}.00
