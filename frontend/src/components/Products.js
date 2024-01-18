@@ -315,7 +315,7 @@ const Products = () => {
                     <span
                       style={{
                         paddingBottom: 10,
-                        paddingLeft: "43%",
+                        paddingLeft: "41%",
                         backgroundColor: "aliceblue",
                       }}
                     >
