@@ -61,7 +61,7 @@ const Cart = () => {
       (acc, current) => acc + Number(current.price) * current.qty,
       0
     );
-    if (newTotal < 1000 && cart.length !== 0) {
+    if (newTotal < 500 && cart.length !== 0) {
       setTotal(newTotal + 50);
     } else setTotal(newTotal);
   }, [cart]);
@@ -274,7 +274,7 @@ const Cart = () => {
               (* Rs.50 included for Delivery Charges)
             </span>
             <div style={{ fontWeight: "600" }}>
-              Order above Rs.1000 for free delivery
+              Order above Rs.500 for free delivery
             </div>
             <Button
               className="btn-info"
