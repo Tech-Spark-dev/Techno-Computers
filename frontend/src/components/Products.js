@@ -324,9 +324,9 @@ const Products = () => {
                         {product.originalprice ? (
                           <del
                             style={{
-                              color: "#808080",
+                              color: "red",
                               paddingLeft: "5%",
-                              fontWeight: "normal",
+                              fontWeight: "bold",
                             }}
                           >
                             ₹ {product.originalprice}
