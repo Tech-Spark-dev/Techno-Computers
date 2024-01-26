@@ -333,3 +333,9 @@ a {
   z-index: 1030;
   /* Add any additional styles you want to keep */
 }
+
+.discount{
+  color: green;
+  margin-left: 5%;
+font-size:small
+}

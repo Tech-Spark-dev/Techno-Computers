@@ -274,11 +274,15 @@ const Header = () => {
                   </Dropdown.Item>
                 </>
               )}
-              <Dropdown.Item>
+              <Dropdown.Item as="div">
                 {" "}
-                <Link to="/products">Products</Link>
+                <Link
+                  to="/products"
+                >
+                  Products
+                </Link>
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item as="div">
                 <Link
                   to="/home"
                   onClick={() => {

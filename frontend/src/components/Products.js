@@ -103,6 +103,7 @@ const Products = () => {
 
     window.addEventListener("scroll", handleScroll);
 
+
     const fetchData = async () => {
       try {
         const config = {
@@ -154,7 +155,7 @@ const Products = () => {
   const updateProduct = async (id) => {
     const updatedProductInfo = {
       name: selectedProduct.name,
-      originalprice:selectedProduct.originalprice,
+      originalprice: selectedProduct.originalprice,
       price: selectedProduct.price,
       description: selectedProduct.description,
     };
@@ -231,13 +232,12 @@ const Products = () => {
       price: e.target.value,
     });
   };
-    const handleoriginalpricechange = (e) => {
-      setSelectedProduct({
-        ...selectedProduct,
-        originalprice: e.target.value,
-      });
-    };
-
+  const handleoriginalpricechange = (e) => {
+    setSelectedProduct({
+      ...selectedProduct,
+      originalprice: e.target.value,
+    });
+  };
 
   const handleDescriptionchange = (e) => {
     setSelectedProduct({
@@ -312,23 +312,24 @@ const Products = () => {
                 </Card.Title>
                 <Card.Subtitle style={{ paddingBottom: 10 }}>
                   <b>
-                    <span
-                      style={{
-                        paddingBottom: 10,
-                        paddingLeft: "41%",
-                        backgroundColor: "aliceblue",
-                      }}
-                    >
+                    <span>
                       {" "}
                       <span
                         style={{
                           paddingBottom: 10,
-                          paddingRight: "3%",
                         }}
                       >
+                        {" "}
+                        ₹ {product.price.toLocaleString()}
                         {product.originalprice ? (
-                          <del style={{ color: "#c23838" }}>
-                            Rs. {product.originalprice}.00
+                          <del
+                            style={{
+                              color: "#808080",
+                              paddingLeft: "5%",
+                              fontWeight: "normal",
+                            }}
+                          >
+                            ₹ {product.originalprice}
                           </del>
                         ) : (
                           <span
@@ -339,7 +340,14 @@ const Products = () => {
                           ></span>
                         )}
                       </span>
-                      Rs. {product.price.toLocaleString()}.00
+                      <span className="discount">
+                        {(
+                          ((product.originalprice - product.price) /
+                            product.originalprice) *
+                          100
+                        ).toFixed(0)}
+                        % off
+                      </span>
                     </span>
                   </b>
                   <br />
