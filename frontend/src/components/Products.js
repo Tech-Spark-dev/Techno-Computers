@@ -4,16 +4,14 @@ import { useState } from "react";
 import { useContext } from "react";
 import { Contextreact } from "../Context";
 import { Button, Card, Form } from "react-bootstrap";
-// import { Link } from "react-router-dom";
-// import { GiClick } from "react-icons/gi";
 import { REACT_SERVER_URL } from "../configs/ENV";
-import { AiFillInfoCircle } from "react-icons/ai";
 // import {GrFormPrevious,GrFormNext} from "react-icons/gr";
 import Swal from "sweetalert2";
 import { AiTwotoneEdit } from "react-icons/ai";
 import Modal from "react-bootstrap/Modal";
 import Loading from "./Loading";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Footerpolicy from "./footerpolicy";
@@ -30,6 +28,7 @@ const Products = () => {
   const [count, setCount] = useState(true); //for storing the total products count
   const location = useLocation();
   const [initialLoad, setInitialLoad] = useState(false); //to avoid unwanted duplications on initial load
+  const navigate = useNavigate();
 
   if (location.pathname === "/") {
     const Guestdata = {
@@ -55,6 +54,7 @@ const Products = () => {
     state: { cart },
     dispatch,
     productstate: { searchQuery, updatedproducts },
+    setProdview,
   } = useContext(Contextreact);
 
   const transformProducts = useCallback(async () => {
@@ -219,6 +219,12 @@ const Products = () => {
     }
   };
 
+  const productView = (singleProd)=>{
+   navigate(`/Productview/`);
+  //  console.log(singleProd);
+   setProdview(singleProd);
+  }
+
   // useEffect(()=>{
   //   if(selectedProduct){
   //     setSelectedProduct(selectedProduct.image);
@@ -291,11 +297,19 @@ const Products = () => {
           filteredproducts.map((product) => (
             <Card className="products" key={product._id}>
               <LazyLoadImage
+                className="prod_img"
                 variant="top"
                 src={product.image}
                 alt={product.name}
-                style={{ height: "300px", width: "100%", objectFit: "cover" }}
+                style={{
+                  height: "300px",
+                  width: "100%",
+                  objectFit: "contain",
+                  cursor: "pointer",
+                }}
+                onClick={() => productView(product)}
               />
+
               <Card.Body>
                 <Card.Title>
                   <h6>
@@ -354,12 +368,12 @@ const Products = () => {
                   <br />
                   <div className="description-container">
                     <span className="description">{product.description}</span>
-                    <span className="info-icon dropdown">
+                    {/* <span className="info-icon dropdown">
                       <AiFillInfoCircle />
                       <div className="dropdown-content">
                         {product.description}
                       </div>
-                    </span>
+                    </span> */}
                   </div>
                 </Card.Subtitle>
 
@@ -501,8 +515,19 @@ const Products = () => {
       <Button onClick={handlePreviouspage} style={{padding:'1%'}} disabled={trackpage === 1}><GrFormPrevious/><GrFormPrevious/> Previous</Button>
       </div>
 } */}
+      <style>
+        {`
+                  .prod_img {
+                    transition: transform 0.3s;
+                  }
+                  .prod_img:hover {
+                    transform: scale(1.05);
+                  }
+                `}
+      </style>
     </div>
   );
 };
+
 
 export default Products;

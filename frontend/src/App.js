@@ -14,6 +14,7 @@ import Termsandconditions from "./components/termsandconditions";
 import Shippingpolicy from "./components/shippingpolicy";
 import Privacypolicy from "./components/privacypolicy";
 import Refundpolicy from "./components/refund-cancel";
+import Productview from "./components/Productview";
 
 function App() {
   useEffect(() => {
@@ -41,6 +42,7 @@ function App() {
         <Route path="/privacypolicy" element={<Privacypolicy />} />
         <Route path="/refund-cancellation" element={<Refundpolicy />} />
         <Route path="/shippingpolicy" element={<Shippingpolicy />} />
+        <Route path="/productview" element={<Productview />} />
       </Routes>
     </div>
   );

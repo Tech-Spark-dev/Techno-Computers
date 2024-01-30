@@ -339,3 +339,38 @@ a {
   margin-left: 5%;
 font-size:small
 }
+
+.prodview_img{
+  height: 500px; 
+  width: 50%;
+  width: auto;
+  object-fit: contain;
+  
+}
+.blank-space{
+  height: 20px;
+}
+
+.discount_view{
+    color: green;
+      margin-left: 2%;
+      font-size:xx-large
+}
+.stock{
+    display: block;
+    color: #fff;
+    padding: 2px 4px 2px 6px;
+    border-radius: 3px;
+    font-weight: 500;
+    background-color: #388e3c;
+    text-align: center;
+}
+.stockunavailable{
+    display: block;
+      color: #fff;
+      padding: 2px 4px 2px 6px;
+      border-radius: 3px;
+      font-weight: 500;
+      background-color: red;
+      text-align: center;
+}

@@ -14,6 +14,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { Contextreact } from "../Context";
 import { AiOutlineMenu } from "react-icons/ai";
 import { REACT_SERVER_URL } from "../configs/ENV";
+import { useLocation } from "react-router-dom";
 
 const Header = () => {
   const [show, setShow] = useState(false);
@@ -28,6 +29,7 @@ const Header = () => {
 
   const handlecloseCanvas = () => setCanvasshow(false);
   const handleshowCanvas = () => setCanvasshow(true);
+  const location = useLocation();
 
   const {
     state: { cart },
@@ -236,17 +238,19 @@ const Header = () => {
         </Col>
         <Col className="hide-mini" md={5}>
           <Navbar.Text>
-            <Form.Control
-              style={{ width: 500, marginLeft: "10%" }}
-              placeholder="Search a product"
-              type="text"
-              onChange={(e) => {
-                productDispatch({
-                  type: "search_product",
-                  payload: e.target.value,
-                });
-              }}
-            />
+            {location.pathname !== "/Productview/" && (
+              <Form.Control
+                style={{ width: 500, marginLeft: "10%" }}
+                placeholder="Search a product"
+                type="text"
+                onChange={(e) => {
+                  productDispatch({
+                    type: "search_product",
+                    payload: e.target.value,
+                  });
+                }}
+              />
+            )}
           </Navbar.Text>
         </Col>
         <Col className="hide-mini" md={2}>
@@ -276,11 +280,7 @@ const Header = () => {
               )}
               <Dropdown.Item as="div">
                 {" "}
-                <Link
-                  to="/products"
-                >
-                  Products
-                </Link>
+                <Link to="/products">Products</Link>
               </Dropdown.Item>
               <Dropdown.Item as="div">
                 <Link
