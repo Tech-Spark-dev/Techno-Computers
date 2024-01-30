@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext,useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Contextreact } from "../Context";
 import { Row, Col, Container, Card, Button } from "react-bootstrap";
 import { useState } from "react";
@@ -18,7 +18,6 @@ const Productview = () => {
     state: { cart },
     dispatch,
   } = useContext(Contextreact);
-  
 
   const navigate = useNavigate();
 
@@ -27,7 +26,7 @@ const Productview = () => {
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[prodview]);
+  }, [prodview]);
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
@@ -53,14 +52,15 @@ const Productview = () => {
     }
   };
 
-  const generateRandomRating = ()=>{
-      return (Math.random() * (5 - 2) + 2).toFixed(1);
-  }
+  const generateRandomRating = () => {
+    return (Math.random() * (5 - 2) + 2).toFixed(1);
+  };
 
-  const productswithRating = {...prodview,
-   
-    rating:generateRandomRating(),
-};
+  const productswithRating = {
+    ...prodview,
+
+    rating: generateRandomRating(),
+  };
   return (
     <div>
       <Container>
@@ -127,7 +127,7 @@ const Productview = () => {
               </div>
             </Col>
             <div>
-              <Rating randomrating={productswithRating} />
+              <Rating randomrating={productswithRating.rating} />
 
               <span
                 style={{
