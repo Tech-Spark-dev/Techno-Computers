@@ -10,9 +10,14 @@ import { useNavigate } from "react-router-dom";
 import "../styles.css";
 import Rating from "./Rating";
 
+  const generateRandomRating = () => {
+    return (Math.random() * (5 - 2) + 2).toFixed(1);
+  };
+
 const Productview = () => {
   const { prodview } = useContext(Contextreact);
   const [products, setProducts] = useState(prodview);
+  const [rating] = useState(generateRandomRating());
 
   const {
     state: { cart },
@@ -52,15 +57,6 @@ const Productview = () => {
     }
   };
 
-  const generateRandomRating = () => {
-    return (Math.random() * (5 - 2) + 2).toFixed(1);
-  };
-
-  const productswithRating = {
-    ...prodview,
-
-    rating: generateRandomRating(),
-  };
   return (
     <div>
       <Container>
@@ -127,7 +123,7 @@ const Productview = () => {
               </div>
             </Col>
             <div>
-              <Rating randomrating={productswithRating.rating} />
+              <Rating randomrating={rating} />
 
               <span
                 style={{
