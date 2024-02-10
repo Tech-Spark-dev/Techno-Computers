@@ -42,7 +42,7 @@ function App() {
         <Route path="/privacypolicy" element={<Privacypolicy />} />
         <Route path="/refund-cancellation" element={<Refundpolicy />} />
         <Route path="/shippingpolicy" element={<Shippingpolicy />} />
-        <Route path="/productview" element={<Productview />} />
+        <Route path="/product/:name" element={<Productview />} />
       </Routes>
     </div>
   );

@@ -22,6 +22,8 @@ const Header = () => {
   const [originalprice, setoriginalprice] = useState(0);
   const [price, setPrice] = useState(0);
   const [image, setImage] = useState();
+  const [image1, setImage1] = useState();
+  const [image2, setImage2] = useState();
   const [isAvailable] = useState(true);
   const [description, setDescription] = useState("");
   const [errormessage, setErrorMessage] = useState("");
@@ -57,9 +59,8 @@ const Header = () => {
   const isAdmin = userInfoParsed.isAdmin;
   const userName = userInfoParsed.name;
 
-  const handleFileUpload = async (e) => {
+  const handleFileUpload = async (e, test) => {
     const file = e.target.files[0];
-
     if (file) {
       try {
         const formData = new FormData();
@@ -77,7 +78,19 @@ const Header = () => {
         if (response.ok) {
           const data = await response.json();
           const imageUrl = data.secure_url;
-          setImage(imageUrl);
+          switch (test) {
+            case "first":
+              setImage(imageUrl);
+              break;
+            case "second":
+              setImage1(imageUrl);
+              break;
+            case "third":
+              setImage2(imageUrl);
+              break;
+            default:
+              break;
+          }
         }
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -107,6 +120,8 @@ const Header = () => {
             price,
             description,
             image,
+            image1,
+            image2,
             isAvailable,
           },
           config
@@ -363,7 +378,17 @@ const Header = () => {
                 <Form.Control
                   type="file"
                   accept="image/*"
-                  onChange={handleFileUpload}
+                  onChange={(e) => handleFileUpload(e, "first")}
+                />
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileUpload(e, "second")}
+                />
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileUpload(e, "third")}
                 />
               </Form.Group>
             </Form>

@@ -6,9 +6,9 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    originalprice:{
-      type:Number,
-      required: true
+    originalprice: {
+      type: Number,
+      required: true,
     },
     price: {
       type: Number,
@@ -26,6 +26,18 @@ const productSchema = mongoose.Schema(
     image: {
       type: String,
       required: true,
+      default:
+        "https://t4.ftcdn.net/jpg/01/42/34/87/360_F_142348781_I6OPT1NpR1a4Kpyx1CFvzA3hEUUXNhtW.jpg",
+    },
+    image1: {
+      type: String,
+      required: false,
+      default:
+        "https://t4.ftcdn.net/jpg/01/42/34/87/360_F_142348781_I6OPT1NpR1a4Kpyx1CFvzA3hEUUXNhtW.jpg",
+    },
+    image2: {
+      type: String,
+      required: false,
       default:
         "https://t4.ftcdn.net/jpg/01/42/34/87/360_F_142348781_I6OPT1NpR1a4Kpyx1CFvzA3hEUUXNhtW.jpg",
     },

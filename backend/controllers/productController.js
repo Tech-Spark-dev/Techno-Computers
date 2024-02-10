@@ -3,7 +3,7 @@ const Product = require("../models/productModel");
 const generateToken = require("../utils/generatetoken");
 
 const products = asyncHandler(async (req, res) => {
-  const { name,originalprice, price, description, image, isavailable } = req.body;
+  const { name,originalprice, price, description, image,image1,image2,isavailable } = req.body;
 
   const product = await Product.create({
     //create new record in database
@@ -12,6 +12,8 @@ const products = asyncHandler(async (req, res) => {
     price,
     description,
     image,
+    image1,
+    image2,
     isavailable,
   });
 
@@ -23,6 +25,8 @@ const products = asyncHandler(async (req, res) => {
       originalprice: product.originalprice,
       price: product.price,
       image: product.image,
+      image1: product.image1,
+      image2: product.image2,
       description: product.description,
       isavailable: product.isavailable,
       token: generateToken(product._id),

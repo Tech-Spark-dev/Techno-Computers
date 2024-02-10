@@ -6,6 +6,8 @@ import { useState } from "react";
 import axios from "axios";
 import { REACT_SERVER_URL } from "../configs/ENV";
 import { useNavigate } from "react-router-dom";
+import { GrNext } from "react-icons/gr";
+import { GrPrevious } from "react-icons/gr";
 
 import "../styles.css";
 import Rating from "./Rating";
@@ -18,14 +20,15 @@ const Productview = () => {
   const { prodview } = useContext(Contextreact);
   const [products, setProducts] = useState(prodview);
   const [rating] = useState(generateRandomRating());
-
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { image, image1, image2 } = prodview;
+  const images = [image, image1, image2].filter(Boolean); //for filtering the undefined image variables
   const {
     state: { cart },
     dispatch,
   } = useContext(Contextreact);
 
   const navigate = useNavigate();
-
   useEffect(() => {
     if (prodview.length < 1) {
       navigate("/");
@@ -57,6 +60,15 @@ const Productview = () => {
     }
   };
 
+  const nextImage = ()=>{
+    setCurrentImageIndex((prevIndex)=>(prevIndex+1) % images.length);
+  }
+
+  const previousImage = ()=>{
+        setCurrentImageIndex((prevIndex)=> prevIndex === 0 ? images.length -1 : prevIndex -1);
+
+  }
+
   return (
     <div>
       <Container>
@@ -64,11 +76,51 @@ const Productview = () => {
           <Col md={6}>
             <div className="blank-space"></div>
             <Card>
-              <img
-                className="prodview_img"
-                src={products.image}
-                alt={prodview.name}
-              />
+              {images[currentImageIndex] ? (
+                <img
+                  className="prodview_img"
+                  src={images[currentImageIndex]}
+                  alt={prodview.name}
+                />
+              ) : (
+                <img
+                  className="prodview_img"
+                  src={products.image[0]}
+                  alt={prodview.name}
+                />
+              )}
+              {images.length > 1 ?(
+              <button
+                onClick={previousImage}
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "10px",
+                  transform: "translateY(-50%)",
+                  backgroundColor: "transparent",
+                  border: "none",
+                }}
+              >
+                <GrPrevious />
+              </button>
+              ):''}
+          
+              {images.length > 1 ? (
+                <button
+                  onClick={nextImage}
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    right: "10px",
+                    transform: "translateY(-50%)",
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                >
+                  <GrNext />
+                </button>
+              ):''}
+
               {cart.some((p) => p._id === prodview._id) ? (
                 <Button
                   onClick={() => {

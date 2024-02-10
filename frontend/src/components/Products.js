@@ -220,7 +220,7 @@ const Products = () => {
   };
 
   const productView = (singleProd)=>{
-   navigate(`/Productview/`);
+   navigate(`/product/${singleProd.name}`);
   //  console.log(singleProd);
    setProdview(singleProd);
   }
