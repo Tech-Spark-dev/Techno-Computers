@@ -85,7 +85,7 @@ const Productview = () => {
               ) : (
                 <img
                   className="prodview_img"
-                  src={products.image[0]}
+                  src={products.image}
                   alt={prodview.name}
                 />
               )}
