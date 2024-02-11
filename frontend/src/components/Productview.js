@@ -41,7 +41,7 @@ const Productview = () => {
   const isAdmin = userInfoParsed?.isAdmin;
 
   var guest_user = false;
-  var guest = userInfoParsed.email;
+  var guest = userInfoParsed?.email;
   if (guest === "guest@example.com") {
     guest_user = true;
   }
