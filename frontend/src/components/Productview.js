@@ -38,7 +38,7 @@ const Productview = () => {
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
-  const isAdmin = userInfoParsed.isAdmin;
+  const isAdmin = userInfoParsed?.isAdmin;
 
   var guest_user = false;
   var guest = userInfoParsed.email;

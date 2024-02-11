@@ -56,7 +56,7 @@ const Header = () => {
 
   const userInfo = localStorage.getItem("userInfo");
   const userInfoParsed = JSON.parse(userInfo);
-  const isAdmin = userInfoParsed.isAdmin;
+  const isAdmin = userInfoParsed?.isAdmin;
   const userName = userInfoParsed.name;
 
   const handleFileUpload = async (e, test) => {
