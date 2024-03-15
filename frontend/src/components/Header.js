@@ -253,7 +253,7 @@ const Header = () => {
         </Col>
         <Col className="hide-mini" md={5}>
           <Navbar.Text>
-            {location.pathname !== "/Productview/" && (
+            {location.pathname === "/products" && (
               <Form.Control
                 style={{ width: 500, marginLeft: "10%" }}
                 placeholder="Search a product"
